@@ -21,7 +21,7 @@ class VendorController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('notOperator')->only(['index','pending','blocked']);
+        $this->middleware(['auth','notOperator']);
     }
 
 
@@ -35,14 +35,14 @@ class VendorController extends Controller
     public function pending()
     {
         $data['title'] = 'Pending Vendors';
-        $data['users'] = User::onlyTrashed()->where('type','vendor')->where('status','pending')->get();
+        $data['users'] = User::onlyTrashed()->where('type','vendor')->where('status',0)->get();
         return view('back.vendor.index',$data);
     }
 
     public function blocked()
     {
         $data['title'] = 'Blocked Vendors';
-        $data['users'] = User::onlyTrashed()->where('type','vendor')->where('status','active')->get();
+        $data['users'] = User::onlyTrashed()->where('type','vendor')->where('status',1)->get();
         return view('back.vendor.index',$data);
     }
 
@@ -59,7 +59,7 @@ class VendorController extends Controller
             'shop' => 'required|unique:shops,name',
             'name' => 'required',
             'phone' => 'required|numeric|min:11',
-            'nid' => 'required|numeric|digits_between:10,17',
+            'nid' => 'nullable|numeric|digits_between:10,17',
             'image' => 'image',
             'email' => 'required|unique:users|email',
             'password' => 'required|min:6|confirmed'
@@ -71,7 +71,7 @@ class VendorController extends Controller
         $slug = Str::slug($request->name, '-').'-'.rand(000,999);
         $data['slug'] = $slug;
         $data['type'] = 'vendor';
-        $data['status'] = 'pending';
+        $data['status'] = 1;
         $data['nid'] = $request->nid;
         $data['created_at'] = Carbon::now();
         $data['deleted_at'] = Carbon::now();
@@ -117,9 +117,9 @@ class VendorController extends Controller
     public function accept(Request $request,$id)
     {
         $user = User::onlyTrashed()->findOrFail($id);
-        $user->update(['status'=>'active']);
+        $user->update(['status'=>1]);
         $shop = Shop::where('user_id', $id )->first();
-        $shop->update(['commission'=> $request->commission]);
+        //$shop->update(['commission'=> $request->commission]);
         $user->restore();
         session()->flash('success','Vendor Accepted');
         return redirect()->back();
@@ -162,7 +162,7 @@ class VendorController extends Controller
         $shop->forceDelete();
         $user = User::onlyTrashed()->findOrFail($id);
         $user->forceDelete();
-        session()->flash('success','Vendor Rejected');
+        session()->flash('success','Vendor deleted Successfully');
         return redirect()->route('vendor.pending');
     }
 

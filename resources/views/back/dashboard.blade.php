@@ -13,7 +13,7 @@
 
     @if (auth()->user()->type != 'vendor')
     <div class="row">
-        <div class="col-md-6 col-lg-4">
+        {{--<div class="col-md-6 col-lg-4">
             <a class="dashboard_link" href="{{ route('brand.index') }}">
             <div class="widget-small primary"><i class="icon fa fa-tag fa-3x"></i>
                 <div class="info">
@@ -32,8 +32,8 @@
                 </div>
             </div>
             </a>
-        </div>
-        <div class="col-md-6 col-lg-4">
+        </div>--}}
+        <div class="col-md-12 col-lg-12">
             <a class="dashboard_link" href="{{ route('product.index') }}">
             <div class="widget-small primary"><i class="icon fa fa-archive fa-3x"></i>
                 <div class="info">
@@ -113,7 +113,7 @@
     </div>
 
     @if (auth()->user()->type != 'vendor')
-    <div class="row">
+    {{--<div class="row">
         <div class="col-md-6 col-lg-3">
             <a class="dashboard_link" href="{{ route('dispute.index') }}">
                 <div class="widget-small primary coloured-icon" id="support"><i class="icon fa fa-commenting fa-3x"></i>
@@ -154,7 +154,7 @@
                 </div>
             </a>
         </div>
-    </div>
+    </div>--}}
 
     <div class="row">
         <div class="col-md-12">
@@ -374,18 +374,20 @@
     </div>
     <!-- Top Selling -->
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="tile">
-                <h3 class="tile-title">Monthly Sales</h3>
-                <div class="embed-responsive embed-responsive-16by9">
-                    <canvas class="embed-responsive-item" id="lineChartDemo" width="475" height="267" style="width: 475px; height: 267px;"></canvas>
+
+
+    @if (auth()->user()->type != 'vendor')
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tile">
+                    <h3 class="tile-title">Monthly Sales</h3>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <canvas class="embed-responsive-item" id="lineChartDemo" width="475" height="267" style="width: 475px; height: 267px;"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    @if (auth()->user()->type != 'vendor')
     <div class="row">
         <div class="col-md-6">
             <div class="tile">

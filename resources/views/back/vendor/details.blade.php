@@ -55,7 +55,7 @@
                                 <th>Shop Name</th>
                                 <td>{{ ucfirst($user->shop->name) }}</td>
                             </tr>
-                            <tr>
+                            {{--<tr>
                                 <th>Commission</th>
                                 <td>
                                     <form action="{{ route('vendor.commission',$user->shop->id) }}" method="post" style="display: inline">
@@ -64,7 +64,7 @@
                                         <button type="submit" class="btn btn-sm btn-outline-primary" onclick="return confirm('Are you sure to Update?')">Update</button>
                                     </form>
                                 </td>
-                            </tr>
+                            </tr>--}}
                             <tr>
                                 <th>Shop Description</th>
                                 <td>{{ ucfirst($user->shop->description) }}</td>

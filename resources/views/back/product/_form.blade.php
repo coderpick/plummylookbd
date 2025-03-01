@@ -21,7 +21,7 @@
     @enderror
 </div>
 
-<div class="col-md-4">
+{{--<div class="col-md-4">
     @php
         if(old("category_id")){
             $category_id = old('category_id');
@@ -43,9 +43,9 @@
     @error('category_id')
     <div class="pl-1 text-danger">{{ $message }}</div>
     @enderror
-</div>
+</div>--}}
 
-<div class="col-md-3">
+{{--<div class="col-md-3">
 
     <div class="form-group">
         <label for="sub_category_id">Sub-Category</label>
@@ -85,7 +85,7 @@
     @error('brand_id')
     <div class="pl-1 text-danger">{{ $message }}</div>
     @enderror
-</div>
+</div>--}}
 
 <div class="col-md-2"></div>
 
@@ -155,7 +155,7 @@
 
 <div class="col-md-4">
     <div class="form-group">
-        <label for="price">New Price</label>
+        <label for="price">Offer Price</label>
         <input name="new_price" type="number" step=".01" value="{{ old('new_price',isset($product)?$product->new_price:null) }}"  class="form-control form-control-line @error('new_price') is-invalid @enderror" id="new_price">
     </div>
     @error('new_price')
@@ -164,6 +164,7 @@
 </div>
 
 <div class="col-md-3">
+    @if (auth()->user()->type != 'vendor')
     <div class="form-group">
         @php
             if(old("status")){
@@ -179,8 +180,12 @@
             <option value="">Select status</option>
             <option @if($status =='active') selected @endif value="active">Active</option>
             <option @if($status =='inactive') selected @endif value="inactive">Inactive</option>
+            <option @if($status =='pending') selected @endif value="inactive">Pending</option>
         </select>
     </div>
+    @else
+        <input type="hidden" name="status" value="pending">
+    @endif
     @error('status')
     <div class="pl-1 text-danger">{{ $message }}</div>
     @enderror
@@ -240,7 +245,7 @@
     </div>
 </div>
 
-<div class="col-md-10">
+{{--<div class="col-md-10">
     <div class="form-group row">
         <div class="col-md-10">
             <label class="control-label">Youtube Embed Link</label>
@@ -257,7 +262,7 @@
             <input name="review" type="number" class="form-control form-control-line @error('review') is-invalid @enderror" id="review">
         </div>
     </div>
-</div>
+</div>--}}
 
 <div class="col-md-10">
     <div class="form-group">

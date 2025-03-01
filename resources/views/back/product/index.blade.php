@@ -35,8 +35,8 @@
                                     <option value="">Select Option</option>
                                     <option value="0">Regular</option>
                                     <option value="1">Featured</option>
-                                    <option value="2">New Arrival</option>
-                                    <option value="3">Best Selling</option>
+                                    {{--<option value="2">New Arrival</option>
+                                    <option value="3">Best Selling</option>--}}
                                     <option value="4">On Sale</option>
                                 </select>
                             </div>
@@ -57,10 +57,11 @@
                             <th style="display: none;">Id</th>
                             <th><input type="checkbox" id="checkAll" name="checkAll"> All</th>
                             <th>Product Name</th>
+                            <th>Shop</th>
                             <th>For</th>
                             <th>SKU</th>
                             <th>Price</th>
-                            <th>New Price</th>
+                            <th>Offer Price</th>
                             <th>Stock</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -78,15 +79,16 @@
                             <td>
                                 <a target="_blank" href="{{ route('product.details', $product->slug) }}">
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        {{--<div class="col-md-2">
                                             <img src="{{ $product->product_image->count()>0 ?asset($product->product_image[0]->file_path):'' }}" style="max-width: 50px; max-height: 60px" loading="lazy" class="mt-2 mr-3" alt="product image">
-                                        </div>
+                                        </div>--}}
                                         <div class="col-md-10">
                                             <h6>{{ ucfirst($product->name) }}</h6>
                                         </div>
                                     </div>
                                 </a>
                             </td>
+                            <td>{{ $product->shop->name??'N/A' }}</td>
                             <td>
                                 @if($product->is_featured == 1)
                                     Featured

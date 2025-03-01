@@ -18,11 +18,11 @@
     <div class="row">
         <div class="col-md-12">
             <div class="tile">
-                @if ($title == 'Vendors')
+                {{--@if ($title == 'Vendors')
                     <div class="col-md-12 row">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Send Newsletter</button>
                     </div>
-                @endif
+                @endif--}}
 
                 <br>
                 <div class="tile-body">
@@ -32,9 +32,9 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Shop Name</th>
-                                @if(! Request::is('secure/vendors/pending'))
+                                {{--@if(! Request::is('secure/vendors/pending'))
                                     <th>Commission</th>
-                                @endif
+                                @endif--}}
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>NID</th>
@@ -47,11 +47,11 @@
                                 <tr>
                                     <td>{{ ucfirst($user->name) }}</td>
                                     <td>{{ ucfirst($user->shop->name) }}</td>
-                                    @if(! Request::is('secure/vendors/pending'))
+                                    {{--@if(! Request::is('secure/vendors/pending'))
                                         <td>
                                             {{ $user->shop->commission }} %
                                         </td>
-                                    @endif
+                                    @endif--}}
 
                                     <td>{{ $user->email }}</td>
                                     <td>{{ ucfirst($user->phone) }}</td>
@@ -82,14 +82,14 @@
                                         @else
                                             <form action="{{ route('vendor.accept',$user->id) }}" method="post" style="display: inline">
                                                 @csrf
-                                                <input type="number" style="width: 50px; border: 2px solid #ced4da;" name="commission" value="{{ $user->shop->commission }}"> %
-                                                <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Are you sure to Accept?')"><i class="fa fa-check"></i>Accept</button>
+                                                {{--<input type="number" style="width: 50px; border: 2px solid #ced4da;" name="commission" value="{{ $user->shop->commission }}"> %--}}
+                                                <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Are you sure?')"><i class="fa fa-check"></i>Resotre</button>
                                             </form>
 
                                             <form action="{{ route('vendor.delete',$user->id) }}" method="post" style="display: inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure to Reject?')"><i class="fa fa-times"></i>Reject</button>
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-times"></i>Delete</button>
                                             </form>
                                         @endif
                                     </td>

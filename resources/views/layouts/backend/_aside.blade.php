@@ -8,19 +8,6 @@
     @can('dashboard')
         <li><a class="app-menu__item {{ Request::is('secure/dashboard')?'active':'' }}" href="{{ route('dashboard') }}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
     @endcan
-    @can('app.category.index')
-        <li><a class="app-menu__item {{ Request::is('secure/category*')?'active':'' }}" href="{{ route('category.index') }}"><i class="app-menu__icon fa fa-th-large"></i><span class="app-menu__label">Categories</span></a></li>
-    @endcan
-    @can('app.category.approve')
-        <li><a class="app-menu__item {{ Request::is('secure/categories*')?'active':'' }}" href="{{ route('category.pending') }}"><i class="app-menu__icon fa fa-th-large"></i><span class="app-menu__label">Pending Categories</span></a></li>
-    @endcan
-    @can('app.subCategory.index')
-        <li><a class="app-menu__item {{ Request::is('secure/sub-category*')?'active':'' }}" href="{{ route('sub-category.index') }}"><i class="app-menu__icon fa fa-th"></i><span class="app-menu__label">Sub-Categories</span></a></li>
-    @endcan
-    @can('app.brand.index')
-        <li><a class="app-menu__item {{ Request::is('secure/brand*')?'active':'' }}" href="{{ route('brand.index') }}"><i class="app-menu__icon fa fa-tag"></i><span class="app-menu__label">Brands</span></a></li>
-    @endcan
-
     @can('app.product.index')
         <li class="treeview {{ Request::is('secure/product*') ?'is-expanded':'' }}"><a class="app-menu__item {{ Request::is('secure/product*')?'active':'' }}" href=" " data-toggle="treeview"><i class="app-menu__icon fa fa-archive"></i><span class="app-menu__label">Product</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
@@ -50,32 +37,8 @@
         </li>
     @endcan
 
-    @can('app.review.index')
-         <li class="treeview {{ Request::is('secure/review*') || Request::is('secure/review*') ?'is-expanded':'' }}"><a class="app-menu__item {{ Request::is('secure/review*')?'active':'' }}" href=" " data-toggle="treeview"><i class="app-menu__icon fa fa-star-o"></i><span class="app-menu__label">Reviews</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-             <ul class="treeview-menu">
-                 <li><a class="treeview-item {{ Request::is('secure/reviews')?'active':'' }}" href="{{ route('review.index') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Reviews</span></a></li>
-                 @can('app.review.approve')
-                    <li><a class="treeview-item {{ Request::is('secure/review-pending')?'active':'' }}" href="{{ route('review.pending') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Reviews Pending</span></a></li>
-                 @endcan
-             </ul>
-         </li>
-    @endcan
-
-        <li><a class="app-menu__item {{ Request::is('secure/static-review*')?'active':'' }}" href="{{ route('static-review.index') }}"><i class="app-menu__icon fa fa-star"></i><span class="app-menu__label">Static Review</span></a></li>
-
-    @if (Auth::user()->type == 'vendor')
-        <li><a class="app-menu__item {{ Request::is('secure/withdraw*')?'active':'' }}" href="{{ route('withdraw.index') }}"><i class="app-menu__icon fa fa-dollar"></i><span class="app-menu__label">Withdraws</span></a></li>
-    @endif
-
-
-
-        <li class="treeview {{ Request::is('secure/dispute*') || Request::is('secure/ticket*') ?'is-expanded':'' }}"><a class="app-menu__item {{ Request::is('secure/dispute*')?'active':'' }}" href=" " data-toggle="treeview"><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Support/Returns</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview {{ Request::is('secure/dispute*') || Request::is('secure/ticket*') ?'is-expanded':'' }}"><a class="app-menu__item {{ Request::is('secure/dispute*')?'active':'' }}" href=" " data-toggle="treeview"><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Support</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
-                @can('app.dispute.index')
-                    <li><a class="treeview-item {{ Request::is('secure/disputes')?'active':'' }}" href="{{ route('dispute.index') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Returns</span></a></li>
-                @endcan
-                @can('app.dispute.closed')
-                    <li><a class="treeview-item {{ Request::is('secure/disputes/closed')?'active':'' }}" href="{{ route('dispute.closed') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Closed Returns</span></a></li>@endcan
                 @can('app.ticket.index')
                     <li><a class="treeview-item {{ Request::is('secure/tickets')?'active':'' }}" href="{{ route('ticket.index') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Support Tickets</span></a></li>
                 @endcan
@@ -85,15 +48,15 @@
             </ul>
         </li>
 
-        {{--<li class="treeview {{ Request::is('secure/vendor*') || Request::is('secure/vendor*') ?'is-expanded':'' }}"><a class="app-menu__item {{ Request::is('secure/vendor*')?'active':'' }}" href=" " data-toggle="treeview"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Vendors</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview {{ Request::is('secure/vendor*') || Request::is('secure/vendor*') ?'is-expanded':'' }}"><a class="app-menu__item {{ Request::is('secure/vendor*')?'active':'' }}" href=" " data-toggle="treeview"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Vendors</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
                 <li><a class="treeview-item {{ Request::is('secure/vendors')?'active':'' }}" href="{{ route('vendor.index') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Vendors</span></a></li>
-                <li><a class="treeview-item {{ Request::is('secure/vendors/pending')?'active':'' }}" href="{{ route('vendor.pending') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Pending Vendors</span></a></li>
+                {{--<li><a class="treeview-item {{ Request::is('secure/vendors/pending')?'active':'' }}" href="{{ route('vendor.pending') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Pending Vendors</span></a></li>--}}
                 <li><a class="treeview-item {{ Request::is('secure/vendors/blocked')?'active':'' }}" href="{{ route('vendor.blocked') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Blocked Vendors</span></a></li>
             </ul>
         </li>
 
-        <li class="treeview {{ Request::is('secure/withdraw*') || Request::is('secure/withdraw*') ?'is-expanded':'' }}">
+        {{--<li class="treeview {{ Request::is('secure/withdraw*') || Request::is('secure/withdraw*') ?'is-expanded':'' }}">
             <a class="app-menu__item {{ Request::is('secure/withdraw*')?'active':'' }}" href=" " data-toggle="treeview"><i class="app-menu__icon fa fa-dollar"></i><span class="app-menu__label">Withdraws</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
                 <li><a class="treeview-item {{ Request::is('secure/withdraws')?'active':'' }}" href="{{ route('withdraw.index') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Withdraws</span></a></li>

@@ -24,7 +24,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        Gate::authorize('app.product.index');
+        //Gate::authorize('app.product.index');
         if (Auth::user()->type == 'vendor'){
             $data['products'] = Product::withTrashed()
                 ->select('id','shop_id','name','slug','code','price','new_price','stock','status','is_featured','deleted_at')
@@ -81,10 +81,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        Gate::authorize('app.product.create');
+        //Gate::authorize('app.product.create');
         $data['title'] = 'Product';
-        $data['categories']= Category::orderBy('name')->pluck('name','id');
-        $data['brands']= Brand::orderBy('name')->pluck('name','id');
+        //$data['categories']= Category::orderBy('name')->pluck('name','id');
+        //$data['brands']= Brand::orderBy('name')->pluck('name','id');
         return view('back.product.create',$data);
     }
 
@@ -99,8 +99,6 @@ class ProductController extends Controller
         $request->validate([
             'name'=>'required',
             'code'=>'nullable|unique:products',
-            'category_id'=>'required',
-            'brand_id'=>'required',
             'shop_id'=>'nullable',
             'size'=>'nullable',
             'color'=>'nullable',
@@ -122,6 +120,8 @@ class ProductController extends Controller
         if (Auth::user()->type == 'vendor'){
             $product['shop_id'] = Auth::user()->shop->id;
         }
+        $product['category_id'] = 1;
+        $product['brand_id'] = 1;
 
         $product = Product::create($product);
 
@@ -138,7 +138,7 @@ class ProductController extends Controller
             }
         }
 
-        if ($request->review != null){
+        /*if ($request->review != null){
            $static_reviews = StaticReview::inRandomOrder()->limit($request->review)->get();
            foreach ($static_reviews as $st_review){
                $review = new Review;
@@ -149,8 +149,7 @@ class ProductController extends Controller
                $review->review = $st_review->review;
                $review->save();
            }
-        }
-
+        }*/
 
         session()->flash('success','Product Created Successfully');
         return redirect()->route('product.index');
@@ -178,12 +177,12 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        Gate::authorize('app.product.edit');
+        //Gate::authorize('app.product.edit');
         $data['title'] = 'Product';
         $data['product'] = $product;
-        $data['categories']= Category::orderBy('name')->pluck('name','id');
-        $data['sub_categories']= SubCategory::where('category_id', $data['product']->category_id)->latest()->get();
-        $data['brands']= Brand::orderBy('name')->pluck('name','id');
+        //$data['categories']= Category::orderBy('name')->pluck('name','id');
+        //$data['sub_categories']= SubCategory::where('category_id', $data['product']->category_id)->latest()->get();
+        //$data['brands']= Brand::orderBy('name')->pluck('name','id');
         return view('back.product.edit',$data);
     }
 
@@ -199,8 +198,6 @@ class ProductController extends Controller
         $request->validate([
             'name'=>'required',
             'code'=>'nullable',
-            'category_id'=>'required',
-            'brand_id'=>'required',
             'shop_id'=>'nullable',
             'size'=>'nullable',
             'color'=>'nullable',
@@ -225,7 +222,8 @@ class ProductController extends Controller
         {
             $product_data['is_featured'] = 0;
         }
-
+        $product_data['category_id'] = 1;
+        $product_data['brand_id'] = 1;
 
         $product->update($product_data);
 
@@ -242,7 +240,7 @@ class ProductController extends Controller
             }
         }
 
-        if ($request->review != null){
+        /*if ($request->review != null){
             $static_reviews = StaticReview::inRandomOrder()->limit($request->review)->get();
             foreach ($static_reviews as $st_review){
                 $review = new Review;
@@ -253,7 +251,7 @@ class ProductController extends Controller
                 $review->review = $st_review->review;
                 $review->save();
             }
-        }
+        }*/
 
         session()->flash('success','Product Updated Successfully');
         return redirect()->route('product.index');

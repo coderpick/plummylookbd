@@ -72,7 +72,7 @@ Route::get('login/facebook/call-back', 'Auth\LoginController@handleProviderCallb
 
 
 //user Auth routes
-Route::middleware(['auth','verified'])->group(function (){
+Route::middleware(['auth'])->group(function (){
 
 
     // SSLCOMMERZ Start
@@ -184,7 +184,7 @@ Route::get('categories', 'CategoryController@categories')->name('front.category'
 ==========================
  */
 
-Route::middleware(['auth','verified','admin','web'])->prefix('secure')->group(function (){
+Route::middleware(['auth','admin','web'])->prefix('secure')->group(function (){
 
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
@@ -361,7 +361,7 @@ Route::post('ticket/{id}/restore','TicketController@restore')->name('ticket.rest
 //Vendor routes
 Route::get('vendors','Vendor\VendorController@index')->name('vendor.index');
 Route::get('vendor/{id}/details', 'Vendor\VendorController@details')->name('vendor.details');
-Route::get('vendors/pending','Vendor\VendorController@pending')->name('vendor.pending');
+//Route::get('vendors/pending','Vendor\VendorController@pending')->name('vendor.pending');
 Route::get('vendors/blocked','Vendor\VendorController@blocked')->name('vendor.blocked');
 Route::post('vendor/{id}/accept', 'Vendor\VendorController@accept')->name('vendor.accept');
 Route::post('vendor/{id}/restore', 'Vendor\VendorController@restore')->name('vendor.restore');

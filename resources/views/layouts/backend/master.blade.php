@@ -13,7 +13,11 @@
 <!-- Sidebar menu-->
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 <aside class="app-sidebar">
+    @if (auth()->user()->type != 'vendor')
     @include('layouts.backend._aside')
+    @else
+    @include('layouts.backend._aside_vendor')
+    @endif
 </aside>
 <main class="app-content">
     @yield('content')
