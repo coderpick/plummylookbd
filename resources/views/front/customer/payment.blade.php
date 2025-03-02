@@ -37,7 +37,7 @@
                 </div>
             @endif
             <article class="card">
-                @if($order->district_id != 47)
+                {{--@if($order->district_id != 47)
                     @if($order->advance == null)
                         <div class="row">
                             <div class="col-md-12 bs-component">
@@ -71,11 +71,11 @@
 
                                                 <p class="clear mb-1"><span class="f_title">Payment To: </span></p>
                                                 <input type="text" id="account_no" name="account_no" value="" readonly class="form-control w-100 mb-2">
-                                                {{--<select id="account_no" name="account_no" class="form-control w-100 mb-2" required>
+                                                --}}{{--<select id="account_no" name="account_no" class="form-control w-100 mb-2" required>
                                                     <option value="">Select</option>
                                                     <option value="01715123456">01715123456</option>
                                                     <option value="01219123456">01219123456</option>
-                                                </select>--}}
+                                                </select>--}}{{--
 
                                                 <p class="clear mb-1"><span class="f_title">Amount: </span></p>
                                                 <input type="text" name="amount" required class="number form-control w-100 mb-2">
@@ -97,7 +97,7 @@
                             </div>
                         </div>
                     @endif
-                @endif
+                @endif--}}
 
                 <header class="card-header"> My Order / {{ ucfirst($title) }} {{--<span class="float-right"><a class="btn btn-warning" href="JavaScript:window.print();">Print Page</a></span>--}}</header>
 
@@ -196,7 +196,7 @@
 
                         <tr>
                             <th> </th>
-                            <td>
+                            {{--<td>
                                 @if ($order->payment_status != 'paid' && $order->payment_type != 'cash')
                                     <form action="{{ url('/pay') }}" method="POST" class="d-inline needs-validation">
                                         <input type="hidden" value="{{ csrf_token() }}" name="_token" />
@@ -208,10 +208,10 @@
                                             @csrf
                                             <button type="submit" class="btn btn-secondary" style="background: #000;" onclick="return confirm('Are Confirm to Pay?')">Pay with Point</button>
                                         </form>
-                                        {{--<a href="{{ route('point.pay',$order->id ) }}" class="btn btn-secondary" style="background: #000;">Pay with Balance</a>--}}
+                                        --}}{{--<a href="{{ route('point.pay',$order->id ) }}" class="btn btn-secondary" style="background: #000;">Pay with Balance</a>--}}{{--
                                     @endif
                             @endif
-                            </td>
+                            </td>--}}
                         </tr>
                         </tbody>
                     </table>

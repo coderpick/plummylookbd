@@ -18,11 +18,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="tile">
-                {{--@if ($title == 'Vendors')
-                    <div class="col-md-12 row">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Send Newsletter</button>
-                    </div>
-                @endif--}}
+                <div class="col-md-12 row">
+                    <a href="{{ route('vendor.create') }}" class="btn btn-primary">Add New {{ $title }}</a>
+                </div>
 
                 <br>
                 <div class="tile-body">
@@ -65,7 +63,8 @@
                                     </td>
                                     <td>
                                         @if($user->deleted_at == null)
-                                            <a href="{{ route('vendor.details',$user->slug) }}" class="btn btn-sm btn-info">Details</a>
+                                            <a href="{{ route('vendor.edit',$user->slug) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                            <a href="{{ route('vendor.details',$user->slug) }}" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                                             <form action="{{ route('vendor.destroy',$user->slug) }}" method="post" style="display: inline">
                                                 @csrf
                                                 @method('DELETE')

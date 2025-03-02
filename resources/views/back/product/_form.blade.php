@@ -264,26 +264,25 @@
     </div>
 </div>--}}
 
-<div class="col-md-10">
-    <div class="form-group">
-        @php
-            if(old("is_featured")){
-                $is_featured = old('is_featured');
-            }elseif(isset($product)){
-                $is_featured = $product->is_featured;
-            }else{
-                $is_featured = null;
-            }
-        @endphp
-        <label for="default">Is Featured?</label>
-        <br>
-        <input name="is_featured" type="checkbox" value="1" @if($is_featured == 1) checked @endif> <label
-            for="active">Yes</label>
+@if (auth()->user()->type != 'vendor')
+    <div class="col-md-10">
+        <div class="form-group">
+            @php
+                if(old("is_featured")){
+                    $is_featured = old('is_featured');
+                }elseif(isset($product)){
+                    $is_featured = $product->is_featured;
+                }else{
+                    $is_featured = null;
+                }
+            @endphp
+            <label for="default">Is Featured?</label>
+            <br>
+            <input name="is_featured" type="checkbox" value="1" @if($is_featured == 1) checked @endif> <label
+                for="active">Yes</label>
+        </div>
     </div>
-</div>
-
-
-
+@endif
 
 <div class="col-md-10">
         <button type="button" class="collapsible">Product SEO</button>

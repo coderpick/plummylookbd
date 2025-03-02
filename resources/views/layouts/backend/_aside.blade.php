@@ -21,7 +21,7 @@
 
     @can('app.product.flash')
         <li><a class="app-menu__item {{ Request::is('secure/flash-product*')?'active':'' }}" href="{{ route('flash.index') }}"><i class="app-menu__icon fa fa-bolt"></i><span class="app-menu__label">Flash Sale</span></a></li>
-        <li><a class="app-menu__item {{ Request::is('secure/flash-banner')?'active':'' }}" href="{{ route('banner.index') }}"><i class="app-menu__icon fa fa-photo"></i><span class="app-menu__label">Flash Sale Banner</span></a></li>
+        {{--<li><a class="app-menu__item {{ Request::is('secure/flash-banner')?'active':'' }}" href="{{ route('banner.index') }}"><i class="app-menu__icon fa fa-photo"></i><span class="app-menu__label">Flash Sale Banner</span></a></li>--}}
     @endcan
 
     @can('app.order.index')
@@ -37,7 +37,7 @@
         </li>
     @endcan
 
-        <li class="treeview {{ Request::is('secure/dispute*') || Request::is('secure/ticket*') ?'is-expanded':'' }}"><a class="app-menu__item {{ Request::is('secure/dispute*')?'active':'' }}" href=" " data-toggle="treeview"><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Support</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        {{--<li class="treeview {{ Request::is('secure/dispute*') || Request::is('secure/ticket*') ?'is-expanded':'' }}"><a class="app-menu__item {{ Request::is('secure/dispute*')?'active':'' }}" href=" " data-toggle="treeview"><i class="app-menu__icon fa fa-comments-o"></i><span class="app-menu__label">Support</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">
                 @can('app.ticket.index')
                     <li><a class="treeview-item {{ Request::is('secure/tickets')?'active':'' }}" href="{{ route('ticket.index') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Support Tickets</span></a></li>
@@ -46,7 +46,7 @@
                     <li><a class="treeview-item {{ Request::is('secure/tickets/closed')?'active':'' }}" href="{{ route('ticket.closed') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Closed Support Tickets</span></a></li>
                 @endcan
             </ul>
-        </li>
+        </li>--}}
 
         <li class="treeview {{ Request::is('secure/vendor*') || Request::is('secure/vendor*') ?'is-expanded':'' }}"><a class="app-menu__item {{ Request::is('secure/vendor*')?'active':'' }}" href=" " data-toggle="treeview"><i class="app-menu__icon fa fa-users"></i><span class="app-menu__label">Vendors</span><i class="treeview-indicator fa fa-angle-right"></i></a>
             <ul class="treeview-menu">

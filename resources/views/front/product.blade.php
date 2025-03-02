@@ -44,11 +44,11 @@
                                             </a>
                                             <div class="price-area">
                                                 @if (isset($product->flash) && $product->flash->flash_price != null)
-                                                    <span class="current">৳{{ $product->price }}</span>
-                                                    <div class="previous">৳{{ $product->flash->flash_price }}</div>
+                                                    <span class="current">৳{{ $product->flash->flash_price }}</span>
+                                                    <div class="previous">৳{{ $product->price }}</div>
                                                 @elseif (isset($product->new_price))
-                                                    <span class="current">৳{{ $product->price }}</span>
-                                                    <div class="previous">৳{{ $product->new_price }}</div>
+                                                    <span class="current">৳{{ $product->new_price }}</span>
+                                                    <div class="previous">৳{{ $product->price }}</div>
                                                 @else
                                                     <span class="current">৳{{ $product->price }}</span>
                                                 @endif

@@ -11,9 +11,9 @@
                         @endif
                     </div>
                     <ul>
-                        <li><i class="icofont-location-pin"></i> Address: {{ (isset($contact) && $contact->address != null)? $contact->address : ' ' }}</li>
-                        <li><i class="icofont-phone"></i> Phone: {{ (isset($contact) && $contact->phone != null)? $contact->phone : ' ' }}</li>
-                        <li><i class="icofont-ui-email"></i> Email: {{ (isset($contact) && $contact->email != null)? $contact->email : ' ' }}</li>
+                        <li><i class="icofont-location-pin"></i> {{ (isset($contact) && $contact->address != null)? $contact->address : ' ' }}</li>
+                        <li><i class="icofont-phone"></i> {{ (isset($contact) && $contact->phone != null)? $contact->phone : ' ' }}</li>
+                        <li><i class="icofont-ui-email"></i> {{ (isset($contact) && $contact->email != null)? $contact->email : ' ' }}</li>
                     </ul>
                 </div>
             </div>

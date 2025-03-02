@@ -22,14 +22,11 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 
-
-
 /*
  =======================
     Frontend Routes
 ==========================
  */
-
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/details/{slug}', 'HomeController@details')->name('product.details');
@@ -54,8 +51,6 @@ Route::get('remove-cart/{product_id}','AjaxController@delete')->name('remove.car
 Route::post('update-cart','AjaxController@update')->name('update.cart');
 Route::post('add-cart/{product_id}','AjaxController@add')->name('add.cart');
 
-
-
 //cart view routes
 Route::get('cart','CheckoutController@cart')->name('cart');
 Route::get('clear','CheckoutController@clear')->name('clear.cart');
@@ -65,11 +60,9 @@ Route::post('add-fav/{product_id}','FavouriteController@add')->name('add.fav');
 Route::post('rmv-fav/{product_id}','FavouriteController@remove')->name('remove.fav');
 Route::post('clr-fav/{id}','FavouriteController@clear')->name('clear.fav');
 
-
 //facebook routes
 Route::get('login/facebook', 'Auth\LoginController@redirectToProvider')->name('fb.login');
 Route::get('login/facebook/call-back', 'Auth\LoginController@handleProviderCallback');
-
 
 //user Auth routes
 Route::middleware(['auth'])->group(function (){
@@ -115,33 +108,30 @@ Route::middleware(['auth'])->group(function (){
 
 
     //dispute routes
-    Route::get('dispute/reply/{id}','DisputeController@get')->name('dispute.get'); /*ajax get route routes*/
-    Route::post('dispute/response','DisputeController@response')->name('dispute.response');
-
-    Route::get('my-returns','DisputeController@disputes')->name('my_disputes');
-    Route::post('my-disputes/store','DisputeController@store')->name('my_disputes.store');
-    Route::get('my-returns/{id}/details','DisputeController@details')->name('my_disputes.show');
-    Route::post('dispute/{id}/reply','DisputeController@reply')->name('dispute.reply');
-
-    //support ticket routes
-    Route::get('ticket/reply/{id}','TicketController@get')->name('ticket.get'); /*ajax get route routes*/
-    Route::post('ticket/response','TicketController@response')->name('ticket.response');
-
-    Route::get('my-tickets','TicketController@tickets')->name('my_tickets');
-    Route::post('my-tickets/store','TicketController@store')->name('my_tickets.store');
-    Route::get('my-tickets/{id}/details','TicketController@details')->name('my_tickets.show');
-    Route::post('ticket/{id}/reply','TicketController@reply')->name('ticket.reply');
-
-    Route::post('point/{id}/pay','PointController@point_pay')->name('point.pay');
+//    Route::get('dispute/reply/{id}','DisputeController@get')->name('dispute.get'); /*ajax get route routes*/
+//    Route::post('dispute/response','DisputeController@response')->name('dispute.response');
+//
+//    Route::get('my-returns','DisputeController@disputes')->name('my_disputes');
+//    Route::post('my-disputes/store','DisputeController@store')->name('my_disputes.store');
+//    Route::get('my-returns/{id}/details','DisputeController@details')->name('my_disputes.show');
+//    Route::post('dispute/{id}/reply','DisputeController@reply')->name('dispute.reply');
+//
+//    //support ticket routes
+//    Route::get('ticket/reply/{id}','TicketController@get')->name('ticket.get'); /*ajax get route routes*/
+//    Route::post('ticket/response','TicketController@response')->name('ticket.response');
+//
+//    Route::get('my-tickets','TicketController@tickets')->name('my_tickets');
+//    Route::post('my-tickets/store','TicketController@store')->name('my_tickets.store');
+//    Route::get('my-tickets/{id}/details','TicketController@details')->name('my_tickets.show');
+//    Route::post('ticket/{id}/reply','TicketController@reply')->name('ticket.reply');
+//
+//    Route::post('point/{id}/pay','PointController@point_pay')->name('point.pay');
 
     Route::post('cancel-order/{id}/customer/{status}','OrderController@cancel')->name('cancel.order');
 
     //Route::get('my-reviews','ReviewController@reviews')->name('my_reviews');
 
 });
-
-
-
 
 //Subscribe us
 Route::post('subscribe','SubscribeController@store')->name('subscribe.us');
@@ -150,32 +140,26 @@ Route::post('subscribe','SubscribeController@store')->name('subscribe.us');
 //contact us
 Route::post('contact','SubscribeController@contact_us')->name('contact.us');
 
-
 Route::get('contact-us','SinglePageController@contact')->name('contact');
 Route::get('privacy-policy','SinglePageController@privacy')->name('privacy');
 Route::get('cookies-policy','SinglePageController@cookies')->name('cookies');
 Route::get('terms-and-condition','SinglePageController@terms')->name('terms');
 Route::get('faq','SinglePageController@faq')->name('faq');
 
-
-
 //Vendor Routes
-Route::get('merchant-register','Vendor\VendorController@create')->name('vendor.create');
+//Route::get('merchant-register','Vendor\VendorController@create')->name('vendor.create');
 Route::post('vendor-store','Vendor\VendorController@store')->name('vendor.store');
 
 Route::get('/shop/{slug}', 'Vendor\VendorController@shop_product')->name('merchant.product');
 Route::get('/shops', 'Vendor\VendorController@vendors_shop')->name('merchant.shop');
 
-Route::get('categories', 'CategoryController@categories')->name('front.category');
+//Route::get('categories', 'CategoryController@categories')->name('front.category');
 
 /*
  =======================
     Frontend Routes end
 ==========================
  */
-
-
-
 
 
 /*
@@ -185,7 +169,6 @@ Route::get('categories', 'CategoryController@categories')->name('front.category'
  */
 
 Route::middleware(['auth','admin','web'])->prefix('secure')->group(function (){
-
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
     Route::get('report', 'OrderAdvanceController@report_create')->name('report.create');
@@ -222,7 +205,6 @@ Route::resource('brand', 'BrandController');
 Route::post('brand/{id}/restore', 'BrandController@restore')->name('brand.restore');
 Route::delete('brand/{id}/delete', 'BrandController@delete')->name('brand.delete');
 
-
 //voucher routes
 Route::resource('coupon', 'VoucherController');
 Route::post('coupon/{id}/restore', 'VoucherController@restore')->name('coupon.restore');
@@ -235,7 +217,6 @@ Route::resource('static-review', 'StaticReviewController');
     Route::resource('offer','OfferController');
     Route::post('offer/{id}/restore','OfferController@restore')->name('offer.restore');
     Route::delete('offer/{id}/delete','OfferController@delete')->name('offer.delete');
-
 
 //product routes
 Route::resource('product', 'ProductController');
@@ -301,7 +282,6 @@ Route::resource('setting/slider','SliderController');
 Route::post('setting/slider/{id}/restore','SliderController@restore')->name('slider.restore');
 Route::delete('setting/slider/{id}/delete','SliderController@delete')->name('slider.delete');
 
-
 //shipping routes
 route::group(['prefix' => 'setting/shipping'], function () {
     Route::get('/', 'ShippingController@index')->name('shipping.index');
@@ -342,24 +322,27 @@ route::group(['prefix' => 'setting/meta'], function () {
 
 //disputes routes
     /*Route::get('dispute/reply/{id}','DisputeController@get')->name('dispute.get');*/ /*ajax get route routes*/
-Route::get('disputes','DisputeController@index')->name('dispute.index');
+/*Route::get('disputes','DisputeController@index')->name('dispute.index');
 Route::get('disputes/closed','DisputeController@closed')->name('dispute.closed');
 Route::get('dispute/details/{id}','DisputeController@show')->name('dispute.show');
 Route::delete('dispute/{id}/destroy','DisputeController@destroy')->name('dispute.destroy');
-Route::post('dispute/{id}/restore','DisputeController@restore')->name('dispute.restore');
+Route::post('dispute/{id}/restore','DisputeController@restore')->name('dispute.restore');*/
 /*Route::post('dispute/response','DisputeController@response')->name('dispute.response');*/
 
 
 //ticket routes
-Route::get('tickets','TicketController@index')->name('ticket.index');
+/*Route::get('tickets','TicketController@index')->name('ticket.index');
 Route::get('tickets/closed','TicketController@closed')->name('ticket.closed');
 Route::get('ticket/details/{id}','TicketController@show')->name('ticket.show');
 Route::delete('ticket/{id}/destroy','TicketController@destroy')->name('ticket.destroy');
-Route::post('ticket/{id}/restore','TicketController@restore')->name('ticket.restore');
+Route::post('ticket/{id}/restore','TicketController@restore')->name('ticket.restore');*/
 
 
 //Vendor routes
 Route::get('vendors','Vendor\VendorController@index')->name('vendor.index');
+Route::get('vendor/create','Vendor\VendorController@create')->name('vendor.create');
+Route::get('vendor/{id}/edit','Vendor\VendorController@edit')->name('vendor.edit');
+Route::post('vendor/{id}/update','Vendor\VendorController@vendor_update')->name('vendor.update');
 Route::get('vendor/{id}/details', 'Vendor\VendorController@details')->name('vendor.details');
 //Route::get('vendors/pending','Vendor\VendorController@pending')->name('vendor.pending');
 Route::get('vendors/blocked','Vendor\VendorController@blocked')->name('vendor.blocked');
@@ -367,7 +350,6 @@ Route::post('vendor/{id}/accept', 'Vendor\VendorController@accept')->name('vendo
 Route::post('vendor/{id}/restore', 'Vendor\VendorController@restore')->name('vendor.restore');
 Route::delete('vendor/{id}/destroy', 'Vendor\VendorController@destroy')->name('vendor.destroy');
 Route::delete('vendor/{id}/delete','Vendor\VendorController@delete')->name('vendor.delete');
-
 
 
 Route::get('vendor/{slug}/products','Vendor\VendorController@get_product')->name('vendor.product');

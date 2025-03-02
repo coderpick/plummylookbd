@@ -8,6 +8,7 @@ use App\Offer;
 use App\Product;
 use App\Review;
 use App\Search;
+use App\Shop;
 use App\Slider;
 use App\SubCategory;
 use Carbon\Carbon;
@@ -19,10 +20,14 @@ class HomeController extends Controller
     public function index()
     {
         /*$data['title'] = 'Home';*/
-        $data['category_product'] = Category::
+
+
+        /*$data['category_product'] = Category::
             select('id','name','slug','icon','banner','home_view')
             ->with(['product.reviews','product.flash','product.product_image:product_id,file_path','product:id,category_id,name,slug,price,new_price,stock'])
-          ->where('home_view', 1)->orderBy('name','ASC')->get() ;
+          ->where('home_view', 1)->orderBy('name','ASC')->get() ;*/
+
+        $data['category_product'] = Shop::with('product','product.product_image:product_id,file_path')->get();
 
         /*$products = Product::latest()->where('status', 'active')->get();
         $data['products'] = $products->groupBy('category_id');*/
@@ -110,20 +115,17 @@ class HomeController extends Controller
         else{
             $data['categories'] = Category::orderBy('name','ASC')->get();
         }
-
-
-
         return view('front.product', $data);
     }
 
     public function sale()
     {
         $data['title'] = 'Products on Sale';
-        $products = Product::with(['category','brand'])->where('is_featured', 4)
+        $products = Product::with(['category','brand'])->where('new_price', '!=', null)
             ->where('status', 'active')
             ->latest()->paginate(24);
         $data['products'] = $products;
-        $data['categories'] = Category::orderBy('name','ASC')->get();
+       // $data['categories'] = Category::orderBy('name','ASC')->get();
 
         return view('front.product', $data);
     }

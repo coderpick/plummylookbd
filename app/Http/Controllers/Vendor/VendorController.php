@@ -48,8 +48,8 @@ class VendorController extends Controller
 
     public function create()
     {
-        $data['title']= 'Merchant Registration';
-        return view('front.vendor.register',$data);
+        $data['title']= 'Vendor';
+        return view('back.vendor.create',$data);
     }
 
 
@@ -64,7 +64,6 @@ class VendorController extends Controller
             'email' => 'required|unique:users|email',
             'password' => 'required|min:6|confirmed'
         ]);
-
 
         $data = $request->except('_token', 'password','password_confirmation','shop');
         $data['password'] = bcrypt($request->password);
@@ -89,12 +88,10 @@ class VendorController extends Controller
         $shop['name'] = $request->shop;
         $shop['slug'] = $shop_slug;
         $shop['user_id'] = $user_id;
-
         Shop::create($shop);
 
-
-        session()->flash('success', 'Merchant Registration Submitted');
-        return redirect()->route('home');
+        session()->flash('success', 'Vendor Created Successfully');
+        return redirect()->route('vendor.index');
     }
 
 
@@ -217,6 +214,45 @@ class VendorController extends Controller
         return view('back.admin.shop',$data);
     }
 
+    public function edit($slug)
+    {
+        $data['title']= 'Vendor';
+        $data['user']=User::with('shop')->where('slug',$slug)->first();
+
+        return view('back.vendor.edit',$data);
+    }
+
+    public function vendor_update(Request $request, $id)
+    {
+        $request->validate([
+            'shop' => 'required',
+            'name' => 'required',
+            'phone' => 'required|numeric|min:11',
+            'nid' => 'nullable|numeric|digits_between:10,17',
+            'image' => 'image',
+            'email' => 'required|email',
+            'password' => 'nullable|min:6|confirmed'
+        ]);
+
+        $data = $request->except('_token', 'password','password_confirmation','shop');
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+        $slug = Str::slug($request->name, '-').'-'.rand(000,999);
+        $data['slug'] = $slug;
+        $data['nid'] = $request->nid;
+        $user = User::findOrFail($id);
+        $user->update($data);
+
+        $shop_slug = Str::slug($request->shop, '-');
+        $shop['name'] = $request->shop;
+        $shop['slug'] = $shop_slug;
+        $vendor = Shop::where('user_id', $user->id)->first();
+        $vendor->update($shop);
+
+        session()->flash('success', 'Vendor Updated Successfully');
+        return redirect()->route('vendor.index');
+    }
 
     public function update(Request $request, $id)
     {
@@ -229,12 +265,10 @@ class VendorController extends Controller
         ]);
 
         $shop = Shop::findOrFail($id);
-
         $data = $request->except('_token', 'image','cheque');
         $slug = Str::slug($request->name, '-');
         $data['slug'] = $slug;
         $data['description'] = $request->description;
-
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');

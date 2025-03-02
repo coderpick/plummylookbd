@@ -25,24 +25,9 @@
                 </div>
                 @endif--}}
 
-                <form action="{{ route('applyMultiple') }}" method="post">
-                    @csrf
+
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="btn-group">
-                                <label for="m_status"></label>
-                                <select id="m_status" name="product_type" class="form-control">
-                                    <option value="">Select Option</option>
-                                    <option value="0">Regular</option>
-                                    <option value="1">Featured</option>
-                                    {{--<option value="2">New Arrival</option>
-                                    <option value="3">Best Selling</option>--}}
-                                    <option value="4">On Sale</option>
-                                </select>
-                            </div>
-                            &nbsp;
-                            <button type="submit" class="btn btn-primary mr-1" id="multi-btn"><span>Apply</span></button>
-                        </div>
+                        <div class="col-md-6"></div>
                         <div class="col-md-6">
                             <a href="{{ route('product.create') }}" class="btn btn-primary float-right mr-1">Add New Product</a>
                             <a href="{{ route('product.featured') }}" class="btn btn-info float-right mr-1 {{ Request::is('secure/products/featured')?'disabled':'' }}">Featured</a>
@@ -55,7 +40,6 @@
                         <thead>
                         <tr>
                             <th style="display: none;">Id</th>
-                            <th><input type="checkbox" id="checkAll" name="checkAll"> All</th>
                             <th>Product Name</th>
                             <th>Shop</th>
                             <th>For</th>
@@ -75,7 +59,6 @@
                         @foreach($products as $product)
                         <tr>
                             <td style="display: none;">{{ $product->id }}</td>
-                            <td><input class="status_change" type="checkbox" name="ids[]" value="{{ $product->id }}"></td>
                             <td>
                                 <a target="_blank" href="{{ route('product.details', $product->slug) }}">
                                     <div class="row">
@@ -142,7 +125,6 @@
                     </table>
                 </div>
             </div>
-                </form>
             </div>
         </div>
     </div>

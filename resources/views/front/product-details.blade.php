@@ -104,7 +104,7 @@
                         </div>
 
 
-                        @if (isset($related_product) && count($related_product) > 0)
+                       {{-- @if (isset($related_product) && count($related_product) > 0)
                         <br>
                         <br>
                         <div class="row">
@@ -157,7 +157,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        @endif
+                        @endif--}}
                     </div>
                 </div>
             </div>

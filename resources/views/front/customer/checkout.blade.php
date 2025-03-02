@@ -88,13 +88,13 @@
                             </div>--}}
 
 
-                            <div class="checkout__input__checkbox">
+                           {{-- <div class="checkout__input__checkbox">
                                 <label for="diff-acc">
                                     Ship to a different address?
                                     <input type="checkbox" id="diff-acc">
                                     <span class="checkmark"></span>
                                 </label>
-                            </div>
+                            </div>--}}
 
                             <div id="ship_address" class="checkout__input">
                                 <div class="shipping-address-box active">
@@ -272,13 +272,13 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <div class="checkout__input__checkbox">
+                                {{--<div class="checkout__input__checkbox">
                                     <label for="paypal">
                                         bKash/Online Payment
                                         <input type="checkbox" id="paypal" class="chb" name="payment_type" value="gateway">
                                         <span class="checkmark"></span>
                                     </label>
-                                </div>
+                                </div>--}}
 
                                 @if($discount == null || $discount == 0)
                                 <div class="checkout__input__checkbox">

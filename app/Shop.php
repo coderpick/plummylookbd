@@ -21,6 +21,6 @@ class Shop extends Model
 
     public function product()
     {
-        return $this->hasMany(Product::class)->orderBy('id','DESC');
+        return $this->hasMany(Product::class,'shop_id')->orderBy('id','DESC');
     }
 }

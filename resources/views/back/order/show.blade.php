@@ -204,11 +204,11 @@
                                 <th style="width: 30%">Total Amount</th>
                                 <td>{{ $order->amount }}</td>
                             </tr>
-                            <tr>
+                            {{--<tr>
                                 <th style="width: 30%">Advance Payment</th>
                                 <td>{{ $order->advance }}</td>
-                            </tr>
-                            <tr>
+                            </tr>--}}
+                            {{--<tr>
                                 <th style="width: 30%">Advance Details</th>
                                 <td>
                                     Transaction Type: {{ $order->order_advance->trx_type??'' }} <br>
@@ -216,7 +216,7 @@
                                     Account Number: {{ $order->order_advance->account_no??'' }} <br>
                                     Sender Number: {{ $order->order_advance->sender_account??'' }}
                                 </td>
-                            </tr>
+                            </tr>--}}
                             <tr>
                                 <th style="width: 30%">Net Payable Amount</th>
                                 <td>{{ $order->amount - $order->advance }}</td>

@@ -67,7 +67,7 @@
                                 <th>Total Amount</th>
                                 @endif
                                 <th>Payment Status</th>
-                                <th>Advance</th>
+                                {{--<th>Advance</th>--}}
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -84,7 +84,7 @@
                                     <td>{{ $order->amount  }}</td>
                                     @endif
                                     <td>{{ ucfirst($order->payment_status) }}</td>
-                                    <td>
+                                    {{--<td>
                                         @if($order->district_id == 47)
                                             Inside Dhaka
                                         @else
@@ -92,7 +92,7 @@
                                                 {{ $order->advance }}
                                             </button>
                                         @endif
-                                    </td>
+                                    </td>--}}
                                     <td>{{ ucfirst($order->status) }}</td>
                                     <td>
                                        @if (auth()->user()->type != 'vendor')
