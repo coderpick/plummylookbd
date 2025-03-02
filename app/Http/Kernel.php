@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckAPI;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -65,6 +66,7 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\CheckAdmin::class,
         'notVendor' => \App\Http\Middleware\CheckVendor::class,
         'notOperator' => \App\Http\Middleware\CheckOperator::class,
+        'checkAPI'=>CheckAPI::class,
     ];
 
     /**
