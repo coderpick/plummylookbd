@@ -1,5 +1,10 @@
 <footer class="footer spad">
     <div class="container">
+        <div class="whatsapp">
+            <a href="https://wa.me/{{ (isset($contact) && $contact->phone != null)? $contact->phone : '' }}" target="_blank" title="Start Chat ">
+                <img src="{{ asset('frontend/img/whatsapp.png') }}" alt="WhatsAppChat">
+            </a>
+        </div>
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="footer__about">

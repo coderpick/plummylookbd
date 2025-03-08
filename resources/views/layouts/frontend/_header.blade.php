@@ -58,10 +58,14 @@
         <div class="row">
             <div class="col-lg-3 col-md-2 col-sm-12">
                 <div class="header__logo">
-                    <a href="{{ route('home') }}"><img id="header__logo" src="{{ asset((isset($link) && $link->logo != null)? $link->logo : 'uploads/default_logo.png') }}" alt="Logo"></a>
+                    <a href="https://emwbl.com/" target="_blank">
+                        <img id="header__logo" src="{{ asset((isset($link) && $link->logo != null)? $link->logo : 'uploads/default_logo.png') }}" alt="Logo">
+                        {{--<span>First Opportunity For All</span>--}}
+                    </a>
+
                 </div>
             </div>
-            <div class="{{ Request::is('register') || Request::is('login')?'nav_hide':'' }} col-lg-7 col-xs-9">
+            <div class="{{ Request::is('register') || Request::is('login')?'nav_hide':'' }} col-lg-7 col-xs-9 col-9">
                 <div class="hero__search__form">
                     <form action="{{ route('product.find') }}" method="get" autocomplete="off">
                         <input required type="text" id="search" name="product" value="{{ request()->input('product') }}" style="color: black" placeholder="Search">
@@ -69,7 +73,7 @@
                     </form>
                 </div>
             </div>
-            <div class="{{ Request::is('register') || Request::is('login')?'nav_hide':'' }} col-lg-2 col-xs-3" id="favncart">
+            <div class="{{ Request::is('register') || Request::is('login')?'nav_hide':'' }} col-lg-2 col-xs-3 col-3" id="favncart">
                 <div class="header__cart">
                     <ul>
                         <li id="m_cart"><a href="{{ route('cart') }}" class="text-secondary"> <i class="fa fa-shopping-cart cart-count"> <span class="count">{{ session('cart')!= null ?count(session('cart')):0 }}</span></i></a> <sub>Cart</sub> </li>

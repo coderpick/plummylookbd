@@ -23,4 +23,9 @@ class Shop extends Model
     {
         return $this->hasMany(Product::class,'shop_id')->orderBy('id','DESC');
     }
+
+    public function home_product()
+    {
+        return $this->hasMany(Product::class,'shop_id')->orderBy('id','DESC')->limit(4);
+    }
 }

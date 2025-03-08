@@ -8,8 +8,9 @@
 <body>
 
 <a id="cartBtn" href="{{ route('cart') }}" class="text-center">
-    <i class="fa fa-shopping-basket" style="font-size: 22px;"></i> <br>
-    <span style="font-size: 14px;">
+    <img src="{{ asset('frontend/img/cart_img.png') }}" style="max-width: 30px;" alt="cart">
+    <br>
+    <span style="font-size: 12px;">
         <span class="cart-count">
         <span class="count">{{ session('cart')!= null ?count(session('cart')):0 }}</span>
         </span> Items
@@ -19,8 +20,6 @@
 <button onclick="topFunction()" id="myBtn"><i class="icofont-hand-drawn-up"></i></button>
 <!-- Humberger Begin -->
 <div class="humberger__menu__overlay"></div>
-<br class="cbr">
-<br class="cbr">
 
 <div class="humberger__menu__wrapper">
     @include('layouts.frontend._mobileMenu')

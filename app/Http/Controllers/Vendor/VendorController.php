@@ -21,7 +21,7 @@ class VendorController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth','notOperator']);
+        $this->middleware(['auth','notOperator'])->except(['vendors_shop','shop_product']);
     }
 
 
@@ -60,6 +60,7 @@ class VendorController extends Controller
             'name' => 'required',
             'phone' => 'required|numeric|min:11',
             'nid' => 'nullable|numeric|digits_between:10,17',
+            'sequence' => 'required|numeric|min:1',
             'image' => 'image',
             'email' => 'required|unique:users|email',
             'password' => 'required|min:6|confirmed'
@@ -86,6 +87,7 @@ class VendorController extends Controller
 
         $shop_slug = Str::slug($request->shop, '-');
         $shop['name'] = $request->shop;
+        $shop['sequence'] = $request->sequence;
         $shop['slug'] = $shop_slug;
         $shop['user_id'] = $user_id;
         Shop::create($shop);
@@ -197,7 +199,7 @@ class VendorController extends Controller
         $data['count'] = $product->count();
 
 
-        $product = $product->orderBy('id','DESC')->paginate(24);
+        $product = $product->orderBy('id','DESC')->paginate(16);
         $data['products'] =$product;
         $data['categories'] = Category::orderBy('name','ASC')->get();
 
@@ -229,6 +231,7 @@ class VendorController extends Controller
             'name' => 'required',
             'phone' => 'required|numeric|min:11',
             'nid' => 'nullable|numeric|digits_between:10,17',
+            'sequence' => 'required|numeric|min:1',
             'image' => 'image',
             'email' => 'required|email',
             'password' => 'nullable|min:6|confirmed'
@@ -246,6 +249,7 @@ class VendorController extends Controller
 
         $shop_slug = Str::slug($request->shop, '-');
         $shop['name'] = $request->shop;
+        $shop['sequence'] = $request->sequence;
         $shop['slug'] = $shop_slug;
         $vendor = Shop::where('user_id', $user->id)->first();
         $vendor->update($shop);

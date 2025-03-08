@@ -12,7 +12,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>{{ ucfirst($title ?? '') ?? '' }} @if(isset($title)) - @endif @if(isset($meta) && $meta->title == !null) {{ ucfirst($meta->title) }} @endif  </title>
 
-<link rel="shortcut icon" type="image/png" href="{{ asset('uploads/cart-fav.png') }}"/>
+<link rel="shortcut icon" type="image/png" href="{{ asset('frontend/img/cart_img.png') }}"/>
 <!-- Google Font -->
 <!-- Css Styles -->
 <link rel="stylesheet" href="{{asset('frontend/css/bootstrap.min.css')}}" type="text/css">

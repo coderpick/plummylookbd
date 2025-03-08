@@ -3449,13 +3449,6 @@ select.selectpicker {
 	background: #F3F6FA;
 }
 
-/*css to fix mobile menu*/
-@media screen and (min-width: 992px) {
-	.cbr {
-		display: none;
-	}
-}
-
 /*top button*/
 #myBtn {
     display: none;
@@ -3883,10 +3876,10 @@ td.action-custom a {
     position: fixed;
     right: 30px;
     z-index: 110;
-    border: 1px solid var(--color-primary-dark);
+    border: 1px solid #e2e2e2;
     outline: none;
-    color: #ffffff;
-    background-color: var(--color-primary-dark);
+    color: var(--color-primary);
+    background-color: #f3f4f6;
     cursor: pointer;
     padding: 6px;
     top: calc(100px + 30%);
@@ -3899,6 +3892,9 @@ td.action-custom a {
 @media only screen and (max-width: 767px) {
     #cartBtn {
         display: none;
+    }
+    #stickynav {
+        padding: 20px 0px;
     }
 }
 
@@ -4494,6 +4490,7 @@ i {
     align-items: center;
     gap: 8px;
     margin-top: 8px;
+    justify-content: space-between;
 }
 .single-shopping-card-one .body-content .price-area .current {
     font-weight: 700;
@@ -4588,3 +4585,17 @@ i {
 /*--------------------------------------------------------------
 # footer section
 --------------------------------------------------------------*/
+
+.whatsapp{
+    position: fixed;
+    display: block;
+    z-index: 1100;
+}
+
+.whatsapp img {
+    position: fixed;
+    width: 50px;
+    height: auto;
+    bottom: 80px;
+    left: 30px;
+}

@@ -28,6 +28,7 @@ class CreateShopsTable extends Migration
             $table->string('acc_name')->nullable();
             $table->string('acc_no')->nullable();
             $table->string('routing_no')->nullable();
+            $table->string('sequence')->nullable();
             $table->text('cheque')->nullable();
             $table->softDeletes();
             $table->timestamps();

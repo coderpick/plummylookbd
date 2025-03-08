@@ -36,6 +36,7 @@
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>NID</th>
+                                <th>Sequence</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -54,6 +55,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ ucfirst($user->phone) }}</td>
                                     <td>{{ $user->nid }}</td>
+                                    <td>{{ $user->shop->sequence }}</td>
                                     <td>
                                         @if($user->deleted_at == null)
                                             Active
