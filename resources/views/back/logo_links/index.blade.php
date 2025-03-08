@@ -69,7 +69,7 @@
                         </div>
                         <!--instagram-->
                         <div class="form-group row">
-                            <label for="instagram" class="col-md-4 col-form-label text-md-right">{{ __('Pinterest Link') }}</label>
+                            <label for="instagram" class="col-md-4 col-form-label text-md-right">{{ __('Instagram Link') }}</label>
 
                             <div class="col-md-6">
                                 <input id="pinterest" type="text" class="form-control @error('pinterest') is-invalid @enderror" value="@if(isset($logo_links->pinterest)){{$logo_links->pinterest}}@endif" name="pinterest" >

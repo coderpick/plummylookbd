@@ -19,7 +19,7 @@
             <div class="tile">
                 <div class="col-md-12 row">
                     @if (Auth::user()->type !== 'operator')
-                    <a href="{{ route('user.edit',Auth::user()->slug) }}" class="btn btn-sm btn-info">Edit Profile</a>
+                    <a href="{{ route('user.profile_edit',Auth::user()->slug) }}" class="btn btn-sm btn-info">Edit Profile</a>
                     @endif
                 </div>
                 <br>

@@ -255,6 +255,8 @@ Route::resource('roles','RoleController');
 
 //Admin Routes
 Route::resource('user', 'UserController');
+Route::get('user/{slug}/edit', 'UserController@edit')->name('user.profile_edit');
+Route::post('user/{slug}/edit', 'UserController@profile_update')->name('user.profile_update');
 Route::post('user/{id}/restore', 'UserController@restore')->name('user.restore');
 Route::delete('user/{id}/trash', 'UserController@trash')->name('user.trash');
 Route::get('profile', 'UserController@show')->name('user.info');
