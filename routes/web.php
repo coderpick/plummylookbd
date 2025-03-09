@@ -65,7 +65,7 @@ Route::get('login/facebook', 'Auth\LoginController@redirectToProvider')->name('f
 Route::get('login/facebook/call-back', 'Auth\LoginController@handleProviderCallback');
 
 //user Auth routes
-Route::middleware(['auth'])->group(function (){
+Route::middleware(['auth','verified'])->group(function (){
 
 
     // SSLCOMMERZ Start
@@ -168,7 +168,7 @@ Route::get('/shops', 'Vendor\VendorController@vendors_shop')->name('merchant.sho
 ==========================
  */
 
-Route::middleware(['auth','admin','web'])->prefix('secure')->group(function (){
+Route::middleware(['auth','verified','admin','web'])->prefix('secure')->group(function (){
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
     Route::get('report', 'OrderAdvanceController@report_create')->name('report.create');
