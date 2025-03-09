@@ -75,6 +75,7 @@ class VendorController extends Controller
         $data['nid'] = $request->nid;
         $data['created_at'] = Carbon::now();
         $data['deleted_at'] = Carbon::now();
+        $data['email_verified_at'] = Carbon::now();
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');

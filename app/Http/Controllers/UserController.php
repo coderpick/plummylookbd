@@ -96,8 +96,19 @@ class UserController extends Controller
         Gate::authorize('users.edit');
         $data['roles'] =  Role::get();
         $data['title']= 'Edit User';
-        $data['user']= User::findOrFail($id);
-        return  view('back.admin.edit',$data);
+        $user = User::where('id', $id)->first();
+        $userSlug = User::where('slug', $id)->first();
+        if ($user){
+            $data['user']= $user;
+            return  view('back.admin.edit',$data);
+        }
+        elseif ($userSlug){
+            $data['user']= $userSlug;
+            return  view('back.admin.profile_edit',$data);
+        }
+        else{
+            abort(404);
+        }
     }
 
 
@@ -131,6 +142,38 @@ class UserController extends Controller
         return redirect()->route('user.index');
 
 
+    }
+
+    public function profile_update(Request $request, $id)
+    {
+        $request->validate([
+            'name'=>'required',
+            'email'=>'required|email',
+        ]);
+        $user                 = User::findOrFail($id);
+        $user->name           = $request->name;
+        $user->slug           = str_slug($request->name);
+        $user->email          = $request->email;
+        $user->nid            = $request->nid;
+        $user->phone          = $request->phone;
+        $user->password       = isset($request->password)?Hash::make($request->password):$user->password;
+
+        if ($request->hasFile('image')){
+            $slug = str_slug($request->name);
+            $image = $request->file('image');
+            $file_name = $slug. '_' . time();
+            $upload_path = 'uploads/avatar/';
+            $filePath = $upload_path . $file_name. '.'. $image->getClientOriginalExtension();
+            $image_url = $upload_path . $filePath;
+            if ($user->image != null && File::exists(public_path($user->image))) {
+                File::delete(public_path($user->image));
+            }
+            $image->move($upload_path, $image_url);
+            $user->image = $filePath;
+        }
+        $user->save();
+        session()->flash('success', 'User Update Successfully');
+        return redirect()->route('user.info');
     }
 
     public function trash($id)

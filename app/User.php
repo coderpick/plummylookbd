@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable  implements JWTSubject
+class User extends Authenticatable  implements MustVerifyEmail, JWTSubject
 {
     use Notifiable;
     use SoftDeletes;

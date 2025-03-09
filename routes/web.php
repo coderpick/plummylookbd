@@ -65,7 +65,7 @@ Route::get('login/facebook', 'Auth\LoginController@redirectToProvider')->name('f
 Route::get('login/facebook/call-back', 'Auth\LoginController@handleProviderCallback');
 
 //user Auth routes
-Route::middleware(['auth'])->group(function (){
+Route::middleware(['auth','verified'])->group(function (){
 
 
     // SSLCOMMERZ Start
@@ -168,7 +168,7 @@ Route::get('/shops', 'Vendor\VendorController@vendors_shop')->name('merchant.sho
 ==========================
  */
 
-Route::middleware(['auth','admin','web'])->prefix('secure')->group(function (){
+Route::middleware(['auth','verified','admin','web'])->prefix('secure')->group(function (){
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
     Route::get('report', 'OrderAdvanceController@report_create')->name('report.create');
@@ -255,6 +255,8 @@ Route::resource('roles','RoleController');
 
 //Admin Routes
 Route::resource('user', 'UserController');
+Route::get('user/{slug}/edit', 'UserController@edit')->name('user.profile_edit');
+Route::post('user/{slug}/edit', 'UserController@profile_update')->name('user.profile_update');
 Route::post('user/{id}/restore', 'UserController@restore')->name('user.restore');
 Route::delete('user/{id}/trash', 'UserController@trash')->name('user.trash');
 Route::get('profile', 'UserController@show')->name('user.info');
