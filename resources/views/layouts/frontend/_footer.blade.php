@@ -10,9 +10,9 @@
                 <div class="footer__about">
                     <div class="footer__about__logo">
                         @if(isset($link) && $link->footer_logo != null)
-                            <a href="{{ route('home') }}"><img style="max-width: 150px" src="{{ asset($link->footer_logo) }}" alt="Logo"></a>
+                            <a href="{{ route('home') }}"><img style="max-width: 190px" src="{{ asset($link->footer_logo) }}" alt="Logo"></a>
                         @else
-                            <a href="{{ route('home') }}"><img style="max-width: 150px" src="{{ asset((isset($link) && $link->logo != null)? $link->logo : 'uploads/default_logo.png') }}" alt="Logo"></a>
+                            <a href="{{ route('home') }}"><img style="max-width: 190px" src="{{ asset((isset($link) && $link->logo != null)? $link->logo : 'uploads/default_logo.png') }}" alt="Logo"></a>
                         @endif
                     </div>
                     <ul>
