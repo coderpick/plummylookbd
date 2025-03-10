@@ -19,7 +19,7 @@
                             <a target="_blank" href="{{ $link->twitter }}"><i class="fa fa-twitter"></i></a>
                         @endisset
                         @isset($link->pinterest)
-                            <a target="_blank" href="{{ $link->pinterest }}"><i class="fa fa-pinterest"></i></a>
+                            <a target="_blank" href="{{ $link->pinterest }}"><i class="fa fa-instagram"></i></a>
                         @endisset
                         @isset($link->linkedin)
                             <a target="_blank" href="{{ $link->linkedin }}"><i class="fa fa-linkedin"></i></a>
@@ -92,7 +92,7 @@
             <nav class="header__menu">
                 <ul>
                     <li class="{{ Request::is('/')?'active':'' }}"><a href="{{ route('home') }}">Home</a></li>
-                    <li class="{{ Request::is('shops')?'active':'' }}"><a href="{{ route('merchant.shop') }}">Shops</a></li>
+                    <li class="{{ Request::is('stores')?'active':'' }}"><a href="{{ route('merchant.shop') }}">Stores</a></li>
                     <li class="{{ Request::is('sale*')?'active':'' }}"><a href="{{ route('product.sale') }}">On Sale</a></li>
                     <li class="{{ Request::is('contact-us')?'active':'' }}"><a href="{{ route('contact') }}">Contact Us</a></li>
                     <li class="{{ Request::is('announcements')?'active':'' }}"><a href="{{ route('offer') }}">Announcements !</a></li>

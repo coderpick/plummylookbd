@@ -52,7 +52,7 @@
                             <a target="_blank" href="{{ $link->twitter }}"><i class="fa fa-twitter"></i></a>
                         @endisset
                         @isset($link->pinterest)
-                            <a target="_blank" href="{{ $link->pinterest }}"><i class="fa fa-pinterest"></i></a>
+                            <a target="_blank" href="{{ $link->pinterest }}"><i class="fa fa-instagram"></i></a>
                         @endisset
                         @isset($link->linkedin)
                             <a target="_blank" href="{{ $link->linkedin }}"><i class="fa fa-linkedin"></i></a>

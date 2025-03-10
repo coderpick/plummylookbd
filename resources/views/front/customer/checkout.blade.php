@@ -36,59 +36,64 @@
                                             <h>{{ ucfirst(auth()->user()->name) }}</h>
                                             <p class="clear"><span class="f_title">Phone: </span>{{ ucfirst(auth()->user()->phone) }}</p>
                                             <p class="clear"><span class="f_title">Email: </span>{{ ucfirst(auth()->user()->email) }}</p>
-                                            <p class="clear"><span class="f_title">District: </span>{{ (auth()->user()->detail)?auth()->user()->detail->district->name: '' }}  &nbsp; <span class="f_title">Zip: </span>{{ (auth()->user()->detail)?auth()->user()->detail->zip: '' }}</p>
+                                            {{--<p class="clear"><span class="f_title">District: </span>{{ (auth()->user()->detail)?auth()->user()->detail->district->name: '' }}  &nbsp; <span class="f_title">Zip: </span>{{ (auth()->user()->detail)?auth()->user()->detail->zip: '' }}</p>
                                             <p class="clear"><span class="f_title">Address: </span>{{ (auth()->user()->detail)?ucfirst(auth()->user()->detail->address_1): '' }}, {{ (auth()->user()->detail)?auth()->user()->detail->address_2: '' }}</p>
+                                        --}}
+
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="checkout__input">
+                                                        <p class="clear"><span class="f_title">District: </span></p>
+
+                                                        <select id="district" name="district" class="js-states form-control wrapper district @error('district') is-invalid @enderror">
+                                                            @foreach ($districts as $district)
+                                                                <option {{ (auth()->user()->detail) && auth()->user()->detail->district_id == $district->id?'selected': '' }} value="{{ $district->id }}">{{ ucfirst($district->name) }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('district')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="checkout__input">
+                                                        <p class="clear"><span class="f_title">Postcode / Zip: </span></p>
+                                                        <input class="@error('zip') is-invalid @enderror" value="{{ (auth()->user()->detail)?ucfirst(auth()->user()->detail->zip): '' }}" name="zip" id="zip" type="number">
+                                                        @error('zip')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <p class="clear"><span class="f_title ">Address: </span></p>
+                                            <input class="@error('address_1') is-invalid @enderror checkout__input__add" type="text" name="address_1" value="{{ (auth()->user()->detail)?ucfirst(auth()->user()->detail->address_1): '' }}">
+                                            @error('address_1')
+                                            <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                            @enderror
+
+                                            <br>
+
+                                            <input class="@error('address_2') is-invalid @enderror" type="text" name="address_2" type="text" value="{{ (auth()->user()->detail)?ucfirst(auth()->user()->detail->address_2): '' }}">
+                                            @error('address_2')
+                                            <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <br>
 
-                            {{--<div class="row">
-                                <div class="col-lg-12">
-                                    <div class="checkout__input">
-                                        <p>Name<span></span></p>
-                                        <input type="text" value="{{ ucfirst(auth()->user()->name) }}" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Phone<span></span></p>
-                                        <input type="text" value="{{ auth()->user()->phone }}" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Email<span></span></p>
-                                        <input type="text" value="{{ auth()->user()->email }}" readonly>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>District<span></span></p>
-                                        <input type="text" value="{{ (auth()->user()->detail)?auth()->user()->detail->district->name: '' }}" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Postcode / ZIP<span></span></p>
-                                        <input type="text" value="{{ (auth()->user()->detail)?auth()->user()->detail->zip: '' }}" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="checkout__input">
-                                <p>Address<span></span></p>
-                                <input type="text" value="{{ (auth()->user()->detail)?auth()->user()->detail->address_1: '' }}" class="checkout__input__add" readonly>
-                                <input type="text" value="{{ (auth()->user()->detail)?auth()->user()->detail->address_2: '' }}" readonly>
-                            </div>--}}
-
-
-                           {{-- <div class="checkout__input__checkbox">
+                            {{--<div class="checkout__input__checkbox">
                                 <label for="diff-acc">
                                     Ship to a different address?
                                     <input type="checkbox" id="diff-acc">
@@ -96,13 +101,13 @@
                                 </label>
                             </div>--}}
 
-                            <div id="ship_address" class="checkout__input">
+                           {{-- <div id="ship_address" class="checkout__input">
                                 <div class="shipping-address-box active">
                                     <div class="checkout__input">
                                         <h>{{ ucfirst(auth()->user()->name) }}</h>
                                         <p class="clear"><span class="f_title">Phone: </span>{{ ucfirst(auth()->user()->phone) }}</p>
                                         <p class="clear"><span class="f_title">Email: </span>{{ ucfirst(auth()->user()->email) }}</p>
-                                        {{--<p class="clear"><span class="f_title">District: </span>{{ (auth()->user()->detail)?auth()->user()->detail->district->name: '' }}  &nbsp; <span class="f_title">Zip: </span>{{ (auth()->user()->detail)?auth()->user()->detail->zip: '' }}</p>--}}
+                                        --}}{{--<p class="clear"><span class="f_title">District: </span>{{ (auth()->user()->detail)?auth()->user()->detail->district->name: '' }}  &nbsp; <span class="f_title">Zip: </span>{{ (auth()->user()->detail)?auth()->user()->detail->zip: '' }}</p>--}}{{--
 
                                         <br>
                                         <div class="row">
@@ -125,7 +130,7 @@
                                             <div class="col-lg-6">
                                                 <div class="checkout__input">
                                                     <p class="clear"><span class="f_title">Postcode / Zip: </span></p>
-                                                    <input class="@error('zip') is-invalid @enderror" name="zip" id="zip" type="number">
+                                                    <input class="@error('zip') is-invalid @enderror" value="{{ (auth()->user()->detail)?ucfirst(auth()->user()->detail->zip): '' }}" name="zip" id="zip" type="number">
                                                     @error('zip')
                                                     <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>
@@ -136,7 +141,7 @@
                                         </div>
 
                                         <p class="clear"><span class="f_title ">Address: </span></p>
-                                        <input class="@error('address_1') is-invalid @enderror checkout__input__add" type="text" name="address_1" placeholder="Address line 1">
+                                        <input class="@error('address_1') is-invalid @enderror checkout__input__add" type="text" name="address_1" value="{{ (auth()->user()->detail)?ucfirst(auth()->user()->detail->address_1): '' }}">
                                         @error('address_1')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -145,7 +150,7 @@
 
                                         <br>
 
-                                        <input class="@error('address_2') is-invalid @enderror" type="text" name="address_2" type="text" placeholder="Address line 2">
+                                        <input class="@error('address_2') is-invalid @enderror" type="text" name="address_2" type="text" value="{{ (auth()->user()->detail)?ucfirst(auth()->user()->detail->address_2): '' }}">
                                         @error('address_2')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -154,7 +159,7 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div>--}}
 
                             <!-- End .collapse -->
 

@@ -25,7 +25,7 @@
 <nav class="humberger__menu__nav mobile-menu">
     <ul>
         <li class="active"><a href="{{ route('home') }}">Home</a></li>
-        <li><a href="{{ route('merchant.shop') }}">Shops</a></li>
+        <li><a href="{{ route('merchant.shop') }}">Stores</a></li>
         <li><a href="{{ route('contact') }}">Contact</a></li>
         <li><a href="{{ route('offer') }}">Announcements!</a></li>
     </ul>

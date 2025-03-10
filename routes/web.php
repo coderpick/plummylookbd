@@ -93,7 +93,8 @@ Route::middleware(['auth','verified'])->group(function (){
     Route::get('add-favourite/{product_id}','FavouriteController@store')->name('add.favourite');
 
     //Front user routes
-    Route::get('my-account', 'CustomerController@index')->name('account');
+    Route::get('my-dashboard', 'CustomerController@index')->name('account');
+    Route::get('profile-info', 'CustomerController@show')->name('customer.show');
     Route::put('account/{slug}','CustomerController@update')->name('user.info.update');
     Route::get('checkout','CheckoutController@index')->name('checkout');
     Route::post('order/place','CustomerController@store')->name('order.place');
@@ -150,8 +151,8 @@ Route::get('faq','SinglePageController@faq')->name('faq');
 //Route::get('merchant-register','Vendor\VendorController@create')->name('vendor.create');
 Route::post('vendor-store','Vendor\VendorController@store')->name('vendor.store');
 
-Route::get('/shop/{slug}', 'Vendor\VendorController@shop_product')->name('merchant.product');
-Route::get('/shops', 'Vendor\VendorController@vendors_shop')->name('merchant.shop');
+Route::get('/store/{slug}', 'Vendor\VendorController@shop_product')->name('merchant.product');
+Route::get('/stores', 'Vendor\VendorController@vendors_shop')->name('merchant.shop');
 
 //Route::get('categories', 'CategoryController@categories')->name('front.category');
 

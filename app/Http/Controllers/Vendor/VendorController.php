@@ -305,7 +305,7 @@ class VendorController extends Controller
 
     public function vendors_shop()
     {
-        $data['title']= 'Shops';
+        $data['title']= 'Stores';
         $data['shops']= Shop::latest()->paginate(24);
 
         return view('front.shops',$data);

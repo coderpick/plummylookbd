@@ -32,18 +32,13 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //check user is admin or not
         if (Auth::user()->type !== 'user'){
             return redirect()->route('user.info');
         }
 
-        $data['title'] = 'My Account';
-        $data['districts'] = District::orderBy('name','ASC')->get();
+        $data['title'] = 'My Dashboard';
         $id = Auth::user()->id;
-        $data['order_count'] = Order::where('user_id', $id)->count();
-        $data['dispute_count'] = Dispute::withTrashed()->where('user_id', $id)->count();
-        $data['ticket_count'] = Ticket::withTrashed()->where('user_id', $id)->count();
-        $data['review_count'] = Review::withTrashed()->where('user_id', $id)->count();
+        $data['user'] = User::with('detail','detail.district')->findOrFail($id);
         $data['balance'] = Point::where('user_id', $id)->first();
         return view('front.customer.index', $data);
     }
@@ -66,23 +61,20 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        /*if (Auth::user()->type !== 'user'){
+        if (Auth::user()->type !== 'user'){
             session()->flash('error', 'Unauthorized Request');
             return redirect()->back();
-        }*/
-
-        if (Auth::user()->detail == null){
-            session()->flash('warning', 'Address Not Found, Complete Profile First');
-            return redirect()->route('account');
         }
+
+        /*if (Auth::user()->detail == null){
+            session()->flash('warning', 'Address Not Found, Complete Profile First');
+            return redirect()->route('customer.show');
+        }*/
 
         //Transaction start
         DB::beginTransaction();
         try {
-
            $customer = Auth::user();
-
-
             //order store
             $order['order_number'] = '#'.$customer->id.time();
             $order['user_id'] = $customer->id;
@@ -96,11 +88,14 @@ class CustomerController extends Controller
                 $order['address'] = $request->address_1.', '.$request->address_2;
                 $order['district_id'] = $request->district;
                 $order['zip'] = $request->zip;
-            }
-            else{
-                $order['address'] = $customer->detail->address_1.', '. $customer->detail->address_2;
-                $order['district_id'] = $customer->detail->district->id;
-                $order['zip'] = $customer->detail->zip;
+
+                /*user detail update*/
+                $detail['address_1'] = $request->address_1;
+                $detail['address_2'] = $request->address_2;
+                $detail['district_id'] = $request->district;
+                $detail['zip'] = $request->zip;
+                $detail['account_status'] = 'active';
+                UserDetail::where('user_id', $customer->id)->update($detail);
             }
 
             $order_id = Order::insertGetId($order);
@@ -253,9 +248,17 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        if (Auth::user()->type !== 'user'){
+            return redirect()->route('user.info');
+        }
+        $id = Auth::user()->id;
+        $data['title'] = 'Profile Information';
+        $data['districts'] = District::orderBy('name','ASC')->get();
+        $data['balance'] = Point::where('user_id', $id)->first();
+        $data['user'] = User::findOrFail($id);
+        return view('front.customer.edit', $data);
     }
 
     /**
