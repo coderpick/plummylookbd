@@ -39,10 +39,10 @@
                                     <th>Shop Name</th>
                                     <td>{{ ucfirst(Auth::user()->shop->name) }}</td>
                                 </tr>
-                                <tr>
+                                {{--<tr>
                                     <th>Commission</th>
                                     <td>{{ ucfirst(Auth::user()->shop->commission) }} %</td>
-                                </tr>
+                                </tr>--}}
                                 <tr>
                                     <th>NID</th>
                                     <td>{{ ucfirst(Auth::user()->nid) }}</td>

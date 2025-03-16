@@ -93,7 +93,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        Gate::authorize('users.edit');
+        //Gate::authorize('users.edit');
         $data['roles'] =  Role::get();
         $data['title']= 'Edit User';
         $user = User::where('id', $id)->first();

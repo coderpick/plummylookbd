@@ -77,11 +77,8 @@
 
                             <div class="form-group row">
                                 <label for="free_shipping" class="col-md-4 col-form-label text-md-right">{{ __('Free Shipping on Purchase (TK)') }}</label>
-
                                 <div class="col-md-6">
-
                                     <input id="free_shipping" type="number" class="form-control @error('free_shipping') is-invalid @enderror" name="free_shipping" value="@if (isset($shipping->free_shipping)){{$shipping->free_shipping}}@endif" required autocomplete="free_shipping">
-
                                     @error('free_shipping')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -89,6 +86,18 @@
                                     @enderror
                                 </div>
                             </div>
+
+                        <div class="form-group row">
+                            <label for="message" class="col-md-4 col-form-label text-md-right">{{ __('Shipping Message') }}</label>
+                            <div class="col-md-6">
+                                <input id="message" type="text" class="form-control @error('message') is-invalid @enderror" name="message" value="@if (isset($shipping->message)){{$shipping->message}}@endif">
+                                @error('message')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
 
 
 

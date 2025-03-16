@@ -66,7 +66,7 @@ class VendorController extends Controller
             'password' => 'required|min:6|confirmed'
         ]);
 
-        $data = $request->except('_token', 'password','password_confirmation','shop');
+        $data = $request->except('_token', 'password','password_confirmation','shop','sequence');
         $data['password'] = bcrypt($request->password);
         $slug = Str::slug($request->name, '-').'-'.rand(000,999);
         $data['slug'] = $slug;
@@ -74,7 +74,7 @@ class VendorController extends Controller
         $data['status'] = 1;
         $data['nid'] = $request->nid;
         $data['created_at'] = Carbon::now();
-        $data['deleted_at'] = Carbon::now();
+        //$data['deleted_at'] = Carbon::now();
         $data['email_verified_at'] = Carbon::now();
 
         if ($request->hasFile('image')) {
@@ -163,7 +163,7 @@ class VendorController extends Controller
         $user = User::onlyTrashed()->findOrFail($id);
         $user->forceDelete();
         session()->flash('success','Vendor deleted Successfully');
-        return redirect()->route('vendor.pending');
+        return redirect()->route('vendor.blocked');
     }
 
 

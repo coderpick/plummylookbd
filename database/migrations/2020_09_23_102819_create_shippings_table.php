@@ -19,6 +19,7 @@ class CreateShippingsTable extends Migration
             $table->integer('shipping');
             $table->integer('shipping2');
             $table->integer('free_shipping');
+            $table->string('message');
             $table->softDeletes();
             $table->timestamps();
         });

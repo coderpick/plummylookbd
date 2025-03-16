@@ -191,6 +191,7 @@
                             @endphp
                             <div class="checkout__order">
                                 <h4>Your Order</h4>
+                                <strong style="color: green">{{ $setting->message??'' }}</strong>
                                 <div class="checkout__order__products">Products <span>Total</span></div>
                                 <ul>
                                     @if($cart != null)

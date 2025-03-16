@@ -21,11 +21,11 @@ class Shop extends Model
 
     public function product()
     {
-        return $this->hasMany(Product::class,'shop_id')->orderBy('id','DESC');
+        return $this->hasMany(Product::class,'shop_id')->where('status', 'active')->orderBy('id','DESC');
     }
 
     public function home_product()
     {
-        return $this->hasMany(Product::class,'shop_id')->orderBy('id','DESC')->limit(4);
+        return $this->hasMany(Product::class,'shop_id')->where('status', 'active')->orderBy('id','DESC')->limit(4);
     }
 }
