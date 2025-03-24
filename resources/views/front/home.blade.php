@@ -224,7 +224,8 @@
                         </div>
                         <div class='Featured-cards'>
                             <div class="row g-4 mt--0 custom-row">
-                                @foreach($cat_product->home_product as $index=>$product)
+                                @foreach($cat_product->product as $index=>$product)
+                                    @if($index <=3)
                                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6 custom-col">
                                             <div class="Featured-height">
                                                 <div class="single-shopping-card-one deals-of-day">
@@ -289,8 +290,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    @endif
                                 @endforeach
-
                             </div>
                         </div>
                     </div>

@@ -27,7 +27,7 @@ class HomeController extends Controller
             ->with(['product.reviews','product.flash','product.product_image:product_id,file_path','product:id,category_id,name,slug,price,new_price,stock'])
           ->where('home_view', 1)->orderBy('name','ASC')->get() ;*/
 
-        $data['category_product'] = Shop::with('home_product','home_product.product_image:product_id,file_path')->orderBy('sequence','ASC')->get();
+        $data['category_product'] = Shop::with('product','product.product_image:product_id,file_path')->orderBy('sequence','ASC')->get();
 
         /*$products = Product::latest()->where('status', 'active')->get();
         $data['products'] = $products->groupBy('category_id');*/
