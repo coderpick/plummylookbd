@@ -53,19 +53,13 @@
             <div class="container">
                 <div class="row featured__filter">
                     @foreach($categories as $category)
-                        <div class="nil">
-                            <div class="featured__item tin-card">
-
-                                <a href="{{ route('product.category',$category->slug) }}">
-                                    <div class="featured__item__pic">
-                                        <img style="max-width: 165px; max-height: 200px" class=" " src="{{ asset($category->icon) }}" alt="category">
-                                    </div>
-                                    <div class="featured__item__text">
-                                        <h6>{{ ucfirst($category->name) }}</h6>
-                                    </div>
-                                </a>
-
-                            </div>
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                            <a href="{{ route('product.category',$category->slug) }}">
+                                <div class="tin-card cat-card">
+                                    <img style="max-height: 60px" class=" " alt="" src="{{ asset($category->icon) }}"/>
+                                    <h3 class="cat-title">{{ ucfirst($category->name) }}</h3>
+                                </div>
+                            </a>
                         </div>
                     @endforeach
                 </div>

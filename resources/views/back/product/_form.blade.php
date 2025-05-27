@@ -21,7 +21,7 @@
     @enderror
 </div>
 
-{{--<div class="col-md-4">
+<div class="col-md-4">
     @php
         if(old("category_id")){
             $category_id = old('category_id');
@@ -43,9 +43,9 @@
     @error('category_id')
     <div class="pl-1 text-danger">{{ $message }}</div>
     @enderror
-</div>--}}
+</div>
 
-{{--<div class="col-md-3">
+<div class="col-md-3">
 
     <div class="form-group">
         <label for="sub_category_id">Sub-Category</label>
@@ -85,7 +85,7 @@
     @error('brand_id')
     <div class="pl-1 text-danger">{{ $message }}</div>
     @enderror
-</div>--}}
+</div>
 
 <div class="col-md-2"></div>
 

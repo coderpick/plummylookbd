@@ -8,10 +8,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Heebo:wght@400;600&display=swap");
 
 :root {
-    --color-primary: #1a2c79;
-    --color-primary-dark: #021442;
+    --color-primary: #6325c5;
+    --color-primary-dark: #5b03e4;
     --color-primary-bg: #f3f6fa;
-    --color-secondary: #34a853;
+    --color-secondary: #8D72CC;
 }
 
 html,
@@ -2698,7 +2698,7 @@ ol {
 @media only screen and (max-width: 767px) {
     .header {
         background: var(--color-primary-bg) !important;
-        padding: 20px 0px;
+        padding: 5px 0px;
     }
     .logo-section {
         height: auto !important;
@@ -2778,11 +2778,11 @@ ol {
         width: 35px;
         line-height: 33px;
         text-align: center;
-        border: 1px solid #1c1c1c;
+        /*border: 1px solid #1c1c1c;*/
         cursor: pointer;
         position: absolute;
         right: 15px;
-        top: 22px;
+        top: 15px;
     }
     .header .container {
         position: relative;
@@ -2960,9 +2960,9 @@ ol {
 
 /* Small Device = 320px */
 @media only screen and (max-width: 575px) {
-    .humberger__open {
+    /*.humberger__open {
         top: 0;
-    }
+    }*/
     .header__logo img {
         margin-bottom: 11px;
     }
@@ -3998,25 +3998,34 @@ td.action-custom a {
     color: var(--color-primary);
     background-color: #f3f4f6;
     cursor: pointer;
-    padding: 6px;
+    padding: 5px;
     top: calc(100px + 30%);
-    box-shadow: 0 0 4px 1px #adadad;
+    box-shadow: 0 0 2px 1px #adadad;
     transition: 0.1s ease-in-out;
 }
 
 /*--- responsive css for cart icon ---*/
 @media only screen and (max-width: 767px) {
-    #cartBtn {
-        display: none;
+    .header__top{
+        display: none !important;
     }
     #stickynav {
-        padding: 20px 0px;
+        padding: 5px 0px;
+        padding-top: 10px;
+    }
+
+    .mv-none{
+        display: none !important;
     }
 }
 
 @media screen and (min-width: 767px) {
     #m_cart {
         display: none;
+    }
+
+    .dv-none{
+        display: none !important;
     }
 }
 /*--- responsive css for cart icon ---*/
@@ -4508,6 +4517,7 @@ td.action-custom a {
     text-align: left;
     font-weight: 700;
 }
+
 .single-shopping-card-one .thumbnail-preview img {
     width: 100%;
     transition: 0.3s;

@@ -3,13 +3,11 @@
 
 <head>
     @include('layouts.frontend._head')
-
 </head>
 <body>
 
 <a id="cartBtn" href="{{ route('cart') }}" class="text-center">
-    <img src="{{ asset('frontend/img/cart_img.png') }}" style="max-width: 30px;" alt="cart">
-    <br>
+    <i class="fa fa-shopping-cart" style="font-size: 20px;"></i> <br>
     <span style="font-size: 12px;">
         <span class="cart-count">
         <span class="count">{{ session('cart')!= null ?count(session('cart')):0 }}</span>

@@ -31,8 +31,24 @@
                                         <div class="image-and-action-area-wrapper">
                                             <a href="{{ route('product.details', $product->slug) }}" class="thumbnail-preview">
                                                 <div class="badge">
-                                                    <span>Sale <br></span>
-                                                    <i class="fa fa-bookmark"></i>
+                                                    @php
+                                                        if(isset($product->flash->flash_price)){
+                                                        $d_price = $product->flash->flash_price;
+                                                        }
+                                                        else{
+                                                        $d_price = $product->new_price;
+                                                        }
+                                                        $per = $product->price/100 ;
+                                                        $amount = $product->price - $d_price ;
+                                                        $percentage =$amount / $per ;
+                                                    @endphp
+
+                                                    @if(isset($product->flash->flash_price) || isset($product->new_price))
+                                                        <span>{{ round($percentage) }}% <br>
+                                                                        Off
+                                                                    </span>
+                                                        <i class="fa fa-bookmark"></i>
+                                                    @endif
                                                 </div>
                                                 <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="grocery">
                                             </a>
@@ -54,7 +70,7 @@
                                                         <span class="current">৳{{ $product->price }}</span>
                                                     @endif
                                                 </div>
-                                                <div class="pull-right">P- {{ $product->point??0 }}</div>
+                                                <div class="pull-right"><small>{{ ($product->stock)==0?'Stock Out': 'In Stock'}}</small></div>
                                             </div>
                                             <div class="cart-counter-action">
                                                 <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>

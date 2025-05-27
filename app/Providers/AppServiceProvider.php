@@ -36,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('brands',Brand::orderBy('name','ASC')->get());
             $view->with('contact',Contact::latest()->first());
             $view->with('link',Link::latest()->first());
+            $view->with('categories',Category::orderBy('name','ASC')->get());
         });
 
         view()->composer('layouts/frontend/_head', function ($view){

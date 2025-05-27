@@ -26,8 +26,41 @@
     </section>
     <!-- Hero Section End -->
 
+    <section id="">
+        <div class="container mobile-none rts-section-gapBottom">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        @forelse($categories as $index=>$category)
+                            @if ($index <= 10)
+                                <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                                    <a href="{{ route('product.category',$category->slug) }}">
+                                        <div class="tin-card cat-card">
+                                            <img style="max-height: 60px" class=" " alt="" src="{{ asset($category->icon) }}"/>
+                                            <h3 class="cat-title">{{ ucfirst($category->name) }}</h3>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endif
+                        @empty
+                        @endforelse
 
-    {{--@if(isset($flash_sale) && count($flash_sale) > 0)
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                            <a href="{{ route('front.category') }}">
+                                <div class="tin-card cat-card">
+                                    <img style="max-height: 60px" class=" " alt="" src="{{ asset('uploads/more3.png') }}"/>
+                                    <h3 class="cat-title">More Categories</h3>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    @if(isset($flash_sale) && count($flash_sale) > 0)
         <div class="popular-product-col-7-area rts-section-gapBottom">
             <div class="container">
                 <div class="cover-card-main-over-white">
@@ -46,7 +79,7 @@
                     <div class='Featured-cards'>
                         <div class="row g-4 mt--0 custom-row">
                             @forelse($flash_sale as $product)
-                                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 custom-col">
+                                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6 custom-col">
                                     <div class="Featured-height">
                                         <div class="single-shopping-card-one deals-of-day">
                                             <div class="image-and-action-area-wrapper">
@@ -65,38 +98,37 @@
                                                         @endphp
 
                                                         @if(isset($product->flash->flash_price) || isset($product->new_price))
-
                                                             <span>{{ round($percentage) }}% <br>
-                                                Off
-                                            </span>
+                                                                Off
+                                                            </span>
                                                             <i class="fa fa-bookmark"></i>
                                                         @endif
-
                                                     </div>
                                                     <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="grocery">
                                                 </a>
                                             </div>
                                             <div class="body-content">
-
                                                 <a href="{{ route('product.details', $product->slug) }}">
                                                     <h4 class="title">{{ ucfirst($product->name) }}</h4>
                                                 </a>
                                                 <div class="price-area">
-                                                    @if (isset($product->flash) && $product->flash->flash_price != null)
-                                                        <span class="current">৳{{ $product->flash->flash_price }}</span>
-                                                        <div class="previous">৳{{ $product->price }}</div>
-                                                    @elseif (isset($product->new_price))
-                                                        <span class="current">৳{{ $product->new_price }}</span>
-                                                        <div class="previous">৳{{ $product->price }}</div>
-                                                    @else
-                                                        <span class="current">৳{{ $product->price }}</span>
-                                                    @endif
+                                                    <div style="display: ruby">
+                                                        @if (isset($product->flash) && $product->flash->flash_price != null)
+                                                            <span class="current">৳{{ $product->flash->flash_price }}</span>
+                                                            <div class="previous">৳{{ $product->price }}</div>
+                                                        @elseif (isset($product->new_price))
+                                                            <span class="current">৳{{ $product->new_price }}</span>
+                                                            <div class="previous">৳{{ $product->price }}</div>
+                                                        @else
+                                                            <span class="current">৳{{ $product->price }}</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="pull-right"><small>{{ ($product->stock)==0?'Stock Out': 'In Stock'}}</small></div>
                                                 </div>
                                                 <div class="cart-counter-action">
                                                     <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
                                                         <div class="btn-text">
                                                             {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}
-
                                                         </div>
                                                         <div class="arrow-icon">
                                                             <i class="fa fa-shopping-cart"></i>
@@ -135,7 +167,7 @@
                 <div class='Featured-cards'>
                     <div class="row g-4 mt--0 custom-row">
                         @forelse($featured_product as $product)
-                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 custom-col">
+                            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6 custom-col">
                                 <div class="Featured-height">
                                     <div class="single-shopping-card-one deals-of-day">
                                         <div class="image-and-action-area-wrapper">
@@ -154,13 +186,11 @@
                                                     @endphp
 
                                                     @if(isset($product->flash->flash_price) || isset($product->new_price))
-
                                                         <span>{{ round($percentage) }}% <br>
-                                                Off
-                                            </span>
+                                                            Off
+                                                        </span>
                                                         <i class="fa fa-bookmark"></i>
                                                     @endif
-
                                                 </div>
                                                 <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="grocery">
                                             </a>
@@ -171,21 +201,23 @@
                                                 <h4 class="title">{{ ucfirst($product->name) }}</h4>
                                             </a>
                                             <div class="price-area">
-                                                @if (isset($product->flash) && $product->flash->flash_price != null)
-                                                    <span class="current">৳{{ $product->flash->flash_price }}</span>
-                                                    <div class="previous">৳{{ $product->price }}</div>
-                                                @elseif (isset($product->new_price))
-                                                    <span class="current">৳{{ $product->new_price }}</span>
-                                                    <div class="previous">৳{{ $product->price }}</div>
-                                                @else
-                                                    <span class="current">৳{{ $product->price }}</span>
-                                                @endif
+                                                <div style="display: ruby">
+                                                    @if (isset($product->flash) && $product->flash->flash_price != null)
+                                                        <span class="current">৳{{ $product->flash->flash_price }}</span>
+                                                        <div class="previous">৳{{ $product->price }}</div>
+                                                    @elseif (isset($product->new_price))
+                                                        <span class="current">৳{{ $product->new_price }}</span>
+                                                        <div class="previous">৳{{ $product->price }}</div>
+                                                    @else
+                                                        <span class="current">৳{{ $product->price }}</span>
+                                                    @endif
+                                                </div>
+                                                <div class="pull-right"><small>{{ ($product->stock)==0?'Stock Out': 'In Stock'}}</small></div>
                                             </div>
                                             <div class="cart-counter-action">
                                                 <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
                                                     <div class="btn-text">
                                                         {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}
-
                                                     </div>
                                                     <div class="arrow-icon">
                                                         <i class="fa fa-shopping-cart"></i>
@@ -203,10 +235,10 @@
                 </div>
             </div>
         </div>
-    </div>--}}
+    </div>
 
     @foreach($category_product as $cat_product)
-        @if (isset($cat_product->home_product) && count($cat_product->home_product) > 0)
+        @if (isset($cat_product->product) && count($cat_product->product) > 0)
             <div class="popular-product-col-7-area rts-section-gapBottom">
                 <div class="container">
                     <div class="cover-card-main-over-white">
@@ -217,12 +249,17 @@
                                         {{ ucfirst($cat_product->name) }}
                                     </h2>
                                     <div>
-                                        <button class="view-button"><a href="{{ route('merchant.product',$cat_product->slug ) }}">View all</a></button>
+                                        <button class="view-button"><a href="{{ route('product.category',$cat_product->slug ) }}">View all</a></button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class='Featured-cards'>
+                            @if($cat_product->banner !== null)
+                                <a href="{{ route('product.category',$cat_product->slug) }}">
+                                    <img src="{{ asset($cat_product->banner) }}" class="img-fluid" alt="{{ $cat_product->name }}" loading="lazy">
+                                </a>
+                            @endif
                             <div class="row g-4 mt--0 custom-row">
                                 @foreach($cat_product->product as $index=>$product)
                                     @if($index <=3)
@@ -245,19 +282,16 @@
                                                                 @endphp
 
                                                                 @if(isset($product->flash->flash_price) || isset($product->new_price))
-
                                                                     <span>{{ round($percentage) }}% <br>
-                                                Off
-                                            </span>
+                                                                        Off
+                                                                    </span>
                                                                     <i class="fa fa-bookmark"></i>
                                                                 @endif
-
                                                             </div>
                                                             <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="grocery">
                                                         </a>
                                                     </div>
                                                     <div class="body-content">
-
                                                         <a href="{{ route('product.details', $product->slug) }}">
                                                             <h4 class="title">{{ ucfirst($product->name) }}</h4>
                                                         </a>
@@ -273,13 +307,12 @@
                                                                     <span class="current">৳{{ $product->price }}</span>
                                                                 @endif
                                                             </div>
-                                                            <div class="pull-right">P- {{ $product->point??0 }}</div>
+                                                            <div class="pull-right"><small>{{ ($product->stock)==0?'Stock Out': 'In Stock'}}</small></div>
                                                         </div>
                                                         <div class="cart-counter-action">
                                                             <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
                                                                 <div class="btn-text">
                                                                     {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}
-
                                                                 </div>
                                                                 <div class="arrow-icon">
                                                                     <i class="fa fa-shopping-cart"></i>

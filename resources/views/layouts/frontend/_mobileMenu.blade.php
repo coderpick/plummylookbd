@@ -5,7 +5,7 @@
 <div class="humberger__menu__widget">
     <div class="header__top__right__language">
         @if(Auth::user())
-            <a href="{{ route('account') }}"><i class="icofont-boy"></i> {{ ucfirst(auth()->user()->name) }}</a>
+            <a style="color: var(--color-primary-dark) !important;" href="{{ route('account') }}"><i class="icofont-boy"></i> {{ ucfirst(auth()->user()->name) }}</a>
         @endif
     </div>
     @if(Auth::user())
@@ -25,7 +25,20 @@
 <nav class="humberger__menu__nav mobile-menu">
     <ul>
         <li class="active"><a href="{{ route('home') }}">Home</a></li>
-        <li><a href="{{ route('merchant.shop') }}">Stores</a></li>
+        <li><a href="#">Brands</a>
+            <ul class="header__menu__dropdown">
+                @foreach($brands as $brand)
+                    <li><a href="{{ route('product.brand',$brand->slug) }}">{{ ucfirst($brand->name) }}</a></li>
+                @endforeach
+            </ul>
+        </li>
+        <li><a href="#">Categories</a>
+            <ul class="header__menu__dropdown">
+                @foreach($categories as $category)
+                    <li><a href="{{ route('product.category',$category->slug) }}">{{ ucfirst($category->name) }}</a></li>
+                @endforeach
+            </ul>
+        </li>
         <li><a href="{{ route('contact') }}">Contact</a></li>
         <li><a href="{{ route('offer') }}">Announcements!</a></li>
     </ul>

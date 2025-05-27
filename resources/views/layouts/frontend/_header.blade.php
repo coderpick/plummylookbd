@@ -56,16 +56,21 @@
 <div class="logo-section d-flex align-content-center flex-wrap" id="stickynav">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-2 col-sm-12">
-                <div class="header__logo">
-                    <a href="https://emwbl.com/" target="_blank">
-                        <img id="header__logo" src="{{ asset((isset($link) && $link->logo != null)? $link->logo : 'uploads/default_logo.png') }}" alt="Logo">
-                        {{--<span>First Opportunity For All</span>--}}
+            <div class="mr-4 col-lg-3 col-md-2 col-3 dv-none">
+                <div class="p-3" style="cursor: pointer; padding-right: 0;">
+                    <a style="color: #1c1c1c; font-size: 22px" href="#" data-toggle="modal" data-target="#searchModal">
+                        <i class="fa fa-search"></i>
                     </a>
-
                 </div>
             </div>
-            <div class="{{ Request::is('register') || Request::is('login')?'nav_hide':'' }} col-lg-7 col-xs-9 col-9">
+            <div class="col-lg-3 col-md-2 col-6">
+                <div class="header__logo">
+                    <a href="{{ route('home') }}">
+                        <img id="header__logo" src="{{ asset((isset($link) && $link->logo != null)? $link->logo : 'uploads/default_logo.png') }}" alt="Logo">
+                    </a>
+                </div>
+            </div>
+            <div class="{{ Request::is('register') || Request::is('login')?'nav_hide':'' }} mv-none col-lg-7 col-xs-9 col-6">
                 <div class="hero__search__form">
                     <form action="{{ route('product.find') }}" method="get" autocomplete="off">
                         <input required type="text" id="search" name="product" value="{{ request()->input('product') }}" style="color: black" placeholder="Search">
@@ -73,10 +78,10 @@
                     </form>
                 </div>
             </div>
-            <div class="{{ Request::is('register') || Request::is('login')?'nav_hide':'' }} col-lg-2 col-xs-3 col-3" id="favncart">
-                <div class="header__cart">
+            <div class="{{ Request::is('register') || Request::is('login')?'nav_hide':'' }} mv-none col-lg-2 col-xs-3 col-3" id="favncart">
+                <div class="header__cart ">
                     <ul>
-                        <li id="m_cart"><a href="{{ route('cart') }}" class="text-secondary"> <i class="fa fa-shopping-cart cart-count"> <span class="count">{{ session('cart')!= null ?count(session('cart')):0 }}</span></i></a> <sub>Cart</sub> </li>
+                        <li><a href="{{ route('favourite') }}" class="text-secondary"> <i class="fa fa-heart"></i> <span>{{ (isset($favourite))? $favourite : 0 }}</span></a> <sub>Favourite</sub> </li>
                     </ul>
                 </div>
             </div>
@@ -92,12 +97,47 @@
             <nav class="header__menu">
                 <ul>
                     <li class="{{ Request::is('/')?'active':'' }}"><a href="{{ route('home') }}">Home</a></li>
-                    <li class="{{ Request::is('stores')?'active':'' }}"><a href="{{ route('merchant.shop') }}">Stores</a></li>
                     <li class="{{ Request::is('sale*')?'active':'' }}"><a href="{{ route('product.sale') }}">On Sale</a></li>
+                    <li class="{{ Request::is('products/*')?'active':'' }}"><a href="{{ route('front.category') }}">Categories <i class="fa fa-angle-down"></i></a>
+                        <ul class="header__menu__dropdown">
+                            @foreach($categories as $category)
+                                <li><a style="text-transform: capitalize" href="{{ route('product.category',$category->slug) }}">{{ ucfirst($category->name) }}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    <li class="{{ Request::is('brands*')?'active':'' }}"><a href="{{ route('product.brand') }}">Brands <i class="fa fa-angle-down"></i></a>
+                        <ul class="header__menu__dropdown">
+                            @foreach($brands as $brand)
+                                <li><a style="text-transform: capitalize" href="{{ route('product.brand',$brand->slug) }}">{{ $brand->name }}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
                     <li class="{{ Request::is('contact-us')?'active':'' }}"><a href="{{ route('contact') }}">Contact Us</a></li>
                     <li class="{{ Request::is('announcements')?'active':'' }}"><a href="{{ route('offer') }}">Announcements !</a></li>
                 </ul>
             </nav>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="searchModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="hero__search__form">
+                    <form action="{{ route('product.find') }}" method="get" autocomplete="off">
+                        <input required type="text" id="search" name="product" value="" style="color: black" placeholder="Search here">
+                        <button type="submit" class="site-btn">SEARCH</button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                &nbsp;
+            </div>
+
         </div>
     </div>
 </div>

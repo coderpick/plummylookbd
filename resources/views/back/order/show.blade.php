@@ -82,9 +82,9 @@
                                             <th>Price</th>
                                             <th>Quantity</th>
                                             <th>Total</th>
-                                            <th>Seller</th>
+                                            {{--<th>Seller</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            <th>Action</th>--}}
                                         </tr>
                                         @foreach($order->order_detail as $index=>$item)
                                             @if (auth()->user()->type == 'vendor')
@@ -95,7 +95,7 @@
                                                         <td>{{ $item->price }}</td>
                                                         <td>{{ $item->quantity }}</td>
                                                         <td class="text-right">{{ $item->total }}</td>
-                                                        <td>{{ ($item->shop)?ucfirst($item->shop->name):config('app.name') }}</td>
+                                                        {{--<td>{{ ($item->shop)?ucfirst($item->shop->name):config('app.name') }}</td>
                                                         <td>
                                                             @if ($item->status == 'Warehouse')
                                                                 Way to Warehouse
@@ -131,7 +131,7 @@
                                                                 </div>
                                                             @endif
                                                             @endif
-                                                        </td>
+                                                        </td>--}}
                                                     </tr>
                                                 @endif
                                             @else
@@ -141,7 +141,7 @@
                                                 <td>{{ $item->price }}</td>
                                                 <td>{{ $item->quantity }}</td>
                                                 <td class="text-right">{{ $item->total }}</td>
-                                                <td>{{ ($item->shop)?ucfirst($item->shop->name):config('app.name') }}</td>
+                                                {{--<td>{{ ($item->shop)?ucfirst($item->shop->name):config('app.name') }}</td>
                                                 <td>
                                                     @if ($item->status == 'Warehouse')
                                                         Way to Warehouse
@@ -174,7 +174,7 @@
                                                                 </ul>
                                                             </div>
                                                     @endif
-                                                </td>
+                                                </td>--}}
                                             </tr>
                                             @endif
                                             @php

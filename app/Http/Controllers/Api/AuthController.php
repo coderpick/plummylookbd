@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\UserDetail;
+use App\User;
+use App\UserDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends BaseController
 {
@@ -35,6 +37,7 @@ class AuthController extends BaseController
         $user = Auth::user();
 
         if($user->type == 'admin'){
+            Auth::logout();
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -47,27 +50,29 @@ class AuthController extends BaseController
             ]
         ]);
 
-
         $token = auth()->attempt($credentials);
         if($token === false){
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         return $this->respondWithToken($token);
-
     }
 
     public function register(Request $request)
     {
-        $this->validate($request,[
+        $validator = Validator::make($request->all(), [
             'name' =>'required',
-            'email' =>'required|email|unique:users',
-            'phone' =>'required|unique:users,mobile',
+            'email' =>'required|email',
+            'phone' =>'required',
             'password' =>'required|min:6',
         ]);
 
-        $exist = User::where('type','user')->where('mobile',$request->phone)->first();
+        if ($validator->fails()) {
+            return  $this->sendError('Error','Something went wrong');
+        }
+
+        $exist = User::where('type','user')->where('email',$request->email)->first();
         if ($exist){
-            return  $this->sendError('Error','Already registered with this number');
+            return  $this->sendError('Error','Already registered with this email');
         }
 
         $new_user = new user();
@@ -77,7 +82,8 @@ class AuthController extends BaseController
         $new_user->slug = $slug;
         $new_user->type = 'user';
         $new_user->status  = true;
-        $new_user->mobile = $request->phone;
+        $new_user->email_verified_at = Carbon::now();
+        $new_user->phone = $request->phone;
         $new_user->password = Hash::make($request->password);
         $new_user->save();
 
@@ -119,15 +125,12 @@ class AuthController extends BaseController
         $user = User::where('id', auth('api')->user()->id)->first();
         $this->validate($request,[
             'name' =>'required',
-            'fathers_name' =>'required',
-            'mothers_name' =>'required',
-            'gender' =>'required',
-            'date_of_birth' =>'required',
-            'religion' =>'required',
-            'district' =>'required',
-            'address' =>'required',
-            'class' =>'required',
-            'institute' =>'required',
+            'email' =>'required|email',
+            'phone' =>'required',
+            'district_id' =>'required',
+            'address_1' =>'required',
+            'address_2' =>'nullable',
+            'zip' =>'required',
             'password' =>'nullable|min:6',
             'image' => 'nullable|mimes:jpg,jpeg,png|max:1024',
         ]);
@@ -135,7 +138,7 @@ class AuthController extends BaseController
         $slug = str_slug($request->name);
         $user->name = $request->name;
         $user->slug = $slug;
-        $user->mobile = $request->phone;
+        $user->phone = $request->phone;
         if ($request->password){
             $user->password = Hash::make($request->password);
         }
@@ -151,15 +154,11 @@ class AuthController extends BaseController
         $user->save();
 
         $data['user_id'] = $user->id;
-        $data['fathers_name'] = $request->fathers_name;
-        $data['mothers_name'] = $request->mothers_name;
-        $data['gender'] = $request->gender;
-        $data['date_of_birth'] = $request->date_of_birth;
-        $data['religion'] = $request->religion;
-        $data['district'] = $request->district;
-        $data['address'] = $request->address;
-        $data['class'] = $request->class;
-        $data['institute'] = $request->institute;
+        $data['district_id'] = $request->district_id;
+        $data['address_1'] = $request->address_1;
+        $data['address_2'] = $request->address_2;
+        $data['zip'] = $request->zip;
+        $data['account_status'] = 'active';
 
         $user_detail = UserDetail::where('user_id',$user->id)->first();
         if ($user_detail){

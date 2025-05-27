@@ -19,15 +19,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        /*$data['title'] = 'Home';*/
-
-
-        /*$data['category_product'] = Category::
+        $data['category_product'] = Category::
             select('id','name','slug','icon','banner','home_view')
             ->with(['product.reviews','product.flash','product.product_image:product_id,file_path','product:id,category_id,name,slug,price,new_price,stock'])
-          ->where('home_view', 1)->orderBy('name','ASC')->get() ;*/
+          ->where('home_view', 1)->orderBy('name','ASC')->get() ;
 
-        $data['category_product'] = Shop::with('product','product.product_image:product_id,file_path')->orderBy('sequence','ASC')->get();
+        //$data['category_product'] = Shop::with('product','product.product_image:product_id,file_path')->orderBy('sequence','ASC')->get();
 
         /*$products = Product::latest()->where('status', 'active')->get();
         $data['products'] = $products->groupBy('category_id');*/
@@ -35,19 +32,20 @@ class HomeController extends Controller
         $data['featured_product'] = Product::select('id','name','slug','price','new_price','stock')
             ->with(['reviews','product_image:product_id,file_path'])
             ->where('is_featured', 1)
-            ->where('status', 'active')->inRandomOrder()->limit(12)->get();
+            ->where('status', 'active')->inRandomOrder()->limit(4)->get();
 
         $data['flash_sale'] = Product::with(['category','brand','flash'])->whereHas('flash', function($q)
         {
             $date = Carbon::today()->toDateString();
             $q->where('flash_stock', '>', 0)->orderBy('expires_at', 'ASC');
-        })->where('stock', '>', 0)->where('status', 'active')->inRandomOrder()->limit(12)->get();
+        })->where('stock', '>', 0)->where('status', 'active')->inRandomOrder()->limit(4)->get();
 
         $data['sliders'] = Slider::orderBy('id','DESC')->get() ;
 
         // data for countdown
         $now = Carbon::now();
         $data['tomorrow'] = $now->addDays(1)->toDateString();
+        $data['categories'] = Category::select('id','name','slug','icon')->orderBy('id','DESC')->get() ;
 
         return view('front.home',$data);
     }
@@ -292,7 +290,7 @@ class HomeController extends Controller
                 return redirect()->back();
             }
 
-            $product = $product->where('name','like','%'.$request->product.'%');
+            $product = $product->where('name','like','%'.$request->product.'%')->where('status','active');
             $data['count'] = $product->count();
             /*$data['title'] = $request->product;*/
         }
@@ -375,15 +373,16 @@ class HomeController extends Controller
 
     public function searchAutoComplete(Request $request)
     {
-        /*return Product::select('name')
+        return Product::select('name')
             ->where('name', 'like', "%{$request->term}%")
+            ->where('status', 'active')
             ->distinct()
-            ->pluck('name');*/
+            ->pluck('name');
 
-        return Search::select('look')
+        /*return Search::select('look')
             ->where('look', 'like', "%{$request->term}%")
             ->distinct()
             ->orderBy('look', 'ASC')
-            ->pluck('look');
+            ->pluck('look');*/
     }
 }

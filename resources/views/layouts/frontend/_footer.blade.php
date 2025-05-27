@@ -41,7 +41,7 @@
                     <p>Get E-mail updates about our latest shop and special offers.</p>
                     <form action="{{ route('subscribe.us') }}" method="post">
                         @csrf
-                        <input type="email" name="email" placeholder="Enter your mail">
+                        <input required type="email" name="email" placeholder="Enter your mail">
                         <button type="submit" class="site-btn">Subscribe</button>
                     </form>
                     <div class="footer__widget__social">

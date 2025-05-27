@@ -1,5 +1,4 @@
 $(function () {
-    console.log('document ready');
     $('.add-cart').click(function () {
         var url = $(this).attr('url');
 

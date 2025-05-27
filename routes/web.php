@@ -17,10 +17,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SslCommerzPaymentController;
 use Illuminate\Support\Facades\Route;
 
-/*Route::get('/test', function () {
-    return $data = User::GetUser();
-});*/
-
 
 /*
  =======================
@@ -35,8 +31,8 @@ Route::get('/sale', 'HomeController@sale')->name('product.sale');
 Route::get('/product/{slug}', 'HomeController@subcategory')->name('product.subcategory');
 Route::get('/brands/{slug?}', 'HomeController@brand')->name('product.brand');
 Route::get('/featured', 'HomeController@featured')->name('product.featured_sale');
-Route::get('/new-arrivals', 'HomeController@new_arrival')->name('product.new_arrival');
-Route::get('/best-selling', 'HomeController@best_selling')->name('product.best_selling');
+//Route::get('/new-arrivals', 'HomeController@new_arrival')->name('product.new_arrival');
+//Route::get('/best-selling', 'HomeController@best_selling')->name('product.best_selling');
 Route::get('/flash-sale', 'HomeController@flash')->name('product.flash_sale');
 Route::get('/announcement', 'HomeController@offer')->name('offer');
 Route::get('search','HomeController@find')->name('product.find');
@@ -61,8 +57,8 @@ Route::post('rmv-fav/{product_id}','FavouriteController@remove')->name('remove.f
 Route::post('clr-fav/{id}','FavouriteController@clear')->name('clear.fav');
 
 //facebook routes
-Route::get('login/facebook', 'Auth\LoginController@redirectToProvider')->name('fb.login');
-Route::get('login/facebook/call-back', 'Auth\LoginController@handleProviderCallback');
+/*Route::get('login/facebook', 'Auth\LoginController@redirectToProvider')->name('fb.login');
+Route::get('login/facebook/call-back', 'Auth\LoginController@handleProviderCallback');*/
 
 //user Auth routes
 Route::middleware(['auth','verified'])->group(function (){
@@ -154,7 +150,7 @@ Route::post('vendor-store','Vendor\VendorController@store')->name('vendor.store'
 Route::get('/store/{slug}', 'Vendor\VendorController@shop_product')->name('merchant.product');
 Route::get('/stores', 'Vendor\VendorController@vendors_shop')->name('merchant.shop');
 
-//Route::get('categories', 'CategoryController@categories')->name('front.category');
+Route::get('categories', 'CategoryController@categories')->name('front.category');
 
 /*
  =======================

@@ -31,16 +31,14 @@
                         @php
                             $date = \Carbon\Carbon::today()->toDateString();
                         @endphp
-                        @if(isset($product->flash->flash_price) && $product->flash->expires_at >= $date )
-                        <div class="row col-md-10 flash_sale">
-                            <div class="flash_text col-md-4 bg-custom p-2"><strong class="ml-3"><i class="icofont-thunder-light"></i> Flash Sale</strong></div>
-                            <div class="flash_time col-md-8 p-2"><span class="pull-right"><b>Ends in: </b> <span id="demo"></span></span></div>
-                        </div>
-                        <br>
-                        @endif
                         <h3 style="margin-bottom: unset">{{ ucfirst($product->name) }}</h3>
 
-                        {{--<p>Home Delivery 3 - 5 days</p>--}}
+                        @if($product->sub_category_id != null)
+                            <p style="margin-bottom: 10px"><a style="color: black" href="{{ route('product.category',$product->category->slug) }}">{{ ucfirst($product->category->name) }}</a><i class="icofont-caret-right"></i><a
+                                    style="color: black" href="{{ route('product.subcategory',$subcategory->slug) }}">{{ ucfirst($subcategory->name) }}</a></p>
+                        @else
+                            <p style="margin-bottom: 10px"><a style="color: black" href="{{ route('product.category',$product->category->slug) }}">{{ ucfirst($product->category->name) }}</a></p>
+                        @endif
 
                         @if (isset($product->flash) && $product->flash->flash_price != null)
                             <div class="product__details__price"><del class="text-black-50"> {{ $product->price }}</del>  {{ $product->flash->flash_price }} </div>
@@ -50,12 +48,6 @@
                             <div class="product__details__price"> {{ $product->price }} </div>
                         @endif
                         <ul>
-                            @if ($product->shop)
-                                <li><b>Seller</b> <a class="text-custom" href="{{ route('merchant.product',$product->shop->slug ) }}">{{ ucfirst($product->shop->name) }}</a></li>
-                                @else
-                                <li><b>Seller</b> {{ config('app.name') }}</li>
-                            @endif
-
                             <li><b>Availability</b> {{ ($product->stock)==0?'Out of Stock': 'In Stock'}}</li>
                             <li><b>Brand</b> <span class="text-capitalize">{{ Str::lower($product->brand->name) }}</span></li>
                             @isset($product->size)
@@ -77,6 +69,11 @@
                                 </div>
                             </div>
                             <button style="border: none" class="primary-btn dtl_cart_btn" {{ ($product->stock)==0?'disabled': ' '}} > {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}</button>
+                        </form>
+
+                        <form style="display: inline" action="{{ route('add.favourite',$product->slug) }}" method="get">
+                            @csrf
+                            <button class="btn btn-outline-secondary qtform"><span class="icon_heart_alt"></span> Favourite</button>
                         </form>
                         <hr>
                     </div>
@@ -104,7 +101,7 @@
                         </div>
 
 
-                       {{-- @if (isset($related_product) && count($related_product) > 0)
+                        @if (isset($related_product) && count($related_product) > 0)
                         <br>
                         <br>
                         <div class="row">
@@ -157,7 +154,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        @endif--}}
+                        @endif
                     </div>
                 </div>
             </div>

@@ -4,7 +4,7 @@
 <script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('frontend/js/jquery.nice-select.min.js')}}"></script>
 <script src="{{asset('frontend/js/jquery-ui.min.js')}}"></script>
-<script src="https://apps.elfsight.com/p/platform.js" defer></script>
+{{--<script src="https://apps.elfsight.com/p/platform.js" defer></script>--}}
 <script src="{{asset('frontend/js/jquery.slicknav.js')}}"></script>
 <!--    <script src="asset('frontend/js/mixitup.min.js')}}"></script>-->
 <script src="{{asset('frontend/js/owl.carousel.min.js')}}"></script>
