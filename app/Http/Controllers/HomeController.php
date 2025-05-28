@@ -32,7 +32,7 @@ class HomeController extends Controller
         $data['featured_product'] = Product::select('id','name','slug','price','new_price','stock')
             ->with(['reviews','product_image:product_id,file_path'])
             ->where('is_featured', 1)
-            ->where('status', 'active')->inRandomOrder()->limit(4)->get();
+            ->where('status', 'active')->inRandomOrder()->limit(8)->get();
 
         $data['flash_sale'] = Product::with(['category','brand','flash'])->whereHas('flash', function($q)
         {
@@ -46,6 +46,7 @@ class HomeController extends Controller
         $now = Carbon::now();
         $data['tomorrow'] = $now->addDays(1)->toDateString();
         $data['categories'] = Category::select('id','name','slug','icon')->orderBy('id','DESC')->get() ;
+        $data['sub_categories'] = SubCategory::select('id','name','slug')->orderBy('id','DESC')->get() ;
 
         return view('front.home',$data);
     }
@@ -53,7 +54,11 @@ class HomeController extends Controller
     public function details($slug)
     {
         $data['title'] = 'Product Details';
-        $data['product'] = Product::withCount('reviews')->with(['product_image', 'category','flash'])->where('slug', $slug)->first();
+        $product = Product::withCount('reviews')->with(['product_image', 'category','flash'])->where('slug', $slug)->first();
+        if (!$product) {
+            abort(404);
+        }
+        $data['product'] = $product;
         if(isset($data['product']->flash)){
             $exp = Carbon::parse($data['product']->flash->expires_at);
         }
@@ -97,6 +102,9 @@ class HomeController extends Controller
 
         if ($slug != false){
             $category = Category::where('slug', $slug)->first();
+            if (!$category) {
+                abort(404);
+            }
             $product = $product->where('category_id', $category->id)->where('status', 'active');
             $data['title'] = $category->name ;
             $data['key'] = $category->slug;
@@ -131,19 +139,19 @@ class HomeController extends Controller
     public function subcategory($slug)
     {
         $product = new Product();
-            $sub_category = SubCategory::where('slug', $slug)->first();
-            $product = $product->where('sub_category_id', $sub_category->id)->where('status', 'active');
-
+        $sub_category = SubCategory::where('slug', $slug)->first();
+        if (!$sub_category) {
+            abort(404);
+        }
+        $product = $product->where('sub_category_id', $sub_category->id)->where('status', 'active');
         $data['title'] = $sub_category->name ;
         $data['sub_key'] = $sub_category->slug;
         $data['count'] = $product->count();
-
 
         $product = $product->orderBy('id','DESC')->paginate(24);
         $data['products'] =$product;
         $data['brands'] = $product->unique('brand_id');
         //$data['categories'] = Category::orderBy('name','ASC')->get();
-
 
         return view('front.product', $data);
     }
@@ -152,18 +160,18 @@ class HomeController extends Controller
     {
         $data['title'] = 'Brands';
         $product = new Product();
-
         if ($slug != false){
             $brand = Brand::where('slug', $slug)->first();
+            if (!$brand) {
+                abort(404);
+            }
             $product = $product->where('brand_id', $brand->id)->where('status', 'active');
             $data['title'] = $brand->name ;
             $data['count'] = $product->count();
         }
-
         $product = $product->orderBy('id','DESC')->paginate(24);
         $data['products'] =$product;
         $data['brand_categories'] = $product->unique('category_id');
-
 
         return view('front.product', $data);
     }
@@ -219,9 +227,6 @@ class HomeController extends Controller
         {
             $q->where('flash_stock', '>', 0);
         })->where('stock', '>', 0)->where('status', 'active')->inRandomOrder()->paginate(24);
-
-
-
 
         $data['categories'] = Category::orderBy('name','ASC')->get();
 

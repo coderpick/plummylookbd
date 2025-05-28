@@ -13,3 +13,4 @@ yarn-error.log
 .idea
 /storage/debugbar
 *~
+/public/uploads

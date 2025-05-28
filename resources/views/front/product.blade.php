@@ -52,6 +52,18 @@
                                                 </div>
                                                 <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="grocery">
                                             </a>
+                                            <div class="action-share-option">
+                                                <a class="add-list" href="{{ route('add.favourite',$product->slug) }}">
+                                                    <div class="single-action openuptip message-show-action" data-flow="up" title="Add To Wishlist">
+                                                        <i class="fa fa-heart"></i>
+                                                    </div>
+                                                </a>
+                                                <a href="{{ route('product.details', $product->slug) }}">
+                                                    <div class="single-action openuptip" data-flow="up" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                        <i class="fa fa-eye"></i>
+                                                    </div>
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="body-content">
 
@@ -76,7 +88,6 @@
                                                 <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
                                                     <div class="btn-text">
                                                         {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}
-
                                                     </div>
                                                     <div class="arrow-icon">
                                                         <i class="fa fa-shopping-cart"></i>

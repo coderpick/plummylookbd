@@ -4797,3 +4797,11 @@ td.action-custom a {
     width: 1px;
     background: #797979;
 }
+
+.title-bg{
+    background: #8d72cc17;
+    padding: 18px;
+    margin-bottom: 35px;
+    border: 1px solid #8d72cc17;
+    border-radius: 5px;
+}

@@ -33,7 +33,7 @@
 
     @can('app.product.flash')
         <li><a class="app-menu__item {{ Request::is('secure/flash-product*')?'active':'' }}" href="{{ route('flash.index') }}"><i class="app-menu__icon fa fa-bolt"></i><span class="app-menu__label">Flash Sale</span></a></li>
-        {{--<li><a class="app-menu__item {{ Request::is('secure/flash-banner')?'active':'' }}" href="{{ route('banner.index') }}"><i class="app-menu__icon fa fa-photo"></i><span class="app-menu__label">Flash Sale Banner</span></a></li>--}}
+        <li><a class="app-menu__item {{ Request::is('secure/flash-banner')?'active':'' }}" href="{{ route('banner.index') }}"><i class="app-menu__icon fa fa-photo"></i><span class="app-menu__label">Flash Sale Banner</span></a></li>
     @endcan
 
     @can('app.order.index')

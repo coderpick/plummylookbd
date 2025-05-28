@@ -87,7 +87,7 @@
                                 </div>
                             </div>
 
-                        <div class="form-group row">
+                        {{--<div class="form-group row">
                             <label for="message" class="col-md-4 col-form-label text-md-right">{{ __('Shipping Message') }}</label>
                             <div class="col-md-6">
                                 <input id="message" type="text" class="form-control @error('message') is-invalid @enderror" name="message" value="@if (isset($shipping->message)){{$shipping->message}}@endif">
@@ -97,7 +97,7 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
+                        </div>--}}
 
 
 

@@ -26,9 +26,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/details/{slug}', 'HomeController@details')->name('product.details');
-Route::get('/products/{slug?}', 'HomeController@category')->name('product.category');
+Route::get('/category/{slug?}', 'HomeController@category')->name('product.category');
 Route::get('/sale', 'HomeController@sale')->name('product.sale');
-Route::get('/product/{slug}', 'HomeController@subcategory')->name('product.subcategory');
+Route::get('/sub-category/{slug}', 'HomeController@subcategory')->name('product.subcategory');
 Route::get('/brands/{slug?}', 'HomeController@brand')->name('product.brand');
 Route::get('/featured', 'HomeController@featured')->name('product.featured_sale');
 //Route::get('/new-arrivals', 'HomeController@new_arrival')->name('product.new_arrival');
