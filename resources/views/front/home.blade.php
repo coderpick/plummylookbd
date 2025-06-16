@@ -5,7 +5,7 @@
     <section class="hero">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 p-0">
                     <div class="owl-carousel slider-carousel">
                         @forelse($sliders as $id=>$slider)
                             <div class="item">
@@ -13,7 +13,7 @@
                                     @isset($slider->link)
                                         <a href="{{ $slider->link }}" target="_blank">
                                             @endisset
-                                            <img style="max-height: 435px; object-fit: cover" class="" src="{{ asset($slider->image) }}" alt="">
+                                            <img class="home-slider" src="{{ asset($slider->image) }}" alt="">
                                         </a>
                                 </div>
                             </div>
@@ -25,6 +25,49 @@
         </div>
     </section>
     <!-- Hero Section End -->
+
+    @if(isset($home_categories) && count($home_categories) > 0)
+        <section id="">
+            <div class="container mobile-none rts-section-gapBottom">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            @forelse($home_categories as $index=>$category)
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-6">
+                                        <a href="{{ route('product.category',$category->slug) }}">
+                                            <img class="img-fluid" src="{{ asset($category->icon) }}"/>
+                                        </a>
+                                    </div>
+                            @empty
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif
+
+    @if(isset($categories) && count($categories) > 0)
+        <section class="mb-5">
+            <div class="container">
+                <h2 class="title-left text-center text-custom title-bg">Categories</h2>
+                <div class="row g-4 custom-row gy-4">
+                    @forelse($categories as $index=>$category)
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-4 custom-col">
+                            <div class="category-card">
+                                <a href="{{ route('product.category',$category->slug) }}">
+                                    <img src="{{ asset($category->icon) }}" alt="product" loading="lazy">
+                                    <h5>{{ ucfirst($category->name) }}</h5>
+                                </a>
+                            </div>
+                        </div>
+                    @empty
+                    @endforelse
+
+                </div>
+            </div>
+        </section>
+    @endif
 
     @if(isset($flash_sale) && count($flash_sale) > 0)
         <div class="popular-product-col-7-area rts-section-gapBottom">
@@ -97,12 +140,9 @@
                                                     <div class="pull-right"><small>{{ ($product->stock)==0?'Stock Out': 'In Stock'}}</small></div>
                                                 </div>
                                                 <div class="cart-counter-action">
-                                                    <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
+                                                    <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn {{ ($product->stock)==0?'stock-out-btn':''}}" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
                                                         <div class="btn-text">
                                                             {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}
-                                                        </div>
-                                                        <div class="arrow-icon">
-                                                            <i class="fa fa-shopping-cart"></i>
                                                         </div>
                                                     </button>
                                                 </div>
@@ -118,67 +158,6 @@
                 </div>
             </div>
         </div>
-    @endif
-
-    <section id="">
-        <div class="container mobile-none rts-section-gapBottom">
-            <h2 class="title-left text-center text-custom title-bg">Categories</h2>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        @forelse($categories as $index=>$category)
-                            @if ($index <= 10)
-                                <div class="col-lg-2 col-md-3 col-sm-4 col-6">
-                                    <a href="{{ route('product.category',$category->slug) }}">
-                                        <div class="tin-card cat-card">
-                                            <img style="max-height: 60px" class=" " alt="" src="{{ asset($category->icon) }}"/>
-                                            <h3 class="cat-title">{{ ucfirst($category->name) }}</h3>
-                                        </div>
-                                    </a>
-                                </div>
-                            @endif
-                        @empty
-                        @endforelse
-                        @if ($index > 10)
-                            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
-                                <a href="{{ route('front.category') }}">
-                                    <div class="tin-card cat-card">
-                                        <img style="max-height: 60px" class=" " alt="" src="{{ asset('uploads/more3.png') }}"/>
-                                        <h3 class="cat-title">More Categories</h3>
-                                    </div>
-                                </a>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    @if(isset($sub_categories) && count($sub_categories) > 0)
-        <section id="">
-            <div class="container mobile-none rts-section-gapBottom">
-                <h2 class="title-left text-center text-custom title-bg">Sub-categories</h2>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row">
-                            @forelse($sub_categories as $index=>$sub)
-                                @if ($index <= 11)
-                                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
-                                        <a href="{{ route('product.subcategory',$sub->slug) }}">
-                                            <div class="tin-card cat-card">
-                                                <h3 class="cat-title pt-0">{{ ucfirst($sub->name) }}</h3>
-                                            </div>
-                                        </a>
-                                    </div>
-                                @endif
-                            @empty
-                            @endforelse
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     @endif
 
     @foreach($category_product as $cat_product)
@@ -266,12 +245,9 @@
                                                             <div class="pull-right"><small>{{ ($product->stock)==0?'Stock Out': 'In Stock'}}</small></div>
                                                         </div>
                                                         <div class="cart-counter-action">
-                                                            <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
+                                                            <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn {{ ($product->stock)==0?'stock-out-btn':''}}" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
                                                                 <div class="btn-text">
                                                                     {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}
-                                                                </div>
-                                                                <div class="arrow-icon">
-                                                                    <i class="fa fa-shopping-cart"></i>
                                                                 </div>
                                                             </button>
                                                         </div>
@@ -368,14 +344,14 @@
                                                 <div class="pull-right"><small>{{ ($product->stock)==0?'Stock Out': 'In Stock'}}</small></div>
                                             </div>
                                             <div class="cart-counter-action">
-                                                <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
+                                                <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn {{ ($product->stock)==0?'stock-out-btn':''}}" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
                                                     <div class="btn-text">
                                                         {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}
                                                     </div>
-                                                    <div class="arrow-icon">
-                                                        <i class="fa fa-shopping-cart"></i>
-                                                    </div>
                                                 </button>
+                                                <a href="#" class="buy-now-btn btn-primary radious-sm">
+                                                    Buy Now
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

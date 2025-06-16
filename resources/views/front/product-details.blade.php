@@ -58,23 +58,25 @@
                             @endisset
                         </ul>
                         <br>
-
-                        <form style="display: inline" action="{{ route('add.cart',$product->id) }}" method="post">
-                            @csrf
-                            <div class="product__details__quantity">
-                                <div class="quantity">
-                                    <div class="pro-qty">
-                                        <input type="text" name="quantity" value="1">
+                        <div>
+                            <form style="display: inline" action="{{ route('add.cart',$product->id) }}" method="post">
+                                @csrf
+                                <div class="product__details__quantity">
+                                    <div class="quantity">
+                                        <div class="pro-qty">
+                                            <input type="text" name="quantity" value="1">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <button style="border: none" class="primary-btn dtl_cart_btn" {{ ($product->stock)==0?'disabled': ' '}} > {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}</button>
-                        </form>
+                                <button style="border: none" class="primary-btn dtl_cart_btn" {{ ($product->stock)==0?'disabled': ' '}} > {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}</button>
+                            </form>
+                            <a href="#" class="primary-btn dtl_cart_btn text-white">Buy Now</a>
+                            <form style="display: inline" action="{{ route('add.favourite',$product->slug) }}" method="get">
+                                @csrf
+                                <button class="btn btn-outline-secondary qtform"><span class="icon_heart_alt"></span></button>
+                            </form>
+                        </div>
 
-                        <form style="display: inline" action="{{ route('add.favourite',$product->slug) }}" method="get">
-                            @csrf
-                            <button class="btn btn-outline-secondary qtform"><span class="icon_heart_alt"></span> Favourite</button>
-                        </form>
                         <hr>
                     </div>
                 </div>
@@ -101,59 +103,103 @@
                         </div>
 
 
-                        @if (isset($related_product) && count($related_product) > 0)
-                        <br>
-                        <br>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="position-relative">
-                                    <div class="section-title">
-                                        <h2>Related Products</h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row featured__filter">
-                            @foreach($related_product as $product)
-                                <div class="nil">
-                                    <div class="featured__item tin-card">
-                                        @php
-                                            if(isset($product->flash->flash_price)){
-                                                $d_price = $product->flash->flash_price;
-                                            }
-                                            else{
-                                                $d_price = $product->new_price;
-                                            }
-                                                $per = $product->price/100 ;
-                                                $amount = $product->price - $d_price ;
-                                                $percentage =$amount / $per ;
-                                        @endphp
 
-                                        @if(isset($product->flash->flash_price) || isset($product->new_price))
-                                            <span class="new">{{ round($percentage) }}% Off</span>
-                                        @endif
-                                        <a href="{{ route('product.details', $product->slug) }}">
-                                            <div class="featured__item__pic">
-                                                <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="image">
+                        @if(isset($related_product) && count($related_product) > 0)
+                            <div class="popular-product-col-7-area rts-section-gapBottom mt-5">
+                                <div class="container">
+                                    <div class="cover-card-main-over-white">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="title-area-between mb--15">
+                                                    <h2 class="title-left">
+                                                        Related Product
+                                                    </h2>
+                                                </div>
                                             </div>
-                                            <div class="featured__item__text">
-                                                <h6>{{ ucfirst($product->name) }}</h6>
-                                                @if (isset($product->flash) && $product->flash->flash_price != null)
-                                                    <h5><del class="text-black-50"><small>{{ $product->price }}</small></del>  {{ $product->flash->flash_price }}</h5>
-                                                @elseif (isset($product->new_price))
-                                                    <h5><del class="text-black-50"><small>{{ $product->price }}</small></del>  {{ $product->new_price }}</h5>
-                                                @else
-                                                    <h5> {{ $product->price }}</h5>
-                                                @endif
+                                        </div>
+                                        <div class='Featured-cards'>
+                                            <div class="row g-4 mt--0 custom-row">
+                                                @forelse($related_product as $product)
+                                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6 custom-col">
+                                                        <div class="Featured-height">
+                                                            <div class="single-shopping-card-one deals-of-day">
+                                                                <div class="image-and-action-area-wrapper">
+                                                                    <a href="{{ route('product.details', $product->slug) }}" class="thumbnail-preview">
+                                                                        <div class="badge">
+                                                                            @php
+                                                                                if(isset($product->flash->flash_price)){
+                                                                                $d_price = $product->flash->flash_price;
+                                                                                }
+                                                                                else{
+                                                                                $d_price = $product->new_price;
+                                                                                }
+                                                                                $per = $product->price/100 ;
+                                                                                $amount = $product->price - $d_price ;
+                                                                                $percentage =$amount / $per ;
+                                                                            @endphp
+
+                                                                            @if(isset($product->flash->flash_price) || isset($product->new_price))
+                                                                                <span>{{ round($percentage) }}% <br>
+                                                            Off
+                                                        </span>
+                                                                                <i class="fa fa-bookmark"></i>
+                                                                            @endif
+                                                                        </div>
+                                                                        <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="grocery">
+                                                                    </a>
+                                                                    <div class="action-share-option">
+                                                                        <a class="add-list" href="{{ route('add.favourite',$product->slug) }}">
+                                                                            <div class="single-action openuptip message-show-action" data-flow="up" title="Add To Wishlist">
+                                                                                <i class="fa fa-heart"></i>
+                                                                            </div>
+                                                                        </a>
+                                                                        <a href="{{ route('product.details', $product->slug) }}">
+                                                                            <div class="single-action openuptip" data-flow="up" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                                                <i class="fa fa-eye"></i>
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="body-content">
+
+                                                                    <a href="{{ route('product.details', $product->slug) }}">
+                                                                        <h4 class="title">{{ ucfirst($product->name) }}</h4>
+                                                                    </a>
+                                                                    <div class="price-area">
+                                                                        <div style="display: ruby">
+                                                                            @if (isset($product->flash) && $product->flash->flash_price != null)
+                                                                                <span class="current">৳{{ $product->flash->flash_price }}</span>
+                                                                                <div class="previous">৳{{ $product->price }}</div>
+                                                                            @elseif (isset($product->new_price))
+                                                                                <span class="current">৳{{ $product->new_price }}</span>
+                                                                                <div class="previous">৳{{ $product->price }}</div>
+                                                                            @else
+                                                                                <span class="current">৳{{ $product->price }}</span>
+                                                                            @endif
+                                                                        </div>
+                                                                        <div class="pull-right"><small>{{ ($product->stock)==0?'Stock Out': 'In Stock'}}</small></div>
+                                                                    </div>
+                                                                    <div class="cart-counter-action">
+                                                                        <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn {{ ($product->stock)==0?'stock-out-btn':''}}" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
+                                                                            <div class="btn-text">
+                                                                                {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}
+                                                                            </div>
+                                                                        </button>
+                                                                        <a href="#" class="buy-now-btn btn-primary radious-sm">
+                                                                            Buy Now
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @empty
+                                                @endforelse
                                             </div>
-                                        </a>
-                                        <div class="text-center">
-                                            <button type="button" class="btn w-75 add-cart ani-btn" product-id="{{ $product->id }}" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}} > {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}} </button>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
                         @endif
                     </div>
                 </div>

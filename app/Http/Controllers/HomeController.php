@@ -45,8 +45,8 @@ class HomeController extends Controller
         // data for countdown
         $now = Carbon::now();
         $data['tomorrow'] = $now->addDays(1)->toDateString();
-        $data['categories'] = Category::select('id','name','slug','icon')->orderBy('id','DESC')->get() ;
-        $data['sub_categories'] = SubCategory::select('id','name','slug')->orderBy('id','DESC')->get() ;
+        $data['categories'] = Category::where('home_view', 0)->select('id','name','slug','icon')->orderBy('id','DESC')->get();
+        $data['home_categories'] = Category::where('home_view', 1)->select('id','name','slug','icon')->orderBy('id','DESC')->limit(8)->get();
 
         return view('front.home',$data);
     }

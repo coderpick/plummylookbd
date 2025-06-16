@@ -56,7 +56,7 @@
 <div class="logo-section d-flex align-content-center flex-wrap" id="stickynav">
     <div class="container">
         <div class="row">
-            <div class="mr-4 col-lg-3 col-md-2 col-3 dv-none">
+            <div class="col-lg-3 col-md-2 col-3 dv-none">
                 <div class="p-3" style="cursor: pointer; padding-right: 0;">
                     <a style="color: #1c1c1c; font-size: 22px" href="#" data-toggle="modal" data-target="#searchModal">
                         <i class="fa fa-search"></i>
@@ -98,14 +98,14 @@
                 <ul>
                     <li class="{{ Request::is('/')?'active':'' }}"><a href="{{ route('home') }}">Home</a></li>
                     <li class="{{ Request::is('sale*')?'active':'' }}"><a href="{{ route('product.sale') }}">On Sale</a></li>
-                    <li class="{{ Request::is('products/*')?'active':'' }}"><a href="{{ route('front.category') }}">Categories <i class="fa fa-angle-down"></i></a>
+                    <li class="{{ Request::is('products/*')?'active':'' }}"><a href="#">Categories <i class="fa fa-angle-down"></i></a>
                         <ul class="header__menu__dropdown">
                             @foreach($categories as $category)
                                 <li><a style="text-transform: capitalize" href="{{ route('product.category',$category->slug) }}">{{ ucfirst($category->name) }}</a></li>
                             @endforeach
                         </ul>
                     </li>
-                    <li class="{{ Request::is('brands*')?'active':'' }}"><a href="{{ route('product.brand') }}">Brands <i class="fa fa-angle-down"></i></a>
+                    <li class="{{ Request::is('brands*')?'active':'' }}"><a href="#">Brands <i class="fa fa-angle-down"></i></a>
                         <ul class="header__menu__dropdown">
                             @foreach($brands as $brand)
                                 <li><a style="text-transform: capitalize" href="{{ route('product.brand',$brand->slug) }}">{{ $brand->name }}</a></li>

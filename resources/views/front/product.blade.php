@@ -85,100 +85,15 @@
                                                 <div class="pull-right"><small>{{ ($product->stock)==0?'Stock Out': 'In Stock'}}</small></div>
                                             </div>
                                             <div class="cart-counter-action">
-                                                <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
+                                                <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn {{ ($product->stock)==0?'stock-out-btn':''}}" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
                                                     <div class="btn-text">
                                                         {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}
-                                                    </div>
-                                                    <div class="arrow-icon">
-                                                        <i class="fa fa-shopping-cart"></i>
                                                     </div>
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <div class="product__item tin-card">
-                <a href="{{ route('product.details', $product->slug) }}">
-                    @if(Request::is('sale'))
-                                    <span class="new">Sale</span>
-@endif
-                                <div class="product__item__pic set-bg">
-
-                                    <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="image">
-
-
-                        {{--<ul class="product__item__pic__hover">
-                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-cart add-cart"></i></a></li>
-                                </ul>--}}
-                                </div>
-                                <div class="product__item__text">
-                                    <h6>{{ ucfirst($product->name) }}</h6>
-                        {{--@php
-                                    $rating = $product->reviews->sum('rating');
-                                    $count = count($product->reviews);
-                                    if($count > 0){
-                                        $rating = $rating / $count;
-                                    }
-                                $rating = round($rating);
-                                @endphp
-
-                                @if($rating == 0)
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                @endif
-                                @if($rating == 1)
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                @endif
-                                @if($rating == 2)
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                @endif
-                                @if($rating == 3)
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                @endif
-                                @if($rating == 4)
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star"></span>
-                                @endif
-                                @if($rating >= 5)
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                @endif--}}
-                                @if (isset($product->flash) && $product->flash->flash_price != null)
-                                    <h5><del class="text-black-50"><small>{{ $product->price }}</small></del>  {{ $product->flash->flash_price }}</h5>
-                        @elseif (isset($product->new_price))
-                                    <h5><del class="text-black-50"><small>৳{{ $product->price }}</small></del> ৳ {{ $product->new_price }}</h5>
-                        @else
-                                    <h5>৳ {{ $product->price }}</h5>
-                        @endif
-                                {{--<h5>৳ {{ isset($product->new_price)? $product->new_price : $product->price }}</h5>--}}
-                                </div>
-                            </a>
-                            <div class="text-center">
-                                <button type="button" class="btn w-75 add-cart ani-btn" product-id="{{ $product->id }}" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}> {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}} </button>
-                </div>
-            </div> -->
                             </div>
                             @empty
                             <h6 class="text-center">No Products Found !</h6>
