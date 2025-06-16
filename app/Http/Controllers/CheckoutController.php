@@ -17,7 +17,7 @@ class CheckoutController extends Controller
     public function index()
     {
         //check user is admin or not
-        if (Auth::user()->type !== 'user'){
+        if (Auth::user() && Auth::user()->type !== 'user'){
             session()->flash('error', 'Unauthorized Request');
             return redirect()->back();
         }

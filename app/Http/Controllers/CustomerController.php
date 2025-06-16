@@ -61,26 +61,60 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::user()->type !== 'user'){
+        if (Auth::user() && Auth::user()->type !== 'user'){
             session()->flash('error', 'Unauthorized Request');
             return redirect()->back();
         }
 
-        /*if (Auth::user()->detail == null){
-            session()->flash('warning', 'Address Not Found, Complete Profile First');
-            return redirect()->route('customer.show');
-        }*/
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'district' => 'required',
+            'address_1' => 'required',
+            'zip' => 'required',
+        ]);
 
         //Transaction start
         DB::beginTransaction();
         try {
+            $exist = User::where('email', $request->email)->first();
+            if ($exist){
+                Auth::login($exist);
+            }
+            else{
+                $user['name'] = $request->name;
+                $user['phone'] = $request->phone;
+                $user['email'] = $request->email;
+                $user['password'] = bcrypt($request->phone);
+                $user['slug'] = str_slug($request->name);
+                $user['type'] = 'user';
+                $user['status'] = 1;
+                $user['email_verified_at'] = now();
+                $user['created_at'] = now();
+                $user['updated_at'] = now();
+
+                $user_id = User::insertGetId($user);
+                $detail['user_id'] = $user_id;
+                $detail['address_1'] = $request->address_1;
+                $detail['address_2'] = $request->address_2;
+                $detail['district_id'] = $request->district;
+                $detail['zip'] = $request->zip;
+                $detail['created_at'] = now();
+                $detail['updated_at'] = now();
+                $detail['account_status'] = 'active';
+                UserDetail::insert($detail);
+
+                Auth::loginUsingId($user_id);
+            }
+
            $customer = Auth::user();
             //order store
             $order['order_number'] = '#'.$customer->id.time();
             $order['user_id'] = $customer->id;
             $order['name'] = $customer->name;
             $order['email'] = $customer->email;
-            $order['phone'] = $customer->phone;
+            $order['phone'] = $request->phone;
             $order['transaction_id'] = rand(000,999).uniqid();
             $order['payment_type'] = $request->payment_type;
             $order['date'] = now();
@@ -213,19 +247,13 @@ class CustomerController extends Controller
                 Order::findOrFail($order_id)->update(['amount' => $total+$shipping,'shipping' => $shipping, 'discount' => $discount]);
             }
 
-
-
-
-
             //Confirmation mail send
             //$customer = User::findOrFail($customer_id);
-
 
             Mail::to($customer->email)->send(new OrderPlaceMail($order_id));
 
             //Transaction commit
             DB::commit();
-
 
             session()->flash('success','Order Placed Successfully');
             session()->flash('s_msg','Successful');

@@ -246,10 +246,12 @@ class VoucherController extends Controller
         }
 
         //check one time voucher used or not
-        $coupon_user = VoucherUser::where(['user_id' => Auth::user()->id, 'voucher_id' => $coupon->id])->first();
-        if ($coupon_user) {
-            session()->flash('error','Coupon Already Used');
-            return redirect()->back();
+        if (Auth::user()){
+            $coupon_user = VoucherUser::where(['user_id' => Auth::user()->id, 'voucher_id' => $coupon->id])->first();
+            if ($coupon_user) {
+                session()->flash('error','Coupon Already Used');
+                return redirect()->back();
+            }
         }
 
         //coupon check to prevent double use

@@ -63,26 +63,21 @@ Route::get('login/facebook/call-back', 'Auth\LoginController@handleProviderCallb
 //user Auth routes
 Route::middleware(['auth','verified'])->group(function (){
 
-
     // SSLCOMMERZ Start
-
     Route::post('/pay', [SslCommerzPaymentController::class, 'index']);
     //Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
-
     Route::post('/success', [SslCommerzPaymentController::class, 'success']);
     Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
     Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
-
     //Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
-//SSLCOMMERZ END
+    //SSLCOMMERZ END
 
 
     //review routes
     Route::post('submit-review', 'ReviewController@store')->name('review.store');
     Route::post('advance-pay', 'OrderAdvanceController@store')->name('advance.store');
 
-    //session coupon apply
-    Route::get('coupon-apply', 'VoucherController@coupon_apply')->name('coupon_apply');
+
 
     //favourite route
     Route::get('favourites','FavouriteController@index')->name('favourite');
@@ -92,8 +87,8 @@ Route::middleware(['auth','verified'])->group(function (){
     Route::get('my-dashboard', 'CustomerController@index')->name('account');
     Route::get('profile-info', 'CustomerController@show')->name('customer.show');
     Route::put('account/{slug}','CustomerController@update')->name('user.info.update');
-    Route::get('checkout','CheckoutController@index')->name('checkout');
-    Route::post('order/place','CustomerController@store')->name('order.place');
+
+
     Route::get('payment/{slug}/{orderId}','CheckoutController@payment')->name('payment');
     Route::get('discount/{id}', 'VoucherController@discount')->name('discount');
 
@@ -129,6 +124,11 @@ Route::middleware(['auth','verified'])->group(function (){
     //Route::get('my-reviews','ReviewController@reviews')->name('my_reviews');
 
 });
+//session coupon apply
+Route::get('coupon-apply', 'VoucherController@coupon_apply')->name('coupon_apply');
+
+Route::get('checkout','CheckoutController@index')->name('checkout');
+Route::post('order/place','CustomerController@store')->name('order.place');
 
 //Subscribe us
 Route::post('subscribe','SubscribeController@store')->name('subscribe.us');
