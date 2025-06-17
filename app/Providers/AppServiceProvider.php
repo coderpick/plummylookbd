@@ -33,7 +33,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
         view()->composer(['layouts/frontend/_header','layouts/frontend/_footer','layouts/frontend/_mobileMenu'], function ($view){
-            $view->with('brands',Brand::orderBy('name','ASC')->get());
+            $brandQuery = Brand::query();
+            $view->with('brands',$brandQuery->orderBy('name','ASC')->get());
+            $view->with('footer_brands',$brandQuery->latest()->limit(5)->get());
             $view->with('contact',Contact::latest()->first());
             $view->with('link',Link::latest()->first());
             $view->with('categories',Category::orderBy('name','ASC')->get());

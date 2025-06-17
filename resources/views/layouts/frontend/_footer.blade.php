@@ -1,7 +1,7 @@
 <footer class="footer spad">
     <div class="container">
         <div class="whatsapp">
-            <a href="https://wa.me/{{ (isset($contact) && $contact->phone != null)? $contact->phone : '' }}" target="_blank" title="Start Chat ">
+            <a href="https://wa.me/{{ (isset($contact) && $contact->nagad != null)? $contact->nagad : '' }}" target="_blank" title="Start Chat ">
                 <img src="{{ asset('frontend/img/whatsapp.png') }}" alt="WhatsAppChat">
             </a>
         </div>
@@ -22,7 +22,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
+            <div class="col-lg-3 col-md-6 col-sm-6 pr-0">
                 <div class="footer__widget">
                     <h6>Useful Links</h6>
                     <ul>
@@ -32,7 +32,17 @@
                         <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
                         <li><a href="{{ route('terms') }}">Terms & Conditions</a></li>
                     </ul>
-
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6">
+                <div class="footer__widget">
+                    <h6>Latest Brand</h6>
+                    <ul>
+                        @forelse($footer_brands as $brand)
+                            <li><a href="{{ route('product.brand',$brand->slug) }}">{{ $brand->name }}</a></li>
+                            @empty
+                        @endforelse
+                    </ul>
                 </div>
             </div>
             <div class="col-lg-4 col-md-12">
@@ -66,9 +76,9 @@
     <div class="">
         <div class="">
             <div class="footer__copyright">
-                <div class="footer__copyright__text"><p class="text-secondary"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All Right Reserved <a class="text-white" target="_blank" href="http://www.peoplentech.net" >PeopleNTech Software</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
+                <div class="footer__copyright__text">
+                    <p class="text-secondary">Copyright &copy;<script>document.write(new Date().getFullYear());</script> Plummy Look. Developed by <a class="text-white" target="_blank" href="http://www.peoplentech.net" >PeopleNTech Software</a></p>
+                </div>
             </div>
         </div>
     </div>

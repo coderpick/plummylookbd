@@ -127,6 +127,7 @@ Route::middleware(['auth','verified'])->group(function (){
 //session coupon apply
 Route::get('coupon-apply', 'VoucherController@coupon_apply')->name('coupon_apply');
 
+Route::get('buy-now/{slug}','CheckoutController@buy')->name('buy_now');
 Route::get('checkout','CheckoutController@index')->name('checkout');
 Route::post('order/place','CustomerController@store')->name('order.place');
 

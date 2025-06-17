@@ -35,7 +35,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        {{--<div class="form-group row">
                             <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Bkash Number') }}</label>
                             <div class="col-md-6">
                                 <input id="bkash" type="text" class="form-control @error('bkash') is-invalid @enderror" name="bkash" value="@if (isset($contacts->bkash)){{$contacts->bkash}}@endif" required>
@@ -45,10 +45,10 @@
                                 </span>
                                 @enderror
                             </div>
-                        </div>
+                        </div>--}}
 
                         <div class="form-group row">
-                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Nagad Number') }}</label>
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Whatsapp (With Country Code)') }}</label>
                             <div class="col-md-6">
                                 <input id="nagad" type="text" class="form-control @error('nagad') is-invalid @enderror" name="nagad" value="@if (isset($contacts->nagad)){{$contacts->nagad}}@endif" required>
                                 @error('nagad')

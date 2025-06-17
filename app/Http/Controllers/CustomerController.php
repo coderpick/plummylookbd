@@ -81,6 +81,7 @@ class CustomerController extends Controller
             $exist = User::where('email', $request->email)->first();
             if ($exist){
                 Auth::login($exist);
+                $customerUser = $exist;
             }
             else{
                 $user['name'] = $request->name;
@@ -106,9 +107,10 @@ class CustomerController extends Controller
                 UserDetail::insert($detail);
 
                 Auth::loginUsingId($user_id);
+                $customerUser = Auth::user();
             }
 
-           $customer = Auth::user();
+           $customer = $customerUser;
             //order store
             $order['order_number'] = '#'.$customer->id.time();
             $order['user_id'] = $customer->id;

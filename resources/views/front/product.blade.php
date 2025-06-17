@@ -90,6 +90,9 @@
                                                         {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}
                                                     </div>
                                                 </button>
+                                                <a href="{{ $product->stock==0?'javascript:void(0)':route('buy_now', $product->slug) }}" class="buy-now-btn btn-primary radious-sm {{ $product->stock==0?'stock-out-btn':''}}">
+                                                    {{ $product->stock==0?'Out of Stock':'Buy Now'}}
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

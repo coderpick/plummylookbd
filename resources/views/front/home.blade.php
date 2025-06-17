@@ -145,6 +145,9 @@
                                                             {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}
                                                         </div>
                                                     </button>
+                                                    <a href="{{ $product->stock==0?'javascript:void(0)':route('buy_now', $product->slug) }}" class="buy-now-btn btn-primary radious-sm {{ $product->stock==0?'stock-out-btn':''}}">
+                                                        {{ $product->stock==0?'Out of Stock':'Buy Now'}}
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -250,6 +253,9 @@
                                                                     {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}
                                                                 </div>
                                                             </button>
+                                                            <a href="{{ $product->stock==0?'javascript:void(0)':route('buy_now', $product->slug) }}" class="buy-now-btn btn-primary radious-sm {{ $product->stock==0?'stock-out-btn':''}}">
+                                                                {{ $product->stock==0?'Out of Stock':'Buy Now'}}
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -344,13 +350,13 @@
                                                 <div class="pull-right"><small>{{ ($product->stock)==0?'Stock Out': 'In Stock'}}</small></div>
                                             </div>
                                             <div class="cart-counter-action">
-                                                <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn {{ ($product->stock)==0?'stock-out-btn':''}}" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled': ' '}}>
+                                                <button product-id="{{ $product->id }}" class="rts-btn btn-primary radious-sm with-icon add-cart ani-btn {{ ($product->stock)==0?'stock-out-btn':''}}" url="{{ route('ajax.addToCart',$product->id) }}" {{ ($product->stock)==0?'disabled':''}}>
                                                     <div class="btn-text">
                                                         {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}
                                                     </div>
                                                 </button>
-                                                <a href="#" class="buy-now-btn btn-primary radious-sm">
-                                                    Buy Now
+                                                <a href="{{ $product->stock==0?'javascript:void(0)':route('buy_now', $product->slug) }}" class="buy-now-btn btn-primary radious-sm {{ $product->stock==0?'stock-out-btn':''}}">
+                                                    {{ $product->stock==0?'Out of Stock':'Buy Now'}}
                                                 </a>
                                             </div>
                                         </div>

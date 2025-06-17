@@ -6,6 +6,7 @@ use App\Contact;
 use App\District;
 use App\Order;
 use App\Point;
+use App\Product;
 use App\Shipping;
 use App\User;
 use Carbon\Carbon;
@@ -85,6 +86,34 @@ class CheckoutController extends Controller
         session()->remove('percent');
         //session()->flash('success','Order Placed Successfully');
         return view('front.customer.payment',$data);
+    }
+
+    public function buy($slug)
+    {
+        session()->remove('cart');
+        $product = Product::where('slug', $slug)->first();
+        if (!$product) {
+            abort(404);
+        }
+        if($product->stock > 0){
+            $sesionData['product_id'] = $product->id;
+            $sesionData['shop_id'] = $product->shop_id;
+            $sesionData['point'] = $product->point;
+            $sesionData['slug'] = $product->slug;
+            $sesionData['name'] = $product->name;
+            $sesionData['quantity'] = 1;
+            $sesionData['price'] = $product->price;
+            $sesionData['new_price'] = $product->new_price;
+            $sesionData['flash_price'] = isset($product->flash->flash_price)? $product->flash->flash_price : null;
+            $sesionData['image'] = isset($product->product_image[0]) ? $product->product_image[0]->file_path : 'uploads/default.jpg';
+            session()->push('cart', $sesionData);
+        }
+        else{
+            session()->flash('error','Product is out of stock');
+            return redirect()->back();
+        }
+
+        return redirect()->route('checkout');
     }
 
 }
