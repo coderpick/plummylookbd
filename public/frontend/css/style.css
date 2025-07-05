@@ -4425,7 +4425,7 @@ td.action-custom a {
     color: #fff;
 }
 .single-shopping-card-one {
-    padding: 15px;
+    padding: 0px;
     background: #f5f6f7;
     border-radius: 6px;
     margin-top: 20px;
@@ -4577,6 +4577,7 @@ td.action-custom a {
     animation: 0.5s mymove;
 }
 .single-shopping-card-one .body-content {
+    padding: 6px;
     padding-top: 15px;
 }
 .single-shopping-card-one .body-content a .title {
@@ -4682,7 +4683,7 @@ td.action-custom a {
     transform: translateX(-50%) rotateX(0deg);
 }
 .single-shopping-card-one.deals-of-day {
-    background: #f3f4f6;
+    background: #ffffff;
     border: 1px solid #e2e2e2;
     overflow: hidden;
     position: relative;
@@ -4846,10 +4847,11 @@ td.action-custom a {
     margin-top: 20px;
 }
 .category-card img {
-    height: auto;
-    max-width: 100%;
+    max-height: 133px;
+    width: 100%;
     background-color: #ffffff;
     border-radius: 10px;
+    object-fit: cover;
 }
 .category-card h5 {
     overflow: hidden;
@@ -4866,8 +4868,12 @@ td.action-custom a {
 }
 
 @media only screen and (max-width: 599px) {
-    .single-shopping-card-one {
+    /*.single-shopping-card-one {
         padding: 5px;
+    }*/
+    .custom-col {
+        padding-left: 2px;
+        padding-right: 2px;
     }
     .Featured-cards {
         padding: 0px 3px 0px 3px;
@@ -4936,5 +4942,39 @@ td.action-custom a {
     .qtform {
         font-size: 14px;
         padding: 10px 10px 10px;
+    }
+
+    .category-card img {
+        max-height: 80px;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .single-shopping-card-one {
+        padding: 0px;
+    }
+    .cover-card-main-over-white{
+        padding-bottom: 5px !important;
+        padding-top: 10px !important;
+    }
+    .cover-card-main-over-white .title-area-between{
+        padding-bottom: 10px !important;
+    }
+    .view-button{
+        padding: 3px 25px !important;
+    }
+    .title-bg{
+        padding: 10px !important;
+    }
+    .breadcrumb-section{
+        padding: 10px 0 10px !important;
+    }
+
+    body {
+        overflow-x: hidden;
+        width: 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
     }
 }

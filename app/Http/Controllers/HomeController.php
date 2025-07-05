@@ -32,13 +32,13 @@ class HomeController extends Controller
         $data['featured_product'] = Product::select('id','name','slug','price','new_price','stock')
             ->with(['reviews','product_image:product_id,file_path'])
             ->where('is_featured', 1)
-            ->where('status', 'active')->inRandomOrder()->limit(8)->get();
+            ->where('status', 'active')->inRandomOrder()->get();
 
         $data['flash_sale'] = Product::with(['category','brand','flash'])->whereHas('flash', function($q)
         {
             $date = Carbon::today()->toDateString();
             $q->where('flash_stock', '>', 0)->orderBy('expires_at', 'ASC');
-        })->where('stock', '>', 0)->where('status', 'active')->inRandomOrder()->limit(4)->get();
+        })->where('stock', '>', 0)->where('status', 'active')->inRandomOrder()->limit(12)->get();
 
         $data['sliders'] = Slider::orderBy('id','DESC')->get() ;
 

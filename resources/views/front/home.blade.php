@@ -79,9 +79,6 @@
                                 <h2 class="title-left">
                                     Flash Sale
                                 </h2>
-                                <div>
-                                    <button class="view-button"><a href="{{ route('product.flash_sale') }}">View all</a></button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -157,6 +154,9 @@
                             @endforelse
 
                         </div>
+                        <div class="text-center mt-2">
+                            <button class="view-button"><a href="{{ route('product.flash_sale') }}">View all</a></button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -174,9 +174,6 @@
                                     <h2 class="title-left">
                                         {{ ucfirst($cat_product->name) }}
                                     </h2>
-                                    <div>
-                                        <button class="view-button"><a href="{{ route('product.category',$cat_product->slug ) }}">View all</a></button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -188,7 +185,7 @@
                             @endif
                             <div class="row g-4 mt--0 custom-row">
                                 @foreach($cat_product->product as $index=>$product)
-                                    @if($index <=3)
+                                    @if($index <=11)
                                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6 custom-col">
                                             <div class="Featured-height">
                                                 <div class="single-shopping-card-one deals-of-day">
@@ -264,6 +261,9 @@
                                     @endif
                                 @endforeach
                             </div>
+                            <div class="text-center mt-2">
+                                <button class="view-button"><a href="{{ route('product.category',$cat_product->slug ) }}">View all</a></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -281,9 +281,6 @@
                             <h2 class="title-left">
                                 Featured Product
                             </h2>
-                            <div>
-                                <button class="view-button"><a href="{{ route('product.featured_sale') }}">View all</a></button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -365,6 +362,9 @@
                             </div>
                         @empty
                         @endforelse
+                    </div>
+                    <div class="text-center mt-2">
+                        <button class="view-button"><a href="{{ route('product.featured_sale') }}">View all</a></button>
                     </div>
                 </div>
             </div>

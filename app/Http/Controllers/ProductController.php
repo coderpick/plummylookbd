@@ -120,8 +120,6 @@ class ProductController extends Controller
         if (Auth::user()->type == 'vendor'){
             $product['shop_id'] = Auth::user()->shop->id;
         }
-        $product['category_id'] = 1;
-        $product['brand_id'] = 1;
 
         $product = Product::create($product);
 
@@ -222,8 +220,6 @@ class ProductController extends Controller
         {
             $product_data['is_featured'] = 0;
         }
-        $product_data['category_id'] = 1;
-        $product_data['brand_id'] = 1;
 
         $product->update($product_data);
 

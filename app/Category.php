@@ -16,7 +16,7 @@ class Category extends Model
 
     public function product()
     {
-       return $this->hasMany(Product::class)->latest()->limit(4);
+       return $this->hasMany(Product::class)->latest()->limit(16);
 
         /*return $this->hasMany(Product::class)->withCount('order_detail')
             ->orderBy('order_detail_count', 'DESC')->inRandomOrder();*/
