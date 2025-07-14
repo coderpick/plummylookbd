@@ -68,11 +68,11 @@ class CustomerController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|numeric',
             'email' => 'required|email',
             'district' => 'required',
             'address_1' => 'required',
-            'zip' => 'required',
+            'zip' => 'nullable|numeric',
         ]);
 
         //Transaction start

@@ -47,6 +47,7 @@ class HomeController extends Controller
         $data['tomorrow'] = $now->addDays(1)->toDateString();
         $data['categories'] = Category::where('home_view', 0)->select('id','name','slug','icon')->orderBy('id','DESC')->get();
         $data['home_categories'] = Category::where('home_view', 1)->select('id','name','slug','icon')->orderBy('id','DESC')->limit(8)->get();
+        $data['brands'] = Brand::select('id','name','slug','icon')->orderBy('id','DESC')->get();
 
         return view('front.home',$data);
     }

@@ -31,6 +31,15 @@
                             @enderror
                         </div>
 
+                        <div class="form-group col-md-8">
+                            <label class="control-label">Icon</label>
+                            <input type="file" name="icon" id="input-file-max-fs" class="dropify @error('icon') is-invalid @enderror" data-default-file="{{ isset($brand)?asset($brand->icon):null }}" data-max-file-size="1M">
+                            @error('icon')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
+                        </div>
 
                         <div class="form-group col-md-4 align-self-end">
                             <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Update</button>

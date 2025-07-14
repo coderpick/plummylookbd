@@ -47,6 +47,49 @@
         </section>
     @endif
 
+    <section class="mb-5 Featured-Categories">
+        <div class="container">
+            <h2 class="title-left text-center text-custom title-bg">Shop By Categories</h2>
+            <div class="owl-carousel owl-theme">
+                @forelse($categories as $index=>$category)
+                    <div class="item">
+                        <div>
+                            <div class="category-card">
+                                <a href="{{ route('product.category',$category->slug) }}">
+                                    <img src="{{ asset($category->icon) }}" alt="product" loading="lazy">
+                                    <h5>{{ ucfirst($category->name) }}</h5>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                @endforelse
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5 Featured-Categories">
+        <div class="container">
+            <h2 class="title-left text-center text-custom title-bg">Shop By Brands</h2>
+            <div class="owl-carousel owl-theme">
+                @forelse($brands as $index=>$brand)
+                    <div class="item">
+                        <div>
+                            <div class="category-card">
+                                <a href="{{ route('product.brand',$brand->slug) }}">
+                                    <img src="{{ $brand->icon?asset($brand->icon): asset('uploads/default2.jpg') }}" alt="product" loading="lazy">
+                                    <h5>{{ ucfirst($brand->name) }}</h5>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                @endforelse
+            </div>
+        </div>
+    </section>
+
+
     @if(isset($categories) && count($categories) > 0)
         <section class="mb-5">
             <div class="container">
@@ -384,6 +427,16 @@
         .checked {
             color: #ffc700;
         }
+
+        .category-card {
+            background-color: #fff;
+            border-radius: 0.5rem;
+            text-align: center;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+            0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
     </style>
 @endpush
 
@@ -391,4 +444,27 @@
 @endpush
 
 @push('custom-js')
+    <script>
+        $(".owl-carousel").owlCarousel({
+            loop: true,
+            margin: 10,
+            dots: false,
+            autoplay: true,
+            autoplayTimeout: 2000,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 3,
+                },
+                600: {
+                    items: 4,
+                },
+                1000: {
+                    items: 6,
+                },
+            },
+        });
+
+
+    </script>
 @endpush

@@ -5,7 +5,7 @@
 <div class="humberger__menu__widget">
     <div class="header__top__right__language">
         @if(Auth::user())
-            <a style="color: var(--color-primary-dark) !important;" href="{{ route('account') }}"><i class="icofont-boy"></i> {{ ucfirst(auth()->user()->name) }}</a>
+            <a style="color: var(--color-primary-dark) !important;" href="{{ route('account') }}"><i class="icofont-boy"></i> Dashboard</a>
         @endif
     </div>
     @if(Auth::user())
@@ -41,6 +41,9 @@
         </li>
         <li><a href="{{ route('contact') }}">Contact</a></li>
         <li><a href="{{ route('offer') }}">Announcements!</a></li>
+        @if(Auth::user())
+            <li><a href="{{ route('favourite') }}">Favorites</a></li>
+        @endif
     </ul>
 </nav>
 <div id="mobile-menu-wrap"></div>

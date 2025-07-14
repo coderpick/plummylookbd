@@ -48,12 +48,19 @@ class BrandController extends Controller
     {
         $request->validate([
             'name'=>'required|unique:brands',
+            'icon'=>'required|image',
         ]);
         $data = $request->except('_token');
 
         $slug = Str::slug($request->name, '-');
         $data['slug'] = $slug;
 
+        if ($request->hasFile('icon')) {
+            $file = $request->file('icon');
+            $file_name = $slug.rand(0000,9999).$file->getClientOriginalName();
+            $file->move('uploads/brand/',$file_name);
+            $data['icon'] = 'uploads/brand/' . $file_name;
+        }
 
         Brand::create($data);
         session()->flash('success','Brand Created Successfully');
@@ -95,12 +102,22 @@ class BrandController extends Controller
     {
         $request->validate([
             'name'=>'required',
+            'icon'=>'nullable|image',
         ]);
         $data = $request->except('_token');
 
         $slug = Str::slug($request->name, '-');
         $data['slug'] = $slug;
 
+        if ($request->hasFile('icon')) {
+            $file = $request->file('icon');
+            $file_name = $slug.rand(0000,9999).$file->getClientOriginalName();
+            $file->move('uploads/brand/',$file_name);
+            if ($brand->icon != null){
+                unlink($brand->icon);
+            }
+            $data['icon'] = 'uploads/brand/' . $file_name;
+        }
 
         $brand->update($data);
         session()->flash('success','Brand Updated Successfully');
@@ -131,6 +148,9 @@ class BrandController extends Controller
     public function delete($id)
     {
         $brand = Brand::onlyTrashed()->findOrFail($id);
+        if ($brand->icon != null){
+            unlink($brand->icon);
+        }
         $brand->forceDelete();
         session()->flash('success','Brand Permanently Removed');
         return redirect()->route('brand.index');

@@ -17,7 +17,7 @@ class CreateUserDetailsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('district_id');
-            $table->string('zip');
+            $table->string('zip')->nullable();
             $table->longText('address_1');
             $table->longText('address_2')->nullable();
             $table->enum('account_status',['active','inactive'])->default('active');

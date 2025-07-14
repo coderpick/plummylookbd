@@ -4586,7 +4586,7 @@ td.action-custom a {
     margin-bottom: 10px;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 .single-shopping-card-one .body-content a:hover .title {
@@ -4976,5 +4976,33 @@ td.action-custom a {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
+    }
+
+    .footer{
+        padding-top: 30px !important;
+    }
+
+    .footer__about ul li{
+        line-height: 25px !important;
+    }
+
+    .footer__widget ul li a{
+        line-height: 25px !important;
+    }
+
+    .single-shopping-card-one .cart-counter-action .rts-btn{
+        padding: 3px 16px !important;
+    }
+
+    .single-shopping-card-one.deals-of-day .cart-counter-action .buy-now-btn{
+        padding: 3px 16px !important;
+    }
+
+    .checkout {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    .checkout__input {
+        margin-bottom: 10px;
     }
 }

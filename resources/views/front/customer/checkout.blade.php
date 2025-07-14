@@ -36,7 +36,7 @@
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="checkout__input">
-                                                        <p class="clear"><span class="f_title">Name: </span></p>
+                                                        <p class="clear"><span class="f_title">Name: <strong class="text-danger">*</strong></span></p>
                                                         <input name="name" type="text" required class="@error('name') is-invalid @enderror" value="{{ auth()->user()?auth()->user()->name:'' }}">
                                                         @error('name')
                                                         <span class="invalid-feedback" role="alert">
@@ -47,7 +47,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="checkout__input">
-                                                        <p class="clear"><span class="f_title">Email: </span></p>
+                                                        <p class="clear"><span class="f_title">Email: <strong class="text-danger">*</strong></span></p>
                                                         <input name="email" type="email" required class="@error('email') is-invalid @enderror" value="{{ auth()->user()?auth()->user()->email:'' }}">
                                                         @error('email')
                                                         <span class="invalid-feedback" role="alert">
@@ -58,7 +58,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="checkout__input">
-                                                        <p class="clear"><span class="f_title">Phone: </span></p>
+                                                        <p class="clear"><span class="f_title">Phone: <strong class="text-danger">*</strong></span></p>
                                                         <input name="phone" type="number" required class="@error('phone') is-invalid @enderror" value="{{ auth()->user()?auth()->user()->phone:'' }}">
                                                         @error('phone')
                                                         <span class="invalid-feedback" role="alert">
@@ -71,7 +71,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="checkout__input">
-                                                        <p class="clear"><span class="f_title">District: </span></p>
+                                                        <p class="clear"><span class="f_title">District: <strong class="text-danger">*</strong></span></p>
 
                                                         <select id="district" name="district" class="js-states form-control wrapper district @error('district') is-invalid @enderror">
                                                             @foreach ($districts as $district)
@@ -98,8 +98,8 @@
                                                 </div>
                                             </div>
 
-                                            <p class="clear"><span class="f_title ">Address: </span></p>
-                                            <input class="@error('address_1') is-invalid @enderror checkout__input__add" type="text" name="address_1" value="{{ (auth()->user())?ucfirst(auth()->user()->detail->address_1): '' }}">
+                                            <p class="clear"><span class="f_title ">Address: <strong class="text-danger">*</strong></span></p>
+                                            <input class="@error('address_1') is-invalid @enderror checkout__input__add" required type="text" name="address_1" value="{{ (auth()->user())?ucfirst(auth()->user()->detail->address_1): '' }}">
                                             @error('address_1')
                                             <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

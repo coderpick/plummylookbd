@@ -29,6 +29,7 @@
                             <tr>
                                 <th style="display: none;">Id</th>
                                 <th>Name</th>
+                                <th>Icon</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -38,6 +39,7 @@
                             <tr>
                                 <td style="display: none;">{{ $brand->id }}</td>
                                 <td>{{ ucfirst($brand->name) }}</td>
+                                <td width="10%"><img class="img-fluid" loading="lazy" src="{{ asset($brand->icon) }}" alt=""></td>
                                     <td>
                                         @if($brand->deleted_at == null)
                                         <span class="text-success">Active</span>

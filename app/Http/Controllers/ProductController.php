@@ -110,7 +110,7 @@ class ProductController extends Controller
             'stock'=>'required|numeric|min:0|not_in:0',
             'point'=>'nullable|numeric|min:0|not_in:0',
             'status'=>'required',
-            'images.*'=>'required|image|max:300'
+            'images.*'=>'required|image'
         ]);
         //Product create
         $product = $request->except('_token','images.*');
@@ -207,7 +207,7 @@ class ProductController extends Controller
             'stock'=>'required|numeric|min:0|not_in:0',
             'point'=>'nullable|numeric|min:0|not_in:0',
             'status'=>'required',
-            'images.*'=>'required|image|max:300'
+            'images.*'=>'required|image'
         ]);
 
         $product_data = $request->except('_token','images.*');
@@ -226,6 +226,9 @@ class ProductController extends Controller
         //Multiple image update
         if ($request->images != null && count($request->images))
         {
+            //delete old images
+            ProductImage::where('product_id', $product->id)->delete();
+
             foreach ($request->images as $image)
             {
                 $product_image['product_id'] = $product->id;
