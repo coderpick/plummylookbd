@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\PathaoController;
 use App\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -294,6 +295,11 @@ route::group(['prefix' => 'setting/shipping'], function () {
         Route::post('/store', 'ContactController@store')->name('contact.insert');
     });
 
+    Route::get('/pathao/cities', [PathaoController::class, 'cities']);
+    Route::get('/pathao/zones/{cityId}', [PathaoController::class, 'zones']);
+    Route::get('/pathao/areas/{zoneId}', [PathaoController::class, 'areas']);
+    Route::get('/pathao/send/{order}', [PathaoController::class, 'showForm'])->name('pathao.form');
+    Route::post('/pathao/order/{order}', [PathaoController::class, 'createOrder'])->name('pathao.send');
 
 //About routes
 //route::group(['prefix' => 'setting/about'], function () {

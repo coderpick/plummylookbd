@@ -35,6 +35,11 @@ class CreateOrdersTable extends Migration
             $table->timestamp('date');
             $table->enum('payment_status',['paid','unpaid','failed','canceled'])->default('unpaid');
             $table->enum('payment_type',['cash','gateway'])->default('cash');
+            $table->string('recipient_city')->nullable();
+            $table->string('recipient_zone')->nullable();
+            $table->string('recipient_area')->nullable();
+            $table->string('consignment_id')->nullable();
+            $table->string('pathao_status')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->softDeletes();
             $table->timestamps();

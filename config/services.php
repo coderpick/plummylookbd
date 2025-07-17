@@ -36,4 +36,12 @@ return [
         'redirect' => 'http://localhost/eshop-sobaroy/public/login/facebook/call-back',
     ],
 
+    'pathao' => [
+        'client_id' => env('PATHAO_CLIENT_ID'),
+        'client_secret' => env('PATHAO_CLIENT_SECRET'),
+        'username' => env('PATHAO_USERNAME'),
+        'password' => env('PATHAO_PASSWORD'),
+        'base_url' => env('PATHAO_BASE_URL'),
+    ],
+
 ];

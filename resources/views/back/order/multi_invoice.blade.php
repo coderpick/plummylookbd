@@ -43,7 +43,7 @@
                         <div style="background: #575757;width: 100%;position: relative;height: 66px;">
                             <h1 style="position: absolute;color: #000;background: #fff;right: 0;font-weight: 700;padding: 12px 15px 15px 4px;font-size: 55px;border: 1px solid #575757;line-height: 37px;">INVOICE</h1>
                             <div style="color: #fff;padding-top: 7px;padding-left: 24px;text-transform: uppercase;">
-                                <h1 style="font-weight: 700;">{{ $meta->title }}</h1>
+                                <h1 style="font-weight: 700;">{{ config()->get('app.name') }}</h1>
                             </div>
                         </div>
                     </div>

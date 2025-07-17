@@ -93,7 +93,7 @@
                                             </button>
                                         @endif
                                     </td>--}}
-                                    <td>{{ ucfirst($order->status) }}</td>
+                                    <td>{{ ucfirst($order->status) }} <span class="text-primary">{{ ucfirst($order->pathao_status) }}</span></td>
                                     <td>
                                        @if (auth()->user()->type != 'vendor')
                                         <div class="dropdown d-inline status">
@@ -137,24 +137,25 @@
 
                                             </ul>
                                         </div>
-
-                                            {{--<div class="btn-group">
-                                                <select name="status[]" class="btn-multi form-control btn btn-sm btn-primary">
-                                                    <option>Status</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                </select>
-                                            </div>--}}
-
                                         @endif
 
-                                        <a target="_blank" href="{{ route('orders.show', base64_encode($order->id)) }}" class="btn btn-sm btn-info">Details</a>
-                                       @if (auth()->user()->type != 'vendor')
-                                           @if($order->status == 'Confirmed' || $order->status == 'Processing')
-                                            <a href="{{ route('orders.invoice', base64_encode($order->id)) }}" class="btn btn-sm btn-info">Invoice</a>
-                                            @endif
-                                        @endif
+                                           <div class="dropdown d-inline">
+                                               <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                   Action
+                                               </button>
+                                               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                   <a class="dropdown-item" href="{{ route('orders.show', base64_encode($order->id)) }}">Details</a>
+
+                                                   @if (auth()->user()->type != 'vendor')
+                                                       @if($order->status == 'Confirmed' || $order->status == 'Processing')
+                                                           <a class="dropdown-item" href="{{ route('orders.invoice', base64_encode($order->id)) }}">Invoice</a>
+                                                       @endif
+                                                   @endif
+                                                   @if( ($order->status == 'Confirmed' || $order->status == 'Processing') && $order->pathao_status == null)
+                                                       <a class="dropdown-item" href="{{ route('pathao.form', base64_encode($order->id)) }}">Send To Pathao</a>
+                                                   @endif
+                                               </div>
+                                           </div>
                                     </td>
                                 </tr>
                             @endforeach
