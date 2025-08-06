@@ -143,6 +143,10 @@ class CategoryController extends Controller
         if (!$request->home_view){
             $data['home_view'] = 0;
         }
+        if (!$request->concern){
+            $data['concern'] = 0;
+        }
+
 
         $slug = Str::slug($request->name, '-');
         $data['slug'] = $slug;

@@ -20,6 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->text('icon');
             $table->text('banner')->nullable();
             $table->tinyInteger('home_view')->default('0');
+            $table->tinyInteger('concern')->default('0');
             $table->string('status')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->softDeletes();

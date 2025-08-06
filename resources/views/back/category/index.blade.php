@@ -33,6 +33,7 @@
                                 <th>Status</th>
                                 @if (auth()->user()->type != 'vendor')
                                 <th>Home View</th>
+                                <th>Concern</th>
                                 <th>Actions</th>
                                 @endif
                             </tr>
@@ -54,6 +55,7 @@
 
                                 @if (auth()->user()->type != 'vendor')
                                 <td>{{ ($category->home_view == 1)?'Yes':'No' }}</td>
+                                <td>{{ ($category->concern == 1)?'Yes':'No' }}</td>
                                     <td>
                                         @if($category->deleted_at == null)
                                             <a href="{{ route('category.edit',$category->slug) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
@@ -87,20 +89,11 @@
     </div>
 @endsection
 
-
-
-
 @push('library-css')
-
 @endpush
-
-
 
 @push('custom-css')
-
 @endpush
-
-
 
 @push('library-js')
     <script type="text/javascript" src="{{ asset('backend/js/plugins/jquery.dataTables.min.js') }}"></script>
@@ -108,17 +101,7 @@
     <script type="text/javascript">$('#sampleTable').DataTable({ order: [ [0, 'desc'] ]});</script>
 @endpush
 
-
-
 @push('custom-js')
     <script type="text/javascript">
-        if(document.location.hostname == 'pratikborsadiya.in') {
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-            ga('create', 'UA-72504830-1', 'auto');
-            ga('send', 'pageview');
-        }
     </script>
 @endpush

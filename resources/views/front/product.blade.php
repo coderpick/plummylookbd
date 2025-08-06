@@ -21,6 +21,22 @@
     <!-- Product Section Begin -->
     <section class="product spad">
         <div class="container">
+            @if(isset($sub_categories) && count($sub_categories) > 0)
+                <div class="row g-4 custom-row gy-4 mb-3 justify-content-center">
+                    @forelse($sub_categories as $index=>$sub_category)
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-4 custom-col">
+                            <div class="category-card">
+                                <a href="{{ route('product.subcategory',$sub_category->slug) }}">
+                                    <img src="{{ $sub_category->icon?asset($sub_category->icon): asset('uploads/default2.jpg') }}" alt="sub category" loading="lazy">
+                                    <h5>{{ ucfirst($sub_category->name) }}</h5>
+                                </a>
+                            </div>
+                        </div>
+                    @empty
+                    @endforelse
+
+                </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                    <div class="row custom-row mb-5">

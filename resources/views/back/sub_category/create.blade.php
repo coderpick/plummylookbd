@@ -47,6 +47,15 @@
                                 @enderror
                             </div>
                         <!--description-->
+                        <div class="form-group col-md-8">
+                            <label class="control-label">Icon <span class="text-danger">*</span></label>
+                            <input required name="icon" class="dropify form-control @error('icon') is-invalid @enderror" type="file">
+                            @error('icon')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
+                        </div>
 
                         <div class="form-group col-md-4 align-self-end">
                             <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save</button>
@@ -58,31 +67,27 @@
     </div>
 @endsection
 
-
-
-
 @push('library-css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{asset('backend/dropify/css/dropify.min.css')}}">
 @endpush
-
-
 
 @push('custom-css')
-
 @endpush
-
-
 
 @push('library-js')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="{{asset('backend/dropify/js/dropify.min.js')}}"></script>
 @endpush
-
-
 
 @push('custom-js')
     <script>
         $(document).ready(function() {
             $('.select2').select2();
+        });
+        $(document).ready(function(){
+            // Basic
+            $('.dropify').dropify();
         });
     </script>
 @endpush

@@ -51,11 +51,17 @@
                         </div>
 
                         @if (auth()->user()->type != 'vendor')
-                            <div class="form-group col-md-8">
+                            <div class="form-group col-md-5">
                                 <label for="default">Show in Homepage?</label>
                                 <br>
                                 <input name="home_view" type="checkbox" value="1"> <label
                                     for="active">Yes</label>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="concern">Concern?</label>
+                                <br>
+                                <input name="concern" id="concern" type="checkbox" value="1"> <label
+                                    for="concern">Yes</label>
                             </div>
                         @endif
 

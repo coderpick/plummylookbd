@@ -5008,4 +5008,7 @@ td.action-custom a {
     .breadcrumb__text h2 {
         font-size: 24px ! important;
     }
+    .single-shopping-card-one .thumbnail-preview img {
+        max-height: 200px !important;
+    }
 }

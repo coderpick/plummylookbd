@@ -46,6 +46,7 @@ class HomeController extends Controller
         $now = Carbon::now();
         $data['tomorrow'] = $now->addDays(1)->toDateString();
         $data['categories'] = Category::where('home_view', 0)->select('id','name','slug','icon')->orderBy('id','DESC')->get();
+        $data['concern_categories'] = Category::where('concern', 1)->select('id','name','slug','icon')->orderBy('id','DESC')->get();
         $data['home_categories'] = Category::where('home_view', 1)->select('id','name','slug','icon')->orderBy('id','DESC')->limit(8)->get();
         $data['brands'] = Brand::select('id','name','slug','icon')->orderBy('id','DESC')->get();
 
@@ -382,7 +383,7 @@ class HomeController extends Controller
         return Product::select('name')
             ->where('name', 'like', "%{$request->term}%")
             ->where('status', 'active')
-            ->distinct()
+            ->orderBy('name', 'ASC')
             ->pluck('name');
 
         /*return Search::select('look')

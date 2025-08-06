@@ -24,7 +24,7 @@ class SubCategoryController extends Controller
         Gate::authorize('app.subCategory.index');
         $data['title'] = 'Sub-Category';
         $data['categories']=Category::all();
-        $data['sub_categories'] = SubCategory::withTrashed()->get();
+        $data['sub_categories'] = SubCategory::with('category')->withTrashed()->get();
         return view('back.sub_category.index',$data);
     }
 
@@ -51,11 +51,19 @@ class SubCategoryController extends Controller
         $request->validate([
             'name'=>'required',
             'category_id'=>'required',
+            'icon'=>'required|image',
         ]);
         $category = $request->except('_token');
 
         $slug = Str::slug($request->name, '-');
         $category['slug'] = $slug;
+
+        if ($request->hasFile('icon')) {
+            $file = $request->file('icon');
+            $file_name = $slug.rand(0000,9999).$file->getClientOriginalName();
+            $file->move('uploads/category/',$file_name);
+            $category['icon'] = 'uploads/category/' . $file_name;
+        }
 
         SubCategory::create($category);
         session()->flash('success','Sub-Category Created Successfully');
@@ -99,12 +107,21 @@ class SubCategoryController extends Controller
         $request->validate([
             'name'=>'required|unique:categories',
             'category_id'=>'required',
+            'icon'=>'image',
         ]);
         $subcategory_data = $request->except('_token','_method');
 
         $slug = Str::slug($request->name, '-');
         $subcategory_data['slug'] = $slug;
-
+        if ($request->hasFile('icon')) {
+            $file = $request->file('icon');
+            $file_name = $slug.rand(0000,9999).$file->getClientOriginalName();
+            $file->move('uploads/category/',$file_name);
+            if ($subCategory->icon != null){
+                unlink($subCategory->icon);
+            }
+            $subcategory_data['icon'] = 'uploads/category/' . $file_name;
+        }
 
         $subCategory->update($subcategory_data);
         session()->flash('success','Sub-Category Updated Successfully');

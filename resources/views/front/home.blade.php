@@ -49,9 +49,9 @@
 
     <section class="mb-5 Featured-Categories">
         <div class="container">
-            <h2 class="title-left text-center text-custom title-bg">Shop By Categories</h2>
+            <h2 class="title-left text-center text-custom title-bg">Shop By Concern</h2>
             <div class="owl-carousel owl-theme">
-                @forelse($categories as $index=>$category)
+                @forelse($concern_categories as $index=>$category)
                     <div class="item">
                         <div>
                             <div class="category-card">

@@ -51,7 +51,7 @@
                             @enderror
                         </div>
 
-                        <div class="form-group col-md-8">
+                        <div class="form-group col-md-5">
                             @php
                                 if(isset($category)){
                                     $view = $category->home_view;
@@ -64,6 +64,20 @@
                             <br>
                             <input name="home_view" type="checkbox" value="1" @if($view == 1) checked @endif> <label
                                 for="active">Yes</label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            @php
+                                if(isset($category)){
+                                    $cView = $category->concern;
+                                }else{
+                                    $cView = null;
+                                }
+                            @endphp
+
+                            <label for="concern">concern?</label>
+                            <br>
+                            <input name="concern" id="concern" type="checkbox" value="1" @if($cView == 1) checked @endif> <label
+                                for="concern">Yes</label>
                         </div>
 
 

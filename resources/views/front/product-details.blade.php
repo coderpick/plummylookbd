@@ -70,7 +70,9 @@
                                 </div>
                                 <button style="border: none" class="primary-btn dtl_cart_btn" {{ ($product->stock)==0?'disabled': ' '}} > {{ ($product->stock)==0?'Out of Stock': 'Add To Cart'}}</button>
                             </form>
-                            <a href="#" class="primary-btn dtl_cart_btn text-white">Buy Now</a>
+                            <a href="{{ $product->stock==0?'javascript:void(0)':route('buy_now', $product->slug) }}" class="primary-btn dtl_cart_btn text-white {{ $product->stock==0?'stock-out-btn':''}}">
+                                {{ $product->stock==0?'Out of Stock':'Buy Now'}}
+                            </a>
                             <form style="display: inline" action="{{ route('add.favourite',$product->slug) }}" method="get">
                                 @csrf
                                 <button class="btn btn-outline-secondary qtform"><span class="icon_heart_alt"></span></button>

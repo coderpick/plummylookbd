@@ -252,7 +252,12 @@ class CustomerController extends Controller
             //Confirmation mail send
             //$customer = User::findOrFail($customer_id);
 
-            Mail::to($customer->email)->send(new OrderPlaceMail($order_id));
+            try {
+                Mail::to($customer->email)->send(new OrderPlaceMail($order_id));
+            } catch (\Exception $e) {
+                //Log::warning("Email to $customer->email failed: " . $e->getMessage());
+            }
+
 
             //Transaction commit
             DB::commit();
