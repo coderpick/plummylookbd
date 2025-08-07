@@ -153,6 +153,9 @@ class SubCategoryController extends Controller
     public function delete($id)
     {
         $sub_category = SubCategory::onlyTrashed()->findOrFail($id);
+        if ($sub_category->icon != null){
+            unlink($sub_category->icon);
+        }
         $sub_category->forceDelete();
         session()->flash('success','Sub-Category Permanently Removed');
         return redirect()->route('sub-category.index');
