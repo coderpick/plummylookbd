@@ -5,7 +5,7 @@ Dear {{ ucfirst($order->user->name) }} <br>
 @if ($order->status == 'delivered')
 Thanks for shopping with us. <br>
 @endif
-Your Order ({{ $order->order_number }}) has been {{ $order->status }} {{($order->payment_type == 'cash')? 'via Cash on delivery.':'.'}}  <br>
+Your Order ({{ $order->order_number }}) has been updated to {{ $order->status }}  <br>
 @if ($order->status != 'delivered')
 You will be updated with another email soon. <br>
 @endif

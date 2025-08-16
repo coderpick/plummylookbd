@@ -7,8 +7,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ContactUs extends Mailable
+class ContactUs extends Mailable implements ShouldQueue
 {
+    use Queueable, SerializesModels;
     public $data;
     /**
      * Create a new message instance.

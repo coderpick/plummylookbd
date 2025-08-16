@@ -7,7 +7,7 @@ $(function () {
             method : 'GET',
 
             success : function (data) {
-                console.log('Success - ' + JSON.stringify(data));
+                /*console.log('Success - ' + JSON.stringify(data));*/
 
                 /*$('.cart__price').html(data.cart__price);*/
                 $('.cart-count').html('<span class="count">'+ data.cart.length +'</span>');

@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderUpdate extends Mailable implements ShouldQueue
+class OrderUpdate extends Mailable
 {
     use Queueable, SerializesModels;
     public $order;
@@ -31,7 +31,7 @@ class OrderUpdate extends Mailable implements ShouldQueue
     public function build()
     {
         return $this
-            ->subject('Order'.' '.$this->order->status)
+            ->subject('Order Update')
             /*->from('orders@nikhutponno.com', 'Orders')*/
             ->markdown('emails.orders.update');
     }

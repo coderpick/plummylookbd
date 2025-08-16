@@ -33,8 +33,41 @@
 @yield('content')
 
 <!-- Footer Section Begin -->
-    @include('layouts.frontend._footer')
+@include('layouts.frontend._footer')
 <!-- Footer Section End -->
+<div id="mobileBottomNav">
+    <nav class="mobile-bottom-nav">
+        <div class="mobile-bottom-nav__item">
+            <a href="{{ route('account') }}" class="text-decoration-none">
+                <div class="mobile-bottom-nav__item-content">
+                    <i class="fa fa-user"></i>
+                    Account
+                </div>
+            </a>
+        </div>
+        <div class="mobile-bottom-nav__item mobile-bottom-nav__item--active">
+            <a href="{{ route('home') }}" class="text-decoration-none">
+                <div class="mobile-bottom-nav__item-content">
+                    <i class="fa fa-home"></i>
+                    Home
+                </div>
+            </a>
+        </div>
+        <div class="mobile-bottom-nav__item">
+            <a href="{{ route('cart') }}" class="text-decoration-none">
+                <div class="mobile-bottom-nav__item-content">
+                    <i class="fa fa-shopping-bag"></i>
+                    <span>
+                        <span class="cart-count">
+                            <span class="count">{{ session('cart')!= null ?count(session('cart')):0 }}</span>
+                        </span>
+                        Items
+                    </span>
+                </div>
+            </a>
+        </div>
+    </nav>
+</div>
 
 @include('layouts.frontend._scripts')
 

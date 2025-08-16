@@ -222,7 +222,11 @@ class OrderController extends Controller
 
             //update mail send to user
             $email = $order->user->email;
-            Mail::to($email)->send(new OrderUpdate($order));
+            try {
+                Mail::to($email)->send(new OrderUpdate($order));
+            } catch (\Exception $e) {
+                //Log::warning("Email to $email failed: " . $e->getMessage());
+            }
 
             /*dispatch(new OrderUpdateJob($order))->delay(Carbon::now()->addSeconds(3));*/
 
@@ -410,7 +414,11 @@ class OrderController extends Controller
 
                 //update mail send to user
                 $email = $order->user->email;
-                Mail::to($email)->send(new OrderUpdate($order));
+                try {
+                    Mail::to($email)->send(new OrderUpdate($order));
+                } catch (\Exception $e) {
+                    //Log::warning("Email to $email failed: " . $e->getMessage());
+                }
 
                 session()->flash('success','Status Changed and Mail Sent to User');
             }
