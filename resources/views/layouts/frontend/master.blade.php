@@ -54,7 +54,8 @@
             return $.get(institute, { term: query }, function (data) {
                 return process(data);
             });
-        }
+        },
+        items: 30
     });
 </script>
 </body>
