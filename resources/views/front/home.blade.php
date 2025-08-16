@@ -13,7 +13,7 @@
                                     @isset($slider->link)
                                         <a href="{{ $slider->link }}" target="_blank">
                                             @endisset
-                                            <img class="home-slider" src="{{ asset($slider->image) }}" alt="">
+                                            <img class="home-slider" src="{{ asset($slider->image) }}" alt="{{ $slider->title }}" loading="lazy">
                                         </a>
                                 </div>
                             </div>
@@ -33,9 +33,9 @@
                     <div class="col-lg-12">
                         <div class="row">
                             @forelse($home_categories as $index=>$category)
-                                    <div class="col-lg-3 col-md-3 col-sm-4 col-6 mt-2">
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-6 mt-1">
                                         <a href="{{ route('product.category',$category->slug) }}">
-                                            <img class="img-fluid" src="{{ asset($category->icon) }}"/>
+                                            <img class="img-fluid" src="{{ asset($category->icon) }}" alt="{{ $category->name }}" loading="lazy"/>
                                         </a>
                                     </div>
                             @empty
@@ -56,7 +56,7 @@
                         <div>
                             <div class="category-card">
                                 <a href="{{ route('product.category',$category->slug) }}">
-                                    <img src="{{ asset($category->icon) }}" alt="product" loading="lazy">
+                                    <img src="{{ asset($category->icon) }}" alt="{{ $category->name }}" loading="lazy">
                                     <h5>{{ ucfirst($category->name) }}</h5>
                                 </a>
                             </div>
@@ -77,7 +77,7 @@
                         <div>
                             <div class="category-card">
                                 <a href="{{ route('product.brand',$brand->slug) }}">
-                                    <img src="{{ $brand->icon?asset($brand->icon): asset('uploads/default2.jpg') }}" alt="product" loading="lazy">
+                                    <img src="{{ $brand->icon?asset($brand->icon): asset('uploads/default2.jpg') }}" alt="{{ $brand->name }}" loading="lazy">
                                     <h5>{{ ucfirst($brand->name) }}</h5>
                                 </a>
                             </div>
@@ -91,7 +91,7 @@
 
 
     @if(isset($categories) && count($categories) > 0)
-        <section class="mb-5">
+        <section class="mb-5 All-Categories">
             <div class="container">
                 <h2 class="title-left text-center text-custom title-bg">Categories</h2>
                 <div class="row g-4 custom-row gy-4">
@@ -99,7 +99,7 @@
                         <div class="col-lg-2 col-md-3 col-sm-4 col-4 custom-col">
                             <div class="category-card">
                                 <a href="{{ route('product.category',$category->slug) }}">
-                                    <img src="{{ asset($category->icon) }}" alt="product" loading="lazy">
+                                    <img src="{{ asset($category->icon) }}" alt="{{ $category->name }}" loading="lazy">
                                     <h5>{{ ucfirst($category->name) }}</h5>
                                 </a>
                             </div>
@@ -128,7 +128,7 @@
                     <div class='Featured-cards'>
                         @if(setting('site_flash_sale_img') !== null)
                             <a href="{{ route('product.flash_sale') }}">
-                                <img src="{{ asset(setting('site_flash_sale_img')) }}" class="img-fluid" alt="Flash Sale" loading="lazy">
+                                <img src="{{ asset(setting('site_flash_sale_img')) }}" class="img-fluid category-cards-image" alt="Flash Sale" loading="lazy">
                             </a>
                         @endif
                         <div class="row g-4 mt--0 custom-row">
@@ -223,7 +223,7 @@
                         <div class='Featured-cards'>
                             @if($cat_product->banner !== null)
                                 <a href="{{ route('product.category',$cat_product->slug) }}">
-                                    <img src="{{ asset($cat_product->banner) }}" class="img-fluid" alt="{{ $cat_product->name }}" loading="lazy">
+                                    <img src="{{ asset($cat_product->banner) }}" class="img-fluid category-cards-image" alt="{{ $cat_product->name }}" loading="lazy">
                                 </a>
                             @endif
                             <div class="row g-4 mt--0 custom-row">
@@ -254,7 +254,7 @@
                                                                     <i class="fa fa-bookmark"></i>
                                                                 @endif
                                                             </div>
-                                                            <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="grocery">
+                                                            <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="{{ $product->name }}" loading="lazy">
                                                         </a>
                                                         <div class="action-share-option">
                                                             <a class="add-list" href="{{ route('add.favourite',$product->slug) }}">
@@ -355,7 +355,7 @@
                                                         <i class="fa fa-bookmark"></i>
                                                     @endif
                                                 </div>
-                                                <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="grocery">
+                                                <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="{{ $product->name }}" loading="lazy">
                                             </a>
                                             <div class="action-share-option">
                                                 <a class="add-list" href="{{ route('add.favourite',$product->slug) }}">

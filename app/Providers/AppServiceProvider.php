@@ -55,5 +55,9 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('layouts/frontend/_mobileMenu', function ($view){
             $view->with('categories',Category::orderBy('name','ASC')->get());
         });
+
+        view()->composer('layouts/frontend/_meta', function ($view){
+            $view->with('link',Link::latest()->first());
+        });
     }
 }

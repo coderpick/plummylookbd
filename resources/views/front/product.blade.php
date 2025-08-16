@@ -66,7 +66,7 @@
                                                         <i class="fa fa-bookmark"></i>
                                                     @endif
                                                 </div>
-                                                <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="grocery">
+                                                <img src="{{ asset(isset($product->product_image[0])?$product->product_image[0]->file_path:'uploads/default.jpg') }}" alt="{{ $product->name }}" loading="lazy">
                                             </a>
                                             <div class="action-share-option">
                                                 <a class="add-list" href="{{ route('add.favourite',$product->slug) }}">

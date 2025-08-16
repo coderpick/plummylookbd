@@ -18,7 +18,7 @@
                                 @foreach($product->product_image as $image)
                                 <div class="col-lg-4">
                                     <a href="#" data-image="{{ asset($image->file_path) }}" data-zoom-image="{{ asset($image->file_path) }}">
-                                        <img style="max-width: 100px;" src="{{ asset($image->file_path) }}" />
+                                        <img style="max-width: 100px;" src="{{ asset($image->file_path) }}" alt="{{ $product->name }}" loading="lazy">
                                     </a>
                                 </div>
                                 @endforeach
