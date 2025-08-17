@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Brand;
 use App\Category;
+use App\Concern;
 use App\Offer;
 use App\Product;
 use App\Review;
@@ -46,8 +47,8 @@ class HomeController extends Controller
         $now = Carbon::now();
         $data['tomorrow'] = $now->addDays(1)->toDateString();
         $data['categories'] = Category::where('home_view', 0)->select('id','name','slug','icon')->orderBy('id','DESC')->get();
-        $data['concern_categories'] = Category::where('concern', 1)->select('id','name','slug','icon')->orderBy('id','DESC')->get();
         $data['home_categories'] = Category::where('home_view', 1)->select('id','name','slug','icon')->orderBy('id','DESC')->limit(8)->get();
+        $data['concerns'] = Concern::select('id','name','slug','icon')->orderBy('id','DESC')->get();
         $data['brands'] = Brand::select('id','name','slug','icon')->orderBy('id','DESC')->get();
 
         return view('front.home',$data);
@@ -174,6 +175,21 @@ class HomeController extends Controller
         $product = $product->orderBy('id','DESC')->paginate(24);
         $data['products'] =$product;
         $data['brand_categories'] = $product->unique('category_id');
+
+        return view('front.product', $data);
+    }
+
+    public function concern($slug)
+    {
+        $concern = Concern::where('slug', $slug)->first();
+        if (!$concern) {
+            abort(404);
+        }
+        $product = new Product();
+        $product = $product->where('concern_id', $concern->id)->where('status', 'active');
+        $data['title'] = $concern->name??'Concerns';
+        $product = $product->orderBy('id','DESC')->paginate(24);
+        $data['products'] =$product;
 
         return view('front.product', $data);
     }

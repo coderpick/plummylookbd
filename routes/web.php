@@ -31,6 +31,7 @@ Route::get('/category/{slug?}', 'HomeController@category')->name('product.catego
 Route::get('/sale', 'HomeController@sale')->name('product.sale');
 Route::get('/sub-category/{slug}', 'HomeController@subcategory')->name('product.subcategory');
 Route::get('/brands/{slug?}', 'HomeController@brand')->name('product.brand');
+Route::get('/concern/{slug}', 'HomeController@concern')->name('product.concern');
 Route::get('/featured', 'HomeController@featured')->name('product.featured_sale');
 //Route::get('/new-arrivals', 'HomeController@new_arrival')->name('product.new_arrival');
 //Route::get('/best-selling', 'HomeController@best_selling')->name('product.best_selling');
@@ -203,6 +204,11 @@ Route::delete('category/{id}/delete', 'CategoryController@delete')->name('catego
 Route::resource('brand', 'BrandController');
 Route::post('brand/{id}/restore', 'BrandController@restore')->name('brand.restore');
 Route::delete('brand/{id}/delete', 'BrandController@delete')->name('brand.delete');
+
+//concern routes
+Route::resource('concern', 'ConcernController');
+Route::post('concern/{id}/restore', 'ConcernController@restore')->name('concern.restore');
+Route::delete('concern/{id}/delete', 'ConcernController@delete')->name('concern.delete');
 
 //voucher routes
 Route::resource('coupon', 'VoucherController');

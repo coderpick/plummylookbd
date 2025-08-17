@@ -51,11 +51,11 @@
         <div class="container">
             <h2 class="title-left text-center text-custom title-bg">Shop By Concern</h2>
             <div class="owl-carousel owl-theme">
-                @forelse($concern_categories as $index=>$category)
+                @forelse($concerns as $index=>$category)
                     <div class="item">
                         <div>
                             <div class="category-card">
-                                <a href="{{ route('product.category',$category->slug) }}">
+                                <a href="{{ route('product.concern',$category->slug) }}">
                                     <img src="{{ asset($category->icon) }}" alt="{{ $category->name }}" loading="lazy">
                                     <h5>{{ ucfirst($category->name) }}</h5>
                                 </a>

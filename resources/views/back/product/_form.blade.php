@@ -1,13 +1,12 @@
 @csrf
 
-
 <div class="form-group col-md-7">
     <label class="control-label">Product Name <span class="font-weight-bold text-danger">*</span></label>
     <input class="form-control @error('name') is-invalid @enderror" type="text" name="name"  value="{{ old('name',isset($product)?$product->name:null) }}" placeholder="Enter product name">
     @error('name')
     <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+        <strong>{{ $message }}</strong>
+    </span>
     @enderror
 </div>
 
@@ -16,8 +15,8 @@
     <input class="form-control @error('code') is-invalid @enderror" type="text" name="code"  value="{{ old('code',isset($product)?$product->code:null) }}" placeholder="Enter product sku">
     @error('code')
     <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
+        <strong>{{ $message }}</strong>
+    </span>
     @enderror
 </div>
 
@@ -46,7 +45,6 @@
 </div>
 
 <div class="col-md-3">
-
     <div class="form-group">
         <label for="sub_category_id">Sub-Category</label>
         <select class="form-control select2  form-control-line @error('sub_category_id') is-invalid @enderror" name="sub_category_id" id="sub_category">
@@ -143,7 +141,8 @@
     @enderror
 </div>
 
-<div class="col-md-3">
+<div class="col-md-2"></div>
+<div class="col-md-2">
     <div class="form-group">
         <label for="price">Price <span class="font-weight-bold text-danger">*</span></label>
         <input required name="price" type="number" step=".01" value="{{ old('price',isset($product)?$product->price:null) }}"  class="form-control form-control-line @error('price') is-invalid @enderror" id="price">
@@ -153,12 +152,36 @@
     @enderror
 </div>
 
-<div class="col-md-4">
+<div class="col-md-2">
     <div class="form-group">
         <label for="price">Offer Price</label>
         <input name="new_price" type="number" step=".01" value="{{ old('new_price',isset($product)?$product->new_price:null) }}"  class="form-control form-control-line @error('new_price') is-invalid @enderror" id="new_price">
     </div>
     @error('new_price')
+    <div class="pl-1 text-danger">{{ $message }}</div>
+    @enderror
+</div>
+
+<div class="col-md-3">
+    <div class="form-group">
+        @php
+            if(old("concern_id")){
+                $concern_id = old('concern_id');
+            }elseif(isset($product)){
+                $concern_id = $product->concern_id;
+            }else{
+                $concern_id = null;
+            }
+        @endphp
+        <label for="brand_id">Concern</label>
+        <select class="select2 form-control  form-control-line @error('concern_id') is-invalid @enderror" name="concern_id" id="concern_id">
+            <option value="">Select Concern</option>
+            @foreach($concerns as $id=>$concern)
+                <option @if($concern_id == $id) selected @endif value="{{ $id }}">{{ ucfirst($concern) }}</option>
+            @endforeach
+        </select>
+    </div>
+    @error('brand_id')
     <div class="pl-1 text-danger">{{ $message }}</div>
     @enderror
 </div>
@@ -205,7 +228,7 @@
 <div class="col-md-10">
     <div class="card mt-3 mb-3">
         <div class="card-header bg-gradient-info">
-            <h6 class="card-title">Images <b class="text-danger">*</b> <span class="float-right"><button type="button" class="btn btn-sm btn-outline-primary" onClick="addmore();">Add Item</button> </span></h6>
+            <h6 class="card-title">Images [Size: 925x1050 px] <b class="text-danger">*</b> <span class="float-right"><button type="button" class="btn btn-sm btn-outline-primary" onClick="addmore();">Add Item</button> </span></h6>
         </div>
         <div class="card-body">
             <div class="form-group row mr-2" id="field">

@@ -18,11 +18,11 @@
             <div class="tile">
                 <h3 class="tile-title">{{ $title }} Form</h3>
                 <div class="tile-body">
-                    <form class="row" action="{{ route('category.store') }}" method="post" enctype="multipart/form-data">
+                    <form class="row" action="{{ route('concern.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group col-md-8">
-                            <label class="control-label">Category Name <span class="text-danger">*</span></label>
-                            <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ old('name') }}" placeholder="Enter category name">
+                            <label class="control-label">Concern Name <span class="text-danger">*</span></label>
+                            <input required class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ old('name') }}" placeholder="Enter concern name">
                             @error('name')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -39,27 +39,6 @@
                                     </span>
                             @enderror
                         </div>
-
-                        <div class="form-group col-md-8">
-                            <label class="control-label">Banner Image</label>
-                            <input name="banner" class="dropify form-control @error('banner') is-invalid @enderror" type="file">
-                            @error('banner')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-
-                        @if (auth()->user()->type != 'vendor')
-                            <div class="form-group col-md-8">
-                                <label for="default">Show in Homepage?</label>
-                                <br>
-                                <input name="home_view" type="checkbox" value="1"> <label
-                                    for="active">Yes</label>
-                            </div>
-                        @endif
-
-
 
                         <div class="form-group col-md-4 align-self-end">
                             <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save</button>

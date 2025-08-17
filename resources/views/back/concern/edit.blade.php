@@ -18,12 +18,12 @@
             <div class="tile">
                 <h3 class="tile-title">{{ $title }} Form</h3>
                 <div class="tile-body">
-                    <form class="row" action="{{ route('category.update',$category->slug) }}" method="post" enctype="multipart/form-data">
+                    <form class="row" action="{{ route('concern.update',$concern->slug) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('put')
                         <div class="form-group col-md-8">
-                            <label class="control-label">Category Name</label>
-                            <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ isset($category)?$category->name:null }}" placeholder="Enter category name">
+                            <label class="control-label">Concern Name <span class="text-danger">*</span></label>
+                            <input required class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ isset($concern)?$concern->name:null }}" placeholder="Enter concern name">
                             @error('name')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -33,39 +33,13 @@
 
                         <div class="form-group col-md-8">
                             <label class="control-label">Icon</label>
-                            <input type="file" name="icon" id="input-file-max-fs" class="dropify @error('icon') is-invalid @enderror" data-default-file="{{ isset($category)?asset($category->icon):null }}" data-max-file-size="1M">
+                            <input type="file" name="icon" id="input-file-max-fs" class="dropify @error('icon') is-invalid @enderror" data-default-file="{{ isset($concern)?asset($concern->icon):null }}" data-max-file-size="1M">
                             @error('icon')
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                             @enderror
                         </div>
-
-                        <div class="form-group col-md-8">
-                            <label class="control-label">Banner Image</label>
-                            <input name="banner" class="dropify form-control @error('banner') is-invalid @enderror" data-default-file="{{ isset($category)?asset($category->banner):null }}" type="file">
-                            @error('banner')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-
-                        <div class="form-group col-md-8">
-                            @php
-                                if(isset($category)){
-                                    $view = $category->home_view;
-                                }else{
-                                    $view = null;
-                                }
-                            @endphp
-
-                            <label for="default">Show in Homepage?</label>
-                            <br>
-                            <input name="home_view" type="checkbox" value="1" @if($view == 1) checked @endif> <label
-                                for="active">Yes</label>
-                        </div>
-
 
                         <div class="form-group col-md-4 align-self-end">
                             <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Update</button>

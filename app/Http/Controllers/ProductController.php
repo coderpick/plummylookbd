@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Brand;
 use App\Category;
+use App\Concern;
 use App\Product;
 use App\ProductImage;
 use App\Review;
@@ -85,6 +86,7 @@ class ProductController extends Controller
         $data['title'] = 'Product';
         $data['categories']= Category::orderBy('name')->pluck('name','id');
         $data['brands']= Brand::orderBy('name')->pluck('name','id');
+        $data['concerns'] = Concern::orderBy('name')->pluck('name','id');
         return view('back.product.create',$data);
     }
 
@@ -181,6 +183,7 @@ class ProductController extends Controller
         $data['categories']= Category::orderBy('name')->pluck('name','id');
         $data['sub_categories']= SubCategory::where('category_id', $data['product']->category_id)->latest()->get();
         $data['brands']= Brand::orderBy('name')->pluck('name','id');
+        $data['concerns'] = Concern::orderBy('name')->pluck('name','id');
         return view('back.product.edit',$data);
     }
 

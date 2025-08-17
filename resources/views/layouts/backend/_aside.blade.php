@@ -17,6 +17,9 @@
         @can('app.subCategory.index')
             <li><a class="app-menu__item {{ Request::is('secure/sub-category*')?'active':'' }}" href="{{ route('sub-category.index') }}"><i class="app-menu__icon fa fa-th"></i><span class="app-menu__label">Sub-Categories</span></a></li>
         @endcan
+        @can('app.category.index')
+            <li><a class="app-menu__item {{ Request::is('secure/concern*')?'active':'' }}" href="{{ route('concern.index') }}"><i class="app-menu__icon fa fa-th"></i><span class="app-menu__label">Concerns</span></a></li>
+        @endcan
         @can('app.brand.index')
             <li><a class="app-menu__item {{ Request::is('secure/brand*')?'active':'' }}" href="{{ route('brand.index') }}"><i class="app-menu__icon fa fa-tag"></i><span class="app-menu__label">Brands</span></a></li>
         @endcan

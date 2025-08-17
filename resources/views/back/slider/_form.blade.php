@@ -1,5 +1,5 @@
 <div class="form-group row">
-    <label for="logo" class="col-md-4 col-form-label text-md-right">{{ __('Image') }} <span class="text-danger">*</span></label>
+    <label for="logo" class="col-md-4 col-form-label text-md-right">{{ __('Image') }} <span class="text-danger">[Size: 2050x1150 px] *</span></label>
     <div class="col-md-6">
 
         <input type="file" id="input-file-now-custom-1" name="image" class="dropify" @error('image') is-invalid @enderror data-default-file="@if(isset($slider->image)){{asset($slider->image)}}@else{{asset('uploads/default.jpg')}}@endif" data-max-file-size="2M"/>
