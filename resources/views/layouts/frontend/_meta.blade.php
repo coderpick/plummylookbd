@@ -24,3 +24,15 @@
 @else ' ' @endif">
 <meta name="twitter:image" content="{{ asset((isset($link) && $link->logo != null)? $link->logo : 'uploads/default_logo.png') }}">
 <link rel="canonical" href="{{ url()->current() }}">
+
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "{{ucfirst($title??'')}} Plummy Look",
+        "alternateName": "{{ucfirst($title??'')}} Plummy Look",
+        "description": "{{ $meta_description ?? $description ?? $meta->description ?? '' }}",
+        "image": "{{ asset((isset($link) && $link->logo != null)? $link->logo : 'uploads/default_logo.png') }}",
+        "url": "{{ url()->current() }}"
+    }
+</script>

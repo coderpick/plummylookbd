@@ -47,8 +47,8 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="checkout__input">
-                                                        <p class="clear"><span class="f_title">Email: <strong class="text-danger">*</strong></span></p>
-                                                        <input name="email" type="email" required class="@error('email') is-invalid @enderror" value="{{ auth()->user()?auth()->user()->email:'' }}">
+                                                        <p class="clear"><span class="f_title">Email: </span></p>
+                                                        <input name="email" type="email" class="@error('email') is-invalid @enderror" value="{{ auth()->user()?auth()->user()->email:'' }}">
                                                         @error('email')
                                                         <span class="invalid-feedback" role="alert">
                                                             <strong>{{ $message }}</strong>

@@ -1,9 +1,19 @@
 @csrf
 
-<div class="form-group col-md-7">
+<div class="form-group col-md-10">
     <label class="control-label">Product Name <span class="font-weight-bold text-danger">*</span></label>
-    <input class="form-control @error('name') is-invalid @enderror" type="text" name="name"  value="{{ old('name',isset($product)?$product->name:null) }}" placeholder="Enter product name">
+    <input class="form-control @error('name') is-invalid @enderror" type="text" id="name" name="name"  value="{{ old('name',isset($product)?$product->name:null) }}" placeholder="Enter product name">
     @error('name')
+    <span class="invalid-feedback" role="alert">
+        <strong>{{ $message }}</strong>
+    </span>
+    @enderror
+</div>
+
+<div class="form-group col-md-7">
+    <label class="control-label">Slug/Permalink <span class="font-weight-bold text-danger">* (Must be unique)</span></label>
+    <input class="form-control @error('slug') is-invalid @enderror" type="text" id="slug" name="slug"  value="{{ old('slug',isset($product)?$product->slug:null) }}" placeholder="Enter product slug">
+    @error('slug')
     <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>
     </span>
@@ -432,8 +442,7 @@
         $(".rmvbtn").click(function(){
             $(this).parent().parent().remove();
         });
-    };
-
+    }
 
 </script>
 

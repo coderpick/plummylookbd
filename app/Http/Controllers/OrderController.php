@@ -184,7 +184,7 @@ class OrderController extends Controller
 
                 $exist = Point::where('user_id', $order->user_id )->first();
 
-                if ($exist){
+                /*if ($exist){
                         $balance = $exist->point + $order->order_detail->sum('point');
                         $exist->update(['point'=>$balance]);
                     }
@@ -192,7 +192,7 @@ class OrderController extends Controller
                         $data['user_id'] = $order->user_id;
                         $data['point'] = $order->order_detail->sum('point');
                         Point::create($data);
-                    }
+                    }*/
 
 
                     //order detail status change
@@ -221,12 +221,15 @@ class OrderController extends Controller
             Order::findOrFail($order_id)->update(['status'=>$status,'updated_by'=>Auth::user()->id]);
 
             //update mail send to user
-            $email = $order->user->email;
-            try {
-                Mail::to($email)->send(new OrderUpdate($order));
-            } catch (\Exception $e) {
-                //Log::warning("Email to $email failed: " . $e->getMessage());
+            $email = $order->email;
+            if (!$email){
+                try {
+                    Mail::to($email)->send(new OrderUpdate($order));
+                } catch (\Exception $e) {
+                    //Log::warning("Email to $email failed: " . $e->getMessage());
+                }
             }
+
 
             /*dispatch(new OrderUpdateJob($order))->delay(Carbon::now()->addSeconds(3));*/
 
@@ -374,7 +377,7 @@ class OrderController extends Controller
 
                 if ($request->status == 'Delivered'){
 
-                    $exist = Point::where('user_id', $order->user_id )->first();
+                    /*$exist = Point::where('user_id', $order->user_id )->first();
 
                     if ($exist){
                         $balance = $exist->point + $order->order_detail->sum('point');
@@ -384,7 +387,7 @@ class OrderController extends Controller
                         $data['user_id'] = $order->user_id;
                         $data['point'] = $order->order_detail->sum('point');
                         Point::create($data);
-                    }
+                    }*/
 
 
                     //order detail status change
@@ -413,11 +416,13 @@ class OrderController extends Controller
                 Order::findOrFail($id)->update(['status'=>$request->status,'updated_by'=>Auth::user()->id]);
 
                 //update mail send to user
-                $email = $order->user->email;
-                try {
-                    Mail::to($email)->send(new OrderUpdate($order));
-                } catch (\Exception $e) {
-                    //Log::warning("Email to $email failed: " . $e->getMessage());
+                $email = $order->email;
+                if (!$email){
+                    try {
+                        Mail::to($email)->send(new OrderUpdate($order));
+                    } catch (\Exception $e) {
+                        //Log::warning("Email to $email failed: " . $e->getMessage());
+                    }
                 }
 
                 session()->flash('success','Status Changed and Mail Sent to User');

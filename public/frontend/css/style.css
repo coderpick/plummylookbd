@@ -5009,7 +5009,8 @@ td.action-custom a {
         font-size: 24px ! important;
     }
     .single-shopping-card-one .thumbnail-preview img {
-        height: 200px !important;
+        aspect-ratio: 1 / 1 !important;
+        height: auto !important;
     }
 
     .hero {

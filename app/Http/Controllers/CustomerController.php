@@ -69,7 +69,7 @@ class CustomerController extends Controller
         $request->validate([
             'name' => 'required',
             'phone' => 'required|numeric',
-            'email' => 'required|email',
+            'email' => 'nullable|email',
             'district' => 'required',
             'address_1' => 'required',
             'zip' => 'nullable|numeric',
@@ -95,25 +95,31 @@ class CustomerController extends Controller
                 $user['created_at'] = now();
                 $user['updated_at'] = now();
 
-                $user_id = User::insertGetId($user);
-                $detail['user_id'] = $user_id;
-                $detail['address_1'] = $request->address_1;
-                $detail['address_2'] = $request->address_2;
-                $detail['district_id'] = $request->district;
-                $detail['zip'] = $request->zip;
-                $detail['created_at'] = now();
-                $detail['updated_at'] = now();
-                $detail['account_status'] = 'active';
-                UserDetail::insert($detail);
+                if ($request->email != null){
+                    $user_id = User::insertGetId($user);
+                    $detail['user_id'] = $user_id;
+                    $detail['address_1'] = $request->address_1;
+                    $detail['address_2'] = $request->address_2;
+                    $detail['district_id'] = $request->district;
+                    $detail['zip'] = $request->zip;
+                    $detail['created_at'] = now();
+                    $detail['updated_at'] = now();
+                    $detail['account_status'] = 'active';
+                    UserDetail::insert($detail);
 
-                Auth::loginUsingId($user_id);
-                $customerUser = Auth::user();
+                    Auth::loginUsingId($user_id);
+                    $customerUser = Auth::user();
+                }
+                else{
+                    $customerUser = $request;
+                }
+
             }
 
            $customer = $customerUser;
             //order store
-            $order['order_number'] = '#'.$customer->id.time();
-            $order['user_id'] = $customer->id;
+            $order['order_number'] = '#'.date('ymd').uniqid();
+            $order['user_id'] = $customer->id??null;
             $order['name'] = $customer->name;
             $order['email'] = $customer->email;
             $order['phone'] = $request->phone;
@@ -126,12 +132,12 @@ class CustomerController extends Controller
                 $order['zip'] = $request->zip;
 
                 /*user detail update*/
-                $detail['address_1'] = $request->address_1;
+                /*$detail['address_1'] = $request->address_1;
                 $detail['address_2'] = $request->address_2;
                 $detail['district_id'] = $request->district;
                 $detail['zip'] = $request->zip;
                 $detail['account_status'] = 'active';
-                UserDetail::where('user_id', $customer->id)->update($detail);
+                UserDetail::where('user_id', $customer->id)->update($detail);*/
             }
 
             $order_id = Order::insertGetId($order);
@@ -252,19 +258,27 @@ class CustomerController extends Controller
             //Confirmation mail send
             //$customer = User::findOrFail($customer_id);
 
-            try {
-                Mail::to($customer->email)->send(new OrderPlaceMail($order_id));
-            } catch (\Exception $e) {
-                //Log::warning("Email to $customer->email failed: " . $e->getMessage());
+            if ($customer->email != null) {
+                try {
+                    Mail::to($customer->email)->send(new OrderPlaceMail($order_id));
+                } catch (\Exception $e) {
+                    //Log::warning("Email to $customer->email failed: " . $e->getMessage());
+                }
             }
-
 
             //Transaction commit
             DB::commit();
 
+            session()->remove('cart');
             session()->flash('success','Order Placed Successfully');
             session()->flash('s_msg','Successful');
-            return redirect()->route('payment',[$customer->slug,base64_encode($order_id)]);
+            if (isset($customer->slug) && $customer->slug == null){
+                return redirect()->route('payment',[$customer->slug,base64_encode($order_id)]);
+            }
+            else{
+                return redirect()->route('home');
+            }
+
 
 
         }catch (\Exception $exception)

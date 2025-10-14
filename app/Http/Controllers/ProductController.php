@@ -101,6 +101,7 @@ class ProductController extends Controller
         $request->validate([
             'name'=>'required',
             'code'=>'nullable|unique:products',
+            'slug'=>'required|unique:products',
             'shop_id'=>'nullable',
             'size'=>'nullable',
             'color'=>'nullable',
@@ -116,8 +117,8 @@ class ProductController extends Controller
         ]);
         //Product create
         $product = $request->except('_token','images.*');
-        $slug = Str::slug($request->name, '-');
-        $product['slug'] = $slug.'-'.rand(001,999999);
+        //$slug = Str::slug($request->name, '-');
+        //$product['slug'] = $slug.'-'.rand(001,999999);
 
         if (Auth::user()->type == 'vendor'){
             $product['shop_id'] = Auth::user()->shop->id;
@@ -198,6 +199,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name'=>'required',
+            'slug'=>'required',
             'code'=>'nullable',
             'shop_id'=>'nullable',
             'size'=>'nullable',
@@ -214,10 +216,10 @@ class ProductController extends Controller
         ]);
 
         $product_data = $request->except('_token','images.*');
-        if ($request->name != $product->name){
+        /*if ($request->name != $product->name){
             $slug = Str::slug($request->name, '-');
             $product_data['slug'] = $slug.'-'.rand(001,99999);
-        }
+        }*/
 
         if(!$request->has('is_featured'))
         {

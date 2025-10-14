@@ -55,15 +55,15 @@
                             </tr>
                             <tr>
                                 <th style="width: 30%">Customer Name</th>
-                                <td><a href="{{ route('orders.customer',$order->user->slug ) }}">{{ ucfirst($order->user->name) }}</a></td>
+                                <td>{{ ucfirst($order->name) }}</td>
                             </tr>
                             <tr>
                                 <th style="width: 30%">Phone</th>
-                                <td><a href="tel:{{ $order->user->phone }}">{{ $order->user->phone }}</a></td>
+                                <td><a href="tel:{{ $order->phone }}">{{ $order->phone }}</a></td>
                             </tr>
                             <tr>
                                 <th style="width: 30%">Email</th>
-                                <td><a href="mailto:{{ $order->user->email }}">{{ $order->user->email }}</a></td>
+                                <td>{{ $order->email }}</td>
                             </tr>
                             <tr>
                                 <th style="width: 30%">Shipping Address</th>

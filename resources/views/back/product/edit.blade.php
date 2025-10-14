@@ -102,5 +102,33 @@
             });
 
         });
+
+        $(document).ready(function () {
+            let isSlugEdited = false;
+
+            // Detect manual changes to slug
+            $('#slug').on('input', function () {
+                isSlugEdited = true;
+            });
+
+            // Auto-generate slug unless manually changed
+            $('#name').on('input', function () {
+                if (!isSlugEdited) {
+                    let title = $(this).val();
+                    let slug = title.toLowerCase()
+                        .trim()
+                        .replace(/[^a-z0-9\s-]/g, '')  // Remove special chars
+                        .replace(/\s+/g, '-')          // Replace spaces with -
+                        .replace(/-+/g, '-');           // Collapse dashes
+                    $('#slug').val(slug);
+                }
+            });
+
+            $('#slug').on('keyup',function(e) {
+                $( this ).val($( this ).val().replace(/\s/g, '-'));
+                $( this ).val($( this ).val().replace(/[^a-zA-Z0-9]/g, '-'));
+            });
+        });
+
     </script>
 @endpush

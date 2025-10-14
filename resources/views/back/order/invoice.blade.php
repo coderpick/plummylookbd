@@ -66,11 +66,11 @@
                     </div>
                     <div class="col-sm-6 text-sm-right order-sm-1">
                         <strong>Bill To:</strong> <br>
-                        <strong style="font-size: 18px;"> {{ ucfirst($order->user->name) }}</strong>
+                        <strong style="font-size: 18px;"> {{ ucfirst($order->name) }}</strong>
                         <address>
                             {{ ucfirst($order->address) }}<br/>
                             {{ $order->district->name.'  '.$order->zip }}<br/>
-                            {{ $order->user->phone }}<br/>
+                            {{ $order->phone }}<br/>
                         </address>
                     </div>
                 </div>
