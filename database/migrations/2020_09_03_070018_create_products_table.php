@@ -36,6 +36,7 @@ class CreateProductsTable extends Migration
             $table->string('status');
             $table->tinyInteger('is_featured')->default('0');
             $table->string('view_count')->nullable();
+            $table->string('meta_title')->nullable();
             $table->string('meta_key')->nullable();
             $table->text('meta_description')->nullable();
             $table->text('youtube_link')->nullable();

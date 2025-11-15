@@ -322,6 +322,15 @@
         <div class="content">
             <br>
             <div class="form-group">
+                <input class="form-control @error('meta_title') is-invalid @enderror" type="text" name="meta_title"  value="{{ old('meta_title',isset($product)?$product->meta_title:null) }}" placeholder="Product meta title">
+                @error('meta_title')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+
+            <div class="form-group">
                 <input class="form-control @error('meta_key') is-invalid @enderror" type="text" name="meta_key"  value="{{ old('meta_key',isset($product)?$product->meta_key:null) }}" placeholder="Product meta keyword">
                 @error('meta_key')
                 <span class="invalid-feedback" role="alert">

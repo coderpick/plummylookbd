@@ -34,5 +34,7 @@
         "description": "{{ $meta_description ?? $description ?? $meta->description ?? '' }}",
         "image": "{{ asset((isset($link) && $link->logo != null)? $link->logo : 'uploads/default_logo.png') }}",
         "url": "{{ url()->current() }}"
+        "priceCurrency": "BDT",
+        "price": "{{ $meta_price??'' }}",
     }
 </script>

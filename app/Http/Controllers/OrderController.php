@@ -42,6 +42,7 @@ class OrderController extends Controller
 
     public function pending()
     {
+        Gate::authorize('app.order.index');
         $data['title'] = 'Pending Orders';
 
         if (Auth::user()->type == 'vendor'){
@@ -59,6 +60,7 @@ class OrderController extends Controller
 
     public function confirmed()
     {
+        Gate::authorize('app.order.index');
         $data['title'] = 'Confirmed Orders';
 
         if (Auth::user()->type == 'vendor'){
@@ -75,6 +77,7 @@ class OrderController extends Controller
 
     public function processing()
     {
+        Gate::authorize('app.order.index');
         $data['title'] = 'Processing Orders';
 
         if (Auth::user()->type == 'vendor'){
@@ -91,6 +94,7 @@ class OrderController extends Controller
 
     public function shipped()
     {
+        Gate::authorize('app.order.index');
         $data['title'] = 'Shipped Orders';
 
         if (Auth::user()->type == 'vendor'){
@@ -107,6 +111,7 @@ class OrderController extends Controller
 
     public function delivered()
     {
+        Gate::authorize('app.order.index');
         $data['title'] = 'Delivered Orders';
 
         if (Auth::user()->type == 'vendor'){
@@ -123,6 +128,7 @@ class OrderController extends Controller
 
     public function canceled()
     {
+        Gate::authorize('app.order.index');
         $data['title'] = 'Canceled Orders';
 
         if (Auth::user()->type == 'vendor'){
@@ -139,6 +145,7 @@ class OrderController extends Controller
 
     public function show($id)
     {
+        Gate::authorize('app.order.index');
         $id = base64_decode($id);
         $data['title'] = 'Order Details';
         $data['order'] = Order::with(['order_detail','user','order_advance'])->findOrFail($id);
@@ -148,6 +155,7 @@ class OrderController extends Controller
 
     public function invoice($id)
     {
+        Gate::authorize('app.order.index');
         $id = base64_decode($id);
         $data['title'] = 'Invoice';
         $data['order'] = Order::findOrFail($id);
@@ -159,6 +167,7 @@ class OrderController extends Controller
 
     public function customer($slug)
     {
+        Gate::authorize('app.order.index');
         $customer = User::where('slug',$slug)->first();
         $data['title'] = $customer->name;
         $data['orders'] = Order::where('user_id',$customer->id)->get();

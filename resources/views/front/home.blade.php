@@ -33,7 +33,7 @@
                     <div class="col-lg-12">
                         <div class="row">
                             @forelse($home_categories as $index=>$category)
-                                    <div class="col-lg-3 col-md-3 col-sm-4 col-6 mt-1">
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-6 mt-1 {{ $loop->odd ? 'pr-1' : 'pl-1' }}">
                                         <a href="{{ route('product.category',$category->slug) }}">
                                             <img class="img-fluid" src="{{ asset($category->icon) }}" alt="{{ $category->name }}" loading="lazy"/>
                                         </a>
@@ -228,7 +228,7 @@
                             @endif
                             <div class="row g-4 mt--0 custom-row">
                                 @foreach($cat_product->product as $index=>$product)
-                                    @if($index <=11)
+                                    @if($index < 2)
                                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6 custom-col">
                                             <div class="Featured-height">
                                                 <div class="single-shopping-card-one deals-of-day">
@@ -320,7 +320,7 @@
             <div class="cover-card-main-over-white">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="title-area-between mb--15">
+                        <div class="title-area-between mb--15 featured-title-div">
                             <h2 class="title-left">
                                 Featured Product
                             </h2>
@@ -436,6 +436,19 @@
             0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
             margin-top: 20px;
             margin-bottom: 20px;
+        }
+
+        @media only screen and (max-width: 575px) {
+            .owl-dots{
+                display: none !important;
+            }
+            .featured-title-div{
+                margin-bottom: -13px !important;
+            }
+
+            .category-cards-image {
+                margin-bottom: -14px !important;
+            }
         }
     </style>
 @endpush

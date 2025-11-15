@@ -71,10 +71,11 @@ class HomeController extends Controller
 
         $data['expires_at']= $exp->addDays(1)->toDateString();
         $data['subcategory'] = SubCategory::where('id',$data['product']->sub_category_id)->first();
-        $data['title'] = $data['product']->name;
+        $data['title'] = $product->meta_title??$data['product']->name;
 
         $data['meta_keyword'] = $data['product']->meta_key;
         $data['meta_description'] = $data['product']->meta_description;
+        $data['meta_price'] = $product->new_price != null? $product->new_price : $product->price;
 
         $data['description'] = Str::limit(strip_tags($data['product']->details), 150);
         $data['keyword'] = Str::slug($data['product']->name, ', ');
