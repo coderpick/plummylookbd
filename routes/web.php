@@ -12,6 +12,8 @@
 */
 
 use App\Http\Controllers\PathaoController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagController;
 use App\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +44,10 @@ Route::get('products/{key}/short-by/{by}','HomeController@short')->name('product
 Route::get('product/{key}/short-by/{by}','HomeController@subshort')->name('product.subshort');
 //Route::get('become-seller', 'HomeController@seller')->name('seller');
 Route::get('search-autocomplete', 'HomeController@searchAutoComplete')->name('search.autocomplete');
+
+Route::get('blog', 'BlogController@index')->name('blog.index');
+Route::get('blog/{slug}', 'BlogController@show')->name('blog.show');
+Route::get('blog/category/{slug}', 'BlogController@tag')->name('blog.tag');
 
 //add to cart route
 Route::get('ajax/add-to-cart/{product_id}','AjaxController@addToCart')->name('ajax.addToCart');
@@ -209,6 +215,18 @@ Route::delete('brand/{id}/delete', 'BrandController@delete')->name('brand.delete
 Route::resource('concern', 'ConcernController');
 Route::post('concern/{id}/restore', 'ConcernController@restore')->name('concern.restore');
 Route::delete('concern/{id}/delete', 'ConcernController@delete')->name('concern.delete');
+
+    /*tag route*/
+    Route::get('tag', [TagController::class,'index'])->name('tag.index');
+    Route::post('tag/store', [TagController::class,'store'])->name('tag.store');
+    Route::get('tag/edit', [TagController::class,'edit'])->name('tag.edit');
+    Route::post('tag/update', [TagController::class,'update'])->name('tag.update');
+    Route::post('tag/destroy/{id}', [TagController::class,'destroy'])->name('tag.destroy');
+
+    /*post route*/
+    Route::resource('post',PostController::class);
+    Route::post('post/trash/{id}',[PostController::class,'trash'])->name('post.trash');
+    Route::get('post/restore/{id}',[PostController::class,'restore'])->name('post.restore');
 
 //voucher routes
 Route::resource('coupon', 'VoucherController');

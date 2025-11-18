@@ -113,7 +113,8 @@
                         </ul>
                     </li>
                     <li class="{{ Request::is('contact-us')?'active':'' }}"><a href="{{ route('contact') }}">Contact Us</a></li>
-                    <li class="{{ Request::is('announcements')?'active':'' }}"><a href="{{ route('offer') }}">Announcements !</a></li>
+                    <li class="{{ Request::is('blog*')?'active':'' }}"><a href="{{ route('blog.index') }}">Blog</a></li>
+                    <li class="{{ Request::is('announcement')?'active':'' }}"><a href="{{ route('offer') }}">Announcements !</a></li>
                 </ul>
             </nav>
         </div>

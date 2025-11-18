@@ -82,7 +82,20 @@
             </ul>
         </li>--}}
 
-        @can('app.coupon.index')
+        <li class="treeview {{ Request::is('secure/tag*') || Request::is('secure/post*') ?'is-expanded':'' }}">
+            <a class="app-menu__item" href=" " data-toggle="treeview"><i class="app-menu__icon fa fa-sticky-note-o"></i><span class="app-menu__label">Blog Manage</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+            <ul class="treeview-menu">
+                @can('app.tag.index')
+                    <li><a class="treeview-item {{ Request::is('secure/tag')?'active':'' }}" href="{{ route('tag.index') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Category Tags</span></a></li>
+                @endcan
+                @can('app.post.index')
+                    <li><a class="treeview-item {{ Request::is('secure/post*')?'active':'' }}" href="{{ route('post.index') }}"><i class="icon fa fa-circle-o"></i><span class="app-menu__label">Blog Posts</span></a></li>
+                @endcan
+            </ul>
+        </li>
+
+
+    @can('app.coupon.index')
             <li><a class="app-menu__item {{ Request::is('secure/coupon*')?'active':''  }}" href="{{ route('coupon.index') }}"><i class="app-menu__icon fa fa-eraser"></i><span class="app-menu__label">Coupons</span></a></li>
         @endcan
         @can('app.offer.index')

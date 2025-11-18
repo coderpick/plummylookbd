@@ -287,6 +287,52 @@ class PermissionSeeder extends Seeder {
         ] );
 
 
+        /*Tag Module Permission*/
+        $moduleTag = Module::updateOrCreate( ['name' => 'Tag Management'] );
+        Permission::updateOrCreate( [
+            'module_id' => $moduleTag->id,
+            'name'      => 'Access Tag',
+            'slug'      => 'app.tag.index',
+        ] );
+        Permission::updateOrCreate( [
+            'module_id' => $moduleTag->id,
+            'name'      => 'Create Tag',
+            'slug'      => 'app.tag.create',
+        ] );
+        Permission::updateOrCreate( [
+            'module_id' => $moduleTag->id,
+            'name'      => 'Edit Tag',
+            'slug'      => 'app.tag.edit',
+        ] );
+        Permission::updateOrCreate( [
+            'module_id' => $moduleTag->id,
+            'name'      => 'Delete Tag',
+            'slug'      => 'app.tag.destroy',
+        ] );
+
+
+        /*Post Module Permission*/
+        $modulePost = Module::updateOrCreate( ['name' => 'Blog Post Manage'] );
+        Permission::updateOrCreate( [
+            'module_id' => $modulePost->id,
+            'name'      => 'Access Post',
+            'slug'      => 'app.post.index',
+        ] );
+        Permission::updateOrCreate( [
+            'module_id' => $modulePost->id,
+            'name'      => 'Create Post',
+            'slug'      => 'app.post.create',
+        ] );
+        Permission::updateOrCreate( [
+            'module_id' => $modulePost->id,
+            'name'      => 'Edit Post',
+            'slug'      => 'app.post.edit',
+        ] );
+        Permission::updateOrCreate( [
+            'module_id' => $modulePost->id,
+            'name'      => 'Delete Post',
+            'slug'      => 'app.post.destroy',
+        ] );
 
 
         /*Other Module Permission*/

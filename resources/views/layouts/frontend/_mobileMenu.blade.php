@@ -40,6 +40,7 @@
             </ul>
         </li>
         <li><a href="{{ route('contact') }}">Contact</a></li>
+        <li><a href="{{ route('blog.index') }}">Blog</a></li>
         <li><a href="{{ route('offer') }}">Announcements!</a></li>
         @if(Auth::user())
             <li><a href="{{ route('favourite') }}">Favorites</a></li>
