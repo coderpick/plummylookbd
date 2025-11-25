@@ -21,7 +21,7 @@
                 <div class="tile-body">
                     <div class="row justify-content-center mb-5">
                         <div class="col-md-12">
-                            <img class="image-fluid mb-3" src="{{ asset($post->image) }}" alt="{{ $post->title }}">
+                            <img class="image-fluid mb-3" style="max-width: 100%;" src="{{ asset($post->image) }}" alt="{{ $post->title }}">
                             <h3 class="subtitle">{{ ucfirst($post->title) }}</h3>
                             <p>
                                 {!! $post->body !!}

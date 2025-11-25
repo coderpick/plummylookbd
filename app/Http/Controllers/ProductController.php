@@ -110,7 +110,7 @@ class ProductController extends Controller
             'meta_description'=>'nullable',
             'price'=>'required|numeric|min:0|not_in:0',
             'new_price'=>'nullable|numeric|min:0|not_in:0',
-            'stock'=>'required|numeric|min:0|not_in:0',
+            'stock'=>'required|numeric|min:0',
             'point'=>'nullable|numeric|min:0|not_in:0',
             'status'=>'required',
             'images.*'=>'required|image'
@@ -209,7 +209,7 @@ class ProductController extends Controller
             'meta_description'=>'nullable',
             'price'=>'required|numeric|min:0|not_in:0',
             'new_price'=>'nullable|numeric|min:0|not_in:0',
-            'stock'=>'required|numeric|min:0|not_in:0',
+            'stock'=>'required|numeric|min:0',
             'point'=>'nullable|numeric|min:0|not_in:0',
             'status'=>'required',
             'images.*'=>'required|image'
