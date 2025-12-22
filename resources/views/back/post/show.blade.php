@@ -23,7 +23,7 @@
                         <div class="col-md-12">
                             <img class="image-fluid mb-3" style="max-width: 100%;" src="{{ asset($post->image) }}" alt="{{ $post->title }}">
                             <h3 class="subtitle">{{ ucfirst($post->title) }}</h3>
-                            <p>
+                            <p class="content">
                                 {!! $post->body !!}
                             </p>
                         </div>
@@ -38,6 +38,12 @@
 @endpush
 
 @push('custom-css')
+    <style>
+        .content img {
+            width: 100% !important;
+            height: auto !important;
+        }
+    </style>
 @endpush
 
 @push('library-js')
@@ -47,4 +53,12 @@
 @endpush
 
 @push('custom-js')
+    <script>
+        $('.content img').each(function() {
+            $(this).css({
+                'max-width': '100%',
+                'height': 'auto'
+            });
+        });
+    </script>
 @endpush

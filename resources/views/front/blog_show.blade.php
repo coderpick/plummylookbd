@@ -35,7 +35,7 @@
                 <h2 class="mb-3">{{ ucfirst($post->title) }}</h2>
                 <p class="text-muted">{{ $post->postTags[0]->tag->name??'' }} • {{ date('M d, Y', strtotime($post->created_at)) }} • By {{ $post->user->name??'Admin' }}</p>
                 <img class="img-fluid mb-4 rounded" src="{{ asset($post->image) }}" alt="{{ $post->title }}">
-                <div class="ml-1">
+                <div class="ml-1 post-content">
                     {!! $post->body !!}
                 </div>
                 <div class="mt-4 mb-4">
@@ -124,5 +124,12 @@
 
 
 @push('custom-js')
-
+    <script>
+        $('.post-content img').each(function() {
+            $(this).css({
+                'max-width': '100%',
+                'height': 'auto'
+            });
+        });
+    </script>
 @endpush
