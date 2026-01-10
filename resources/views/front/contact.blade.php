@@ -6,11 +6,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>{{ ucfirst($title) }}</h2>
-                        <div class="breadcrumb__option">
-                            <a href="{{ route('home') }}">Home</a>
-                            <span>{{ ucfirst($title) }}</span>
-                        </div>
+                        <h1>{{ ucfirst($title) }}</h1>
                     </div>
                 </div>
             </div>
@@ -42,13 +38,14 @@
                 <!-- Google Map Area   -->
                 <div id="google-map-section">
                     <!-- map -->
-                    @if(isset($contact) && $contact->map != null)
-                    {!! $contact->map !!}
+                    @if (isset($contact) && $contact->map != null)
+                        {!! $contact->map !!}
                     @endif
                     <style>
-                        iframe{
+                        iframe {
                             width: 100%;
-                            height:400px; !important;
+                            height: 400px;
+                            !important;
                         }
                     </style>
                     <!-- end map -->
@@ -56,7 +53,7 @@
                 <!-- Google Map Area   -->
                 <br>
                 <br>
-                    <h4 class="text-center">Leave a Message</h4>
+                <h4 class="text-center">Leave a Message</h4>
                 <br>
                 <br>
                 <div class="checkout__form">
@@ -67,24 +64,28 @@
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="checkout__input">
-                                            <input type="text" class="form-control" id="form-name" name="name" placeholder="Name here" required="required" >
+                                            <input type="text" class="form-control" id="form-name" name="name"
+                                                placeholder="Name here" required="required">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="checkout__input">
-                                            <input type="text" class="form-control" id="form-subject" name="subject" placeholder="Subject here"  required="required">
+                                            <input type="text" class="form-control" id="form-subject" name="subject"
+                                                placeholder="Subject here" required="required">
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="checkout__input">
-                                            <input type="email" class="form-control" id="form-email" name="email" placeholder="Email here"  required="required">
+                                            <input type="email" class="form-control" id="form-email" name="email"
+                                                placeholder="Email here" required="required">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="checkout__input">
-                                            <textarea class="form-control" name="message" placeholder="Message"  required="required" id="" cols=" " rows="6"></textarea>
+                                            <textarea class="form-control" name="message" placeholder="Message" required="required" id="" cols=" "
+                                                rows="6"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -100,8 +101,8 @@
                     </form>
                 </div>
             </div>
-        <!-- Contact Area Section -->
-    </section>
+            <!-- Contact Area Section -->
+        </section>
     </section>
 @endsection
 
@@ -109,27 +110,24 @@
 
 
 @push('library-css')
-
 @endpush
 
 
 
 @push('custom-css')
-            <style>
-                .btn-lg{
-                    border-radius: unset;
-                }
-            </style>
+    <style>
+        .btn-lg {
+            border-radius: unset;
+        }
+    </style>
 @endpush
 
 
 
 @push('library-js')
-
 @endpush
 
 
 
 @push('custom-js')
-
 @endpush

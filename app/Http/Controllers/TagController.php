@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -16,7 +15,8 @@ class TagController extends Controller
         Gate::authorize('app.tag.index');
         $data['title'] = 'Tag';
         $data['tags'] = Tag::get();
-        return view('back.tag.index',$data);
+
+        return view('back.tag.index', $data);
     }
 
     public function store(Request $request)
@@ -27,12 +27,14 @@ class TagController extends Controller
         $request->validate([
             'tag_name' => 'required',
         ]);
-        $tag = new Tag();
+        $tag = new Tag;
         $slug = str_slug($request->tag_name);
         $tag->name = $request->tag_name;
-        $tag->slug =$slug;
+        $tag->tag_for = 'post';
+        $tag->slug = $slug;
         $tag->save();
-        session()->flash("Created successfully","Success");
+        session()->flash('Created successfully', 'Success');
+
         return redirect()->route('tag.index');
     }
 
@@ -50,11 +52,12 @@ class TagController extends Controller
             'tag_name' => 'required',
         ]);
         $tag = Tag::where('id', $request->tag_id)->first();
-        $slug               = str_slug($request->tag_name);
-        $tag->name     = $request->tag_name;
-        $tag->slug     =  $slug;
+        $slug = str_slug($request->tag_name);
+        $tag->name = $request->tag_name;
+        $tag->slug = $slug;
         $tag->save();
-        session()->flash("Updated successfully","Success");
+        session()->flash('Updated successfully', 'Success');
+
         return redirect()->route('tag.index');
     }
 
@@ -63,7 +66,8 @@ class TagController extends Controller
         Gate::authorize('app.tag.destroy');
         $tag = Tag::where('id', $id)->first();
         $tag->delete();
-        session()->flash("Deleted successfully","Success");
+        session()->flash('Deleted successfully', 'Success');
+
         return redirect()->route('tag.index');
     }
 }

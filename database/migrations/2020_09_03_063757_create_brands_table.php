@@ -18,6 +18,7 @@ class CreateBrandsTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->text('icon')->nullable();
+            $table->boolean('published_to_web')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

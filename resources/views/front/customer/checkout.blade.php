@@ -36,34 +36,42 @@
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="checkout__input">
-                                                        <p class="clear"><span class="f_title">Name: <strong class="text-danger">*</strong></span></p>
-                                                        <input name="name" type="text" required class="@error('name') is-invalid @enderror" value="{{ auth()->user()?auth()->user()->name:'' }}">
+                                                        <p class="clear"><span class="f_title">Name: <strong
+                                                                    class="text-danger">*</strong></span></p>
+                                                        <input name="name" type="text" required
+                                                            class="@error('name') is-invalid @enderror"
+                                                            value="{{ auth()->user() ? auth()->user()->name : '' }}">
                                                         @error('name')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
                                                         @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="checkout__input">
                                                         <p class="clear"><span class="f_title">Email: </span></p>
-                                                        <input name="email" type="email" class="@error('email') is-invalid @enderror" value="{{ auth()->user()?auth()->user()->email:'' }}">
+                                                        <input name="email" type="email"
+                                                            class="@error('email') is-invalid @enderror"
+                                                            value="{{ auth()->user() ? auth()->user()->email : '' }}">
                                                         @error('email')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
                                                         @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="checkout__input">
-                                                        <p class="clear"><span class="f_title">Phone: <strong class="text-danger">*</strong></span></p>
-                                                        <input name="phone" type="number" required class="@error('phone') is-invalid @enderror" value="{{ auth()->user()?auth()->user()->phone:'' }}">
+                                                        <p class="clear"><span class="f_title">Phone: <strong
+                                                                    class="text-danger">*</strong></span></p>
+                                                        <input name="phone" type="number" required
+                                                            class="@error('phone') is-invalid @enderror"
+                                                            value="{{ auth()->user() ? auth()->user()->phone : '' }}">
                                                         @error('phone')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -71,48 +79,63 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="checkout__input">
-                                                        <p class="clear"><span class="f_title">District: <strong class="text-danger">*</strong></span></p>
+                                                        <p class="clear"><span class="f_title">District: <strong
+                                                                    class="text-danger">*</strong></span></p>
 
-                                                        <select id="district" name="district" class="js-states form-control wrapper district @error('district') is-invalid @enderror">
+                                                        <select id="district" name="district"
+                                                            class="js-states form-control wrapper district @error('district') is-invalid @enderror">
+                                                            <option value="" disabled selected>Select District
+                                                            </option>
                                                             @foreach ($districts as $district)
-                                                                <option {{ auth()->user() && auth()->user()->detail->district_id == $district->id?'selected': '' }} value="{{ $district->id }}">{{ ucfirst($district->name) }}</option>
+                                                                <option
+                                                                    {{ auth()->user()?->detail?->district_id == $district->id ? 'selected' : '' }}
+                                                                    value="{{ $district->id }}">
+                                                                    {{ ucfirst($district->name) }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                         @error('district')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
                                                         @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="checkout__input">
                                                         <p class="clear"><span class="f_title">Postcode / Zip: </span></p>
-                                                        <input class="@error('zip') is-invalid @enderror" value="{{ (auth()->user())?ucfirst(auth()->user()->detail->zip): '' }}" name="zip" id="zip" type="number">
+                                                        <input class="@error('zip') is-invalid @enderror"
+                                                            value="{{ auth()->user() ? ucfirst(auth()->user()->detail?->zip) : '' }}"
+                                                            name="zip" id="zip" type="number">
                                                         @error('zip')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
                                                         @enderror
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <p class="clear"><span class="f_title ">Address: <strong class="text-danger">*</strong></span></p>
-                                            <input class="@error('address_1') is-invalid @enderror checkout__input__add" required type="text" name="address_1" value="{{ (auth()->user())?ucfirst(auth()->user()->detail->address_1): '' }}">
+                                            <p class="clear"><span class="f_title ">Address: <strong
+                                                        class="text-danger">*</strong></span></p>
+                                            <input class="@error('address_1') is-invalid @enderror checkout__input__add"
+                                                required type="text" name="address_1"
+                                                value="{{ auth()->user() ? ucfirst(auth()->user()->detail?->address_1) : '' }}">
                                             @error('address_1')
-                                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
                                             @enderror
 
                                             <br>
 
-                                            <input class="@error('address_2') is-invalid @enderror" type="text" name="address_2" type="text" value="{{ (auth()->user())?ucfirst(auth()->user()->detail->address_2): '' }}">
+                                            <input class="@error('address_2') is-invalid @enderror" type="text"
+                                                name="address_2" type="text"
+                                                value="{{ auth()->user() ? ucfirst(auth()->user()->detail?->address_2) : '' }}">
                                             @error('address_2')
-                                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
                                             @enderror
                                         </div>
                                     </div>
@@ -128,107 +151,114 @@
                             @endphp
                             <div class="checkout__order">
                                 <h4>Your Order</h4>
-                                {{--<strong style="color: green">{{ $setting->message??'' }}</strong>--}}
+                                {{-- <strong style="color: green">{{ $setting->message??'' }}</strong> --}}
                                 <div class="checkout__order__products">Products <span>Total</span></div>
                                 <ul>
-                                    @if($cart != null)
-                                        @foreach($cart as $item)
+                                    @if ($cart != null)
+                                        @foreach ($cart as $item)
                                             @php
-                                                if (isset($item['flash_price']) && $item['flash_price'] != null){
-                                                        $cart_total = $item['flash_price']*$item['quantity'];
-                                                    }
-                                                    elseif ($item['new_price']){
-                                                        $cart_total = $item['new_price']*$item['quantity'];
-                                                    }
-                                                    else{
-                                                        $cart_total = $item['price']*$item['quantity'];
-                                                    }
+                                                if (isset($item['flash_price']) && $item['flash_price'] != null) {
+                                                    $cart_total = $item['flash_price'] * $item['quantity'];
+                                                } elseif ($item['new_price']) {
+                                                    $cart_total = $item['new_price'] * $item['quantity'];
+                                                } else {
+                                                    $cart_total = $item['price'] * $item['quantity'];
+                                                }
                                             @endphp
-                                    <li>{{ ucfirst( Str::limit( $item['name'], 30) ) }} <span> {{ $cart_total }} </span></li>
+                                            <li>{{ ucfirst(Str::limit($item['name'], 30)) }} <span>
+                                                    {{ $cart_total }} </span></li>
                                             <span class="small">Qty: {{ $item['quantity'] }}</span>
                                             @php
-                                                    $total += $cart_total ;
+                                                $total += $cart_total;
 
-                                                    if (isset(auth()->user()->detail) && auth()->user()->detail->district_id == 47){
-                                                            if ($setting->charge_by == 'quantity'){
-                                                                $shipping += $item['quantity'] * $setting->shipping ;
-                                                            }
-
-                                                            if ($setting->charge_by == 'product'){
-                                                                $shipping += $setting->shipping ;
-                                                            }
-
-                                                            if ($setting->charge_by == 'order'){
-                                                                $shipping = $setting->shipping ;
-                                                            }
-                                                    }
-                                                    else{
-                                                        if ($setting->charge_by == 'quantity'){
-                                                                $shipping += $item['quantity'] * $setting->shipping2 ;
-                                                            }
-
-                                                            if ($setting->charge_by == 'product'){
-                                                                $shipping += $setting->shipping2 ;
-                                                            }
-
-                                                            if ($setting->charge_by == 'order'){
-                                                                $shipping = $setting->shipping2 ;
-                                                            }
+                                                if (
+                                                    isset(auth()->user()->detail) &&
+                                                    auth()->user()->detail->district_id == 47
+                                                ) {
+                                                    if ($setting->charge_by == 'quantity') {
+                                                        $shipping += $item['quantity'] * $setting->shipping;
                                                     }
 
-                                                    /*else{
+                                                    if ($setting->charge_by == 'product') {
+                                                        $shipping += $setting->shipping;
+                                                    }
+
+                                                    if ($setting->charge_by == 'order') {
+                                                        $shipping = $setting->shipping;
+                                                    }
+                                                } else {
+                                                    if ($setting->charge_by == 'quantity') {
+                                                        $shipping += $item['quantity'] * $setting->shipping2;
+                                                    }
+
+                                                    if ($setting->charge_by == 'product') {
+                                                        $shipping += $setting->shipping2;
+                                                    }
+
+                                                    if ($setting->charge_by == 'order') {
+                                                        $shipping = $setting->shipping2;
+                                                    }
+                                                }
+
+                                                /*else{
                                                         $shipping += $item['quantity'] * $setting->shipping2 ;
                                                     }*/
 
                                                 $sum_for_jquery += $item['quantity'];
 
                                             @endphp
-
                                         @endforeach
                                     @endif
 
 
                                     <!-- Shipping Condition -->
                                     @php
-                                        if ($total >= $setting->free_shipping){
-                                               $shipping = 0;
-                                           }
+                                        if ($total >= $setting->free_shipping) {
+                                            $shipping = 0;
+                                        }
 
-                                    $discount = session('discount');
-                                    $coupon_type = session('coupon_type');
-                                    $percent = session('percent');
+                                        $discount = session('discount');
+                                        $coupon_type = session('coupon_type');
+                                        $percent = session('percent');
                                     @endphp
                                     <!-- Shipping Condition -->
                                 </ul>
-                                <div class="checkout__order__subtotal">Subtotal <span> <span>{{ $total }}</span> </span></div>
-                                @if($discount != null)
-                                    <div class="checkout__order__total">Coupon Discount <span> <span id="js_discount">- {{ ($percent)? $percent.'%' : $discount }}</span> </span></div>
+                                <div class="checkout__order__subtotal">Subtotal <span> <span>{{ $total }}</span>
+                                    </span></div>
+                                @if ($discount != null)
+                                    <div class="checkout__order__total">Coupon Discount <span> <span id="js_discount">-
+                                                {{ $percent ? $percent . '%' : $discount }}</span> </span></div>
                                 @endif
-                                <div class="checkout__order__total">Shipping <span> <span id="js_shipping">{{ $shipping }}</span> </span></div>
+                                <div class="checkout__order__total">Shipping <span> <span
+                                            id="js_shipping">{{ $shipping }}</span> </span></div>
 
-                                <div class="checkout__order__total">Total <span> <span id="js_total">{{ ($discount != null)?$total+$shipping - $discount : $total+$shipping }}</span> </span></div>
+                                <div class="checkout__order__total">Total <span> <span
+                                            id="js_total">{{ $discount != null ? $total + $shipping - $discount : $total + $shipping }}</span>
+                                    </span></div>
 
                                 <div class="checkout__input__checkbox">
                                     <label for="payment">
                                         Cash On Delivery
-                                        <input type="checkbox" id="payment" class="chb" name="payment_type" value="cash" checked>
+                                        <input type="checkbox" id="payment" class="chb" name="payment_type"
+                                            value="cash" checked>
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                {{--<div class="checkout__input__checkbox">
+                                {{-- <div class="checkout__input__checkbox">
                                     <label for="paypal">
                                         bKash/Online Payment
                                         <input type="checkbox" id="paypal" class="chb" name="payment_type" value="gateway">
                                         <span class="checkmark"></span>
                                     </label>
-                                </div>--}}
+                                </div> --}}
 
-                                @if($discount == null || $discount == 0)
-                                <div class="checkout__input__checkbox">
-                                    <!-- Button trigger modal -->
-                                    Have any coupon?
-                                    <a type="button" href="#" class="text-custom" data-toggle="modal" data-target="#exampleModal"><strong>Click Here</strong></a>
-                                </div>
+                                @if ($discount == null || $discount == 0)
+                                    <div class="checkout__input__checkbox">
+                                        <!-- Button trigger modal -->
+                                        Have any coupon?
+                                        <a type="button" href="#" class="text-custom" data-toggle="modal"
+                                            data-target="#exampleModal"><strong>Click Here</strong></a>
+                                    </div>
                                 @endif
 
 
@@ -241,7 +271,8 @@
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <form action="{{ route('coupon_apply') }}" class="form-inline" method="get">
                         <div class="modal-content">
@@ -254,7 +285,8 @@
                             <div class="modal-body">
                                 @csrf
                                 <p class="clear"><span class="f_title ">Coupon: </span></p>
-                                <input type="text" name="coupon_code" class="form-control w-100" placeholder="Enter Coupon"  required>
+                                <input type="text" name="coupon_code" class="form-control w-100"
+                                    placeholder="Enter Coupon" required>
                             </div>
                             <br>
                             <div class="modal-footer">
@@ -269,21 +301,21 @@
     </section>
 
     @php
-    /*varibales for js*/
+        /*varibales for js*/
         $count = count($cart);
         $sum = $sum_for_jquery;
-        $shipping1 = $setting->shipping ;
-        $shipping2 = $setting->shipping2 ;
+        $shipping1 = $setting->shipping;
+        $shipping2 = $setting->shipping2;
         $charge = $setting->charge_by;
         $free = $setting->free_shipping;
         $discount = session('discount');
-        if($discount == null){
+        if ($discount == null) {
             $discount = 0;
         }
-    if($total >= $free){
-        $shipping1 = 0 ;
-        $shipping2 = 0 ;
-    }
+        if ($total >= $free) {
+            $shipping1 = 0;
+            $shipping2 = 0;
+        }
     @endphp
 @endsection
 
@@ -297,15 +329,16 @@
 
 @push('custom-css')
     <style>
-        .clear{
+        .clear {
             margin-bottom: 0px !important;
         }
-        .f_title{
+
+        .f_title {
             color: black !important;
             font-weight: bold;
         }
 
-        .input_clear > input{
+        .input_clear>input {
             border: unset;
             color: black;
         }
@@ -332,8 +365,9 @@
         }
 
 
-        .checkout__input input{
-            color: #585858; !important;
+        .checkout__input input {
+            color: #585858;
+            !important;
         }
     </style>
 @endpush
@@ -348,17 +382,17 @@
 @push('custom-js')
     <script>
         $('#ship_address').hide();
-        $(function () {
-            $("#diff-acc").click(function () {
-                var shipping = "{{$shipping}}";
-                var total = "{{$total}}";
-                var discount = "{{$discount}}";
+        $(function() {
+            $("#diff-acc").click(function() {
+                var shipping = "{{ $shipping }}";
+                var total = "{{ $total }}";
+                var discount = "{{ $discount }}";
 
                 if ($(this).is(":checked")) {
                     $("#def_ship").removeClass("active");
                     $("#ship_address").show();
-                    $('#district').attr('required',true);
-                    $('#zip').attr('required',true);
+                    $('#district').attr('required', true);
+                    $('#zip').attr('required', true);
                 } else {
                     $("#ship_address").hide();
                     $("#def_ship").addClass("active");
@@ -379,67 +413,62 @@
 
 
 
-            $("#district").change(function() {
-                var prd = "{{$count}}";
-                var qnt = "{{$sum}}";
-                var sp1 = "{{$shipping1}}";
-                var sp2 = "{{$shipping2}}";
-                var total = "{{$total}}";
-                var charge = "{{$charge}}";
-                var distr = $(this).val();
-                var discount = "{{$discount}}";
+        $("#district").change(function() {
+            var prd = "{{ $count }}";
+            var qnt = "{{ $sum }}";
+            var sp1 = "{{ $shipping1 }}";
+            var sp2 = "{{ $shipping2 }}";
+            var total = "{{ $total }}";
+            var charge = "{{ $charge }}";
+            var distr = $(this).val();
+            var discount = "{{ $discount }}";
 
 
-                if (distr == 47) {
+            if (distr == 47) {
 
-                    if(charge == 'quantity'){
-                        var shipping = qnt * sp1;
-                        $("#js_shipping").html(shipping);
-                        $("#js_total").html(parseFloat(total) + parseFloat(shipping) - parseFloat(discount));
-                    }
-
-                    if (charge == 'product'){
-                        var shipping = prd * sp1;
-                        $("#js_shipping").html(shipping);
-                        $("#js_total").html(parseFloat(total) + parseFloat(shipping) - parseFloat(discount));
-                    }
-
-                    if (charge == 'order'){
-                        var shipping = sp1;
-                        $("#js_shipping").html(shipping);
-                        $("#js_total").html(parseFloat(total) + parseFloat(shipping) - parseFloat(discount));
-                    }
-                    else{
-
-                    }
-                }
-                else {
-                    if(charge == 'quantity'){
-                        var shipping = qnt * sp2;
-                        $("#js_shipping").html(shipping);
-                        $("#js_total").html(parseFloat(total) + parseFloat(shipping) - parseFloat(discount));
-                    }
-
-                    if (charge == 'product'){
-                        var shipping = prd * sp2;
-                        $("#js_shipping").html(shipping);
-                        $("#js_total").html(parseFloat(total) + parseFloat(shipping) - parseFloat(discount));
-                    }
-
-                    if (charge == 'order'){
-                        var shipping = sp2;
-                        $("#js_shipping").html(shipping);
-                        $("#js_total").html(parseFloat(total) + parseFloat(shipping) - parseFloat(discount));
-                    }
-                    else{
-
-                    }
+                if (charge == 'quantity') {
+                    var shipping = qnt * sp1;
+                    $("#js_shipping").html(shipping);
+                    $("#js_total").html(parseFloat(total) + parseFloat(shipping) - parseFloat(discount));
                 }
 
+                if (charge == 'product') {
+                    var shipping = prd * sp1;
+                    $("#js_shipping").html(shipping);
+                    $("#js_total").html(parseFloat(total) + parseFloat(shipping) - parseFloat(discount));
+                }
+
+                if (charge == 'order') {
+                    var shipping = sp1;
+                    $("#js_shipping").html(shipping);
+                    $("#js_total").html(parseFloat(total) + parseFloat(shipping) - parseFloat(discount));
+                } else {
+
+                }
+            } else {
+                if (charge == 'quantity') {
+                    var shipping = qnt * sp2;
+                    $("#js_shipping").html(shipping);
+                    $("#js_total").html(parseFloat(total) + parseFloat(shipping) - parseFloat(discount));
+                }
+
+                if (charge == 'product') {
+                    var shipping = prd * sp2;
+                    $("#js_shipping").html(shipping);
+                    $("#js_total").html(parseFloat(total) + parseFloat(shipping) - parseFloat(discount));
+                }
+
+                if (charge == 'order') {
+                    var shipping = sp2;
+                    $("#js_shipping").html(shipping);
+                    $("#js_total").html(parseFloat(total) + parseFloat(shipping) - parseFloat(discount));
+                } else {
+
+                }
+            }
 
 
-            });
 
+        });
     </script>
-
 @endpush

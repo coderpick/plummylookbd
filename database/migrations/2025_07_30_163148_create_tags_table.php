@@ -17,6 +17,9 @@ class CreateTagsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
+            $table->enum('tag_for', ['product', 'post'])->default('product');
+            $table->index('slug');
+            $table->index('tag_for');
             $table->timestamps();
         });
     }
@@ -28,6 +31,7 @@ class CreateTagsTable extends Migration
      */
     public function down()
     {
+        /* drop index */      
         Schema::dropIfExists('tags');
     }
 }

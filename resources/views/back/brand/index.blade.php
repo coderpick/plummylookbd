@@ -18,59 +18,81 @@
     <div class="row">
         <div class="col-md-12">
             <div class="tile">
-                <div class="col-md-12 row">
+                <div class="tile-title float-right">
                     <a href="{{ route('brand.create') }}" class="btn btn-primary">Add New {{ $title }}</a>
                 </div>
-                <br>
                 <div class="tile-body">
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
-                            <tr>
-                                <th style="display: none;">Id</th>
-                                <th>Name</th>
-                                <th>Icon</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Brand Logo</th>
+                                    <th>Brand Name</th>
+                                    <th>Status</th>
+                                    <th>Published To Web</th>
+                                    <th>Actions</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach($brands as $brand)
-                            <tr>
-                                <td style="display: none;">{{ $brand->id }}</td>
-                                <td>{{ ucfirst($brand->name) }}</td>
-                                <td width="10%"><img class="img-fluid" loading="lazy" src="{{ asset($brand->icon) }}" alt=""></td>
-                                    <td>
-                                        @if($brand->deleted_at == null)
-                                        <span class="text-success">Active</span>
-                                        @else
-                                        <span class="text-danger">Inactive</span>
-                                        @endif
-                                    </td>
+                                @foreach ($brands as $key => $brand)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>
+                                            <img style="width: 60px; height: 60px; object-fit: cover;" loading="lazy"
+                                                src="{{ asset($brand->icon) }}" alt="">
+                                        </td>
+                                        <td>
+                                            <strong>{{ ucfirst($brand->name) }}</strong>
+                                        </td>
+                                        <td>
+                                            @if ($brand->deleted_at == null)
+                                                <span class="badge badge-info">Active</span>
+                                            @else
+                                                <span class="badge badge-danger">Inactive</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($brand->published_to_web == true)
+                                                <span class="badge badge-success">Published</span>
+                                            @else
+                                                <span class="badge badge-danger">Not Published</span>
+                                            @endif
+                                        </td>
 
-                                    <td>
-                                        @if($brand->deleted_at == null)
-                                            <a href="{{ route('brand.edit',$brand->slug) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-                                            <form action="{{ route('brand.destroy',$brand->slug) }}" method="post" style="display: inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure to delete?')"><i class="fa fa-trash"></i></button>
-                                            </form>
-                                        @else
-                                            <form action="{{ route('brand.restore',$brand->id) }}" method="post" style="display: inline">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Do you want this back?')"><i class="fa fa-undo"></i></button>
-                                            </form>
+                                        <td>
+                                            @if ($brand->deleted_at == null)
+                                                <a href="{{ route('brand.edit', $brand->slug) }}"
+                                                    class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                                                <form action="{{ route('brand.destroy', $brand->slug) }}" method="post"
+                                                    style="display: inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-warning"
+                                                        onclick="return confirm('Are you sure to delete?')"><i
+                                                            class="fa fa-trash"></i></button>
+                                                </form>
+                                            @else
+                                                <form action="{{ route('brand.restore', $brand->id) }}" method="post"
+                                                    style="display: inline">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm btn-success"
+                                                        onclick="return confirm('Do you want this back?')"><i
+                                                            class="fa fa-undo"></i></button>
+                                                </form>
 
-                                            <form action="{{ route('brand.delete',$brand->id) }}" method="post" style="display: inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Confirm to permanently remove?')"><i class="fa fa-trash"></i></button>
-                                            </form>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
+                                                <form action="{{ route('brand.delete', $brand->id) }}" method="post"
+                                                    style="display: inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                        onclick="return confirm('Confirm to permanently remove?')"><i
+                                                            class="fa fa-trash"></i></button>
+                                                </form>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -84,13 +106,11 @@
 
 
 @push('library-css')
-
 @endpush
 
 
 
 @push('custom-css')
-
 @endpush
 
 
@@ -98,11 +118,12 @@
 @push('library-js')
     <script type="text/javascript" src="{{ asset('backend/js/plugins/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('backend/js/plugins/dataTables.bootstrap.min.js') }}"></script>
-    <script type="text/javascript">$('#sampleTable').DataTable({ order: [ [0, 'desc'] ]});</script>
+    <script type="text/javascript">
+        $('#sampleTable').DataTable();
+    </script>
 @endpush
 
 
 
 @push('custom-js')
-
 @endpush

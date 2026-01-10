@@ -2,16 +2,17 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
     use SoftDeletes;
-    protected $guarded =['id'];
 
-    public function getRouteKeyName(){
+    protected $guarded = ['id'];
+
+    public function getRouteKeyName()
+    {
         return 'slug';
     }
 
@@ -20,14 +21,18 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function blogCategory()
+    {
+        return $this->belongsTo(BlogCategory::class);
+    }
+
     public static function scopePublished($query)
     {
-        return $query->where('status','published');
+        return $query->where('status', 'published');
     }
 
-    public function postTags()
+    public function tags()
     {
-        return $this->hasMany(PostTag::class);
+        return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id');
     }
-
 }

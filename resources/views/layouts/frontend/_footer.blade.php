@@ -1,7 +1,8 @@
 <footer class="footer spad">
     <div class="container">
         <div class="whatsapp">
-            <a href="https://wa.me/{{ (isset($contact) && $contact->nagad != null)? $contact->nagad : '' }}" target="_blank" title="Start Chat ">
+            <a href="https://wa.me/{{ isset($contact) && $contact->nagad != null ? $contact->nagad : '' }}"
+                target="_blank" title="Start Chat ">
                 <img src="{{ asset('frontend/img/whatsapp.png') }}" alt="WhatsAppChat">
             </a>
         </div>
@@ -9,16 +10,22 @@
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="footer__about">
                     <div class="footer__about__logo">
-                        @if(isset($link) && $link->footer_logo != null)
-                            <a href="{{ route('home') }}"><img style="max-width: 190px" src="{{ asset($link->footer_logo) }}" alt="Logo"></a>
+                        @if (isset($link) && $link->footer_logo != null)
+                            <a href="{{ route('home') }}"><img style="max-width: 190px"
+                                    src="{{ asset($link->footer_logo) }}" alt="Logo"></a>
                         @else
-                            <a href="{{ route('home') }}"><img style="max-width: 190px" src="{{ asset((isset($link) && $link->logo != null)? $link->logo : 'uploads/default_logo.png') }}" alt="Logo"></a>
+                            <a href="{{ route('home') }}"><img style="max-width: 190px"
+                                    src="{{ asset(isset($link) && $link->logo != null ? $link->logo : 'uploads/default_logo.png') }}"
+                                    alt="Logo"></a>
                         @endif
                     </div>
                     <ul>
-                        <li><i class="icofont-location-pin"></i> {{ (isset($contact) && $contact->address != null)? $contact->address : ' ' }}</li>
-                        <li><i class="icofont-phone"></i> {{ (isset($contact) && $contact->phone != null)? $contact->phone : ' ' }}</li>
-                        <li><i class="icofont-ui-email"></i> {{ (isset($contact) && $contact->email != null)? $contact->email : ' ' }}</li>
+                        <li><i class="icofont-location-pin"></i>
+                            {{ isset($contact) && $contact->address != null ? $contact->address : ' ' }}</li>
+                        <li><i class="icofont-phone"></i>
+                            {{ isset($contact) && $contact->phone != null ? $contact->phone : ' ' }}</li>
+                        <li><i class="icofont-ui-email"></i>
+                            {{ isset($contact) && $contact->email != null ? $contact->email : ' ' }}</li>
                     </ul>
                 </div>
             </div>
@@ -28,9 +35,13 @@
                     <ul>
                         <li><a href="{{ route('account') }}">My Account</a></li>
                         <li><a href="{{ route('contact') }}">Contact Us</a></li>
-                        <li><a href="{{ route('faq') }}">FAQ</a></li>
-                        <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
-                        <li><a href="{{ route('terms') }}">Terms & Conditions</a></li>
+                        <li><a href="{{ route('static.page.show', 'faq') }}">FAQ</a></li>
+                        <li><a href="{{ route('static.page.show', 'privacy-policy') }}">Privacy Policy</a></li>
+                        <li><a href="{{ route('static.page.show', 'terms-condition') }}">Terms & Conditions</a></li>
+                        <li><a href="{{ route('static.page.show', 'return-refund-policy') }}">
+                                Return & Refund
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -39,8 +50,8 @@
                     <h6>Latest Brand</h6>
                     <ul>
                         @forelse($footer_brands as $brand)
-                            <li><a href="{{ route('product.brand',$brand->slug) }}">{{ $brand->name }}</a></li>
-                            @empty
+                            <li><a href="{{ route('product.brand', $brand->slug) }}">{{ $brand->name }}</a></li>
+                        @empty
                         @endforelse
                     </ul>
                 </div>
@@ -77,7 +88,10 @@
         <div class="">
             <div class="footer__copyright">
                 <div class="footer__copyright__text">
-                    <p class="text-secondary">Copyright &copy;<script>document.write(new Date().getFullYear());</script> Plummy Look. Developed by <a class="text-white" target="_blank" href="http://www.peoplentech.net" >PeopleNTech Software</a></p>
+                    <p class="text-secondary">Copyright &copy; {{ date('Y') }}
+                        Plummy Look. Developed by <a class="text-white" target="_blank"
+                            href="http://www.peoplentech.net">PeopleNTech Software</a>
+                    </p>
                 </div>
             </div>
         </div>

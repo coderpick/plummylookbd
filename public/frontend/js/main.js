@@ -1,31 +1,28 @@
-
-
-'use strict';
+"use strict";
 
 (function ($) {
-
     /*------------------
         Preloader
     --------------------*/
-    $(window).on('load', function () {
+    $(window).on("load", function () {
         $(".loader").fadeOut();
         $("#preloder").delay(200).fadeOut("slow");
 
         /*------------------
             Gallery filter
         --------------------*/
-        $('.featured__controls li').on('click', function () {
-            $('.featured__controls li').removeClass('active');
-            $(this).addClass('active');
+        $(".featured__controls li").on("click", function () {
+            $(".featured__controls li").removeClass("active");
+            $(this).addClass("active");
         });
-        if ($('.featured__filter').length > 0) {
-            var containerEl = document.querySelector('.featured__filter');
+        if ($(".featured__filter").length > 0) {
+            var containerEl = document.querySelector(".featured__filter");
             var mixer = mixitup(containerEl);
         }
     });
     /*==========   flash sell  ==========*/
 
-   /* $(function(){
+    /* $(function(){
         $('#hms_timer').countdowntimer({
             hours : 3,
             minutes :10,
@@ -36,48 +33,52 @@
 
     /*==========   flash sell  ==========*/
     /*==========   main slider  ==========*/
-    $('.slider-carousel').owlCarousel({
+    $(".slider-carousel").owlCarousel({
         loop: true,
         margin: 10,
         nav: true,
         navText: [
-            "<i class=\"icofont-caret-left\"></i>",
-            "<i class=\"icofont-caret-right\"></i>"
+            '<i class="icofont-caret-left"></i>',
+            '<i class="icofont-caret-right"></i>',
         ],
-        animateOut: 'fadeOut',
-        /* animateIn: 'flipInX',*/
+        animateOut: "fadeOut",
         autoplay: true,
+        autoplayTimeout: 3000,
         autoplayHoverPause: true,
         responsive: {
             0: {
-                items: 1
+                items: 1,
             },
             600: {
-                items: 1
+                items: 1,
             },
             1000: {
-                items: 1
-            }
-        }
+                items: 1,
+            },
+        },
     });
 
     /*------------------
         Background Set
     --------------------*/
-    $('.set-bg').each(function () {
-        var bg = $(this).data('setbg');
-        $(this).css('background-image', 'url(' + bg + ')');
+    $(".set-bg").each(function () {
+        var bg = $(this).data("setbg");
+        $(this).css("background-image", "url(" + bg + ")");
     });
 
     //Humberger Menu
-    $(".humberger__open").on('click', function () {
-        $(".humberger__menu__wrapper").addClass("show__humberger__menu__wrapper");
+    $(".humberger__open").on("click", function () {
+        $(".humberger__menu__wrapper").addClass(
+            "show__humberger__menu__wrapper"
+        );
         $(".humberger__menu__overlay").addClass("active");
         $("body").addClass("over_hid");
     });
 
-    $(".humberger__menu__overlay").on('click', function () {
-        $(".humberger__menu__wrapper").removeClass("show__humberger__menu__wrapper");
+    $(".humberger__menu__overlay").on("click", function () {
+        $(".humberger__menu__wrapper").removeClass(
+            "show__humberger__menu__wrapper"
+        );
         $(".humberger__menu__overlay").removeClass("active");
         $("body").removeClass("over_hid");
     });
@@ -86,8 +87,8 @@
 		Navigation
 	--------------------*/
     $(".mobile-menu").slicknav({
-        prependTo: '#mobile-menu-wrap',
-        allowParentLinks: true
+        prependTo: "#mobile-menu-wrap",
+        allowParentLinks: true,
     });
 
     /*-----------------------
@@ -95,12 +96,12 @@
     ------------------------*/
     // $('img').elevateZoom({zoomType:"inner"});
     $("#imgZoom").elevateZoom({
-        gallery:'gallery',
+        gallery: "gallery",
         zoomType: "inner",
         cursor: "crosshair",
-        galleryActiveClass: 'active',
+        galleryActiveClass: "active",
         imageCrossfade: true,
-        loadingIcon: 'http://www.elevateweb.co.uk/spinner.gif'
+        loadingIcon: "http://www.elevateweb.co.uk/spinner.gif",
     });
     /*-----------------------
         Categories Slider
@@ -111,14 +112,16 @@
         items: 4,
         dots: false,
         nav: true,
-        navText: ["<span class='fa fa-angle-left'><span/>", "<span class='fa fa-angle-right'><span/>"],
-        animateOut: 'fadeOut',
-        animateIn: 'fadeIn',
+        navText: [
+            "<span class='fa fa-angle-left'><span/>",
+            "<span class='fa fa-angle-right'><span/>",
+        ],
+        animateOut: "fadeOut",
+        animateIn: "fadeIn",
         smartSpeed: 1200,
         autoHeight: false,
         autoplay: true,
         responsive: {
-
             0: {
                 items: 1,
             },
@@ -133,13 +136,12 @@
 
             992: {
                 items: 4,
-            }
-        }
+            },
+        },
     });
 
-
-    $('.hero__categories__all').on('click', function(){
-        $('.hero__categories ul').slideToggle(400);
+    $(".hero__categories__all").on("click", function () {
+        $(".hero__categories ul").slideToggle(400);
     });
 
     /*--------------------------
@@ -151,10 +153,13 @@
         items: 1,
         dots: false,
         nav: true,
-        navText: ["<span class='fa fa-angle-left'><span/>", "<span class='fa fa-angle-right'><span/>"],
+        navText: [
+            "<span class='fa fa-angle-left'><span/>",
+            "<span class='fa fa-angle-right'><span/>",
+        ],
         smartSpeed: 1200,
         autoHeight: false,
-        autoplay: true
+        autoplay: true,
     });
 
     /*-----------------------------
@@ -169,7 +174,6 @@
         autoHeight: false,
         autoplay: true,
         responsive: {
-
             320: {
                 items: 1,
             },
@@ -184,8 +188,8 @@
 
             992: {
                 items: 3,
-            }
-        }
+            },
+        },
     });
 
     /*---------------------------------
@@ -198,7 +202,7 @@
         dots: true,
         smartSpeed: 1200,
         autoHeight: false,
-        autoplay: true
+        autoplay: true,
     });
 
     /*-----------------------
@@ -207,20 +211,20 @@
     var rangeSlider = $(".price-range"),
         minamount = $("#minamount"),
         maxamount = $("#maxamount"),
-        minPrice = rangeSlider.data('min'),
-        maxPrice = rangeSlider.data('max');
+        minPrice = rangeSlider.data("min"),
+        maxPrice = rangeSlider.data("max");
     rangeSlider.slider({
         range: true,
         min: minPrice,
         max: maxPrice,
         values: [minPrice, maxPrice],
         slide: function (event, ui) {
-            minamount.val('$' + ui.values[0]);
-            maxamount.val('$' + ui.values[1]);
-        }
+            minamount.val("$" + ui.values[0]);
+            maxamount.val("$" + ui.values[1]);
+        },
     });
-    minamount.val('$' + rangeSlider.slider("values", 0));
-    maxamount.val('$' + rangeSlider.slider("values", 1));
+    minamount.val("$" + rangeSlider.slider("values", 0));
+    maxamount.val("$" + rangeSlider.slider("values", 1));
 
     /*--------------------------
         Select
@@ -230,13 +234,12 @@
     /*------------------
 		Single Product
 	--------------------*/
-    $('.product__details__pic__slider img').on('click', function () {
-
-        var imgurl = $(this).data('imgbigurl');
-        var bigImg = $('.product__details__pic__item--large').attr('src');
+    $(".product__details__pic__slider img").on("click", function () {
+        var imgurl = $(this).data("imgbigurl");
+        var bigImg = $(".product__details__pic__item--large").attr("src");
         if (imgurl != bigImg) {
-            $('.product__details__pic__item--large').attr({
-                src: imgurl
+            $(".product__details__pic__item--large").attr({
+                src: imgurl,
             });
         }
     });
@@ -244,20 +247,19 @@
     /*-------------------
 		Quantity change
 	--------------------- */
-    var proQty = $('.pro-qty');
+    var proQty = $(".pro-qty");
     proQty.prepend('<span class="dec qtybtn">-</span>');
     proQty.append('<span class="inc qtybtn">+</span>');
-    proQty.on('click', '.qtybtn', function () {
+    proQty.on("click", ".qtybtn", function () {
         var $button = $(this);
-        var oldValue = $button.parent().find('input').val();
-        if ($button.hasClass('inc')) {
+        var oldValue = $button.parent().find("input").val();
+        if ($button.hasClass("inc")) {
             /*var newVal = parseFloat(oldValue) + 1;*/
             if (oldValue < 5) {
                 var newVal = parseFloat(oldValue) + 1;
             } else {
                 newVal = 5;
             }
-
         } else {
             // Don't allow decrementing below zero
             if (oldValue > 1) {
@@ -266,12 +268,11 @@
                 newVal = 1;
             }
         }
-        $button.parent().find('input').val(newVal);
+        $button.parent().find("input").val(newVal);
     });
-/*test*/
-/*test*/
+    /*test*/
+    /*test*/
 })(jQuery);
-
 
 /*-------------------
 		top button
@@ -281,10 +282,15 @@
 var mybutton = document.getElementById("myBtn");
 
 // When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
+window.onscroll = function () {
+    scrollFunction();
+};
 
 function scrollFunction() {
-    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    if (
+        document.body.scrollTop > 200 ||
+        document.documentElement.scrollTop > 200
+    ) {
         mybutton.style.display = "block";
     } else {
         mybutton.style.display = "none";
@@ -297,33 +303,25 @@ function topFunction() {
     document.documentElement.scrollTop = 0;
 }
 
-
-
 // Sticky nav js
 
-$(document).on("scroll", function(){
-    if
-    ($(document).scrollTop() > 100){
+$(document).on("scroll", function () {
+    if ($(document).scrollTop() > 100) {
         $("#stickynav").addClass("sticky");
-    }
-    else
-    {
+    } else {
         $("#stickynav").removeClass("sticky");
     }
 });
 
-
-
-
 /*Category*/
-(function($, window, document, undefined) {
+(function ($, window, document, undefined) {
     var pluginName = "jqueryAccordionMenu";
     var defaults = {
         speed: 300,
         showDelay: 0,
         hideDelay: 0,
         singleOpen: true,
-        clickEffect: true
+        clickEffect: true,
     };
 
     function Plugin(element, options) {
@@ -331,86 +329,127 @@ $(document).on("scroll", function(){
         this.settings = $.extend({}, defaults, options);
         this._defaults = defaults;
         this._name = pluginName;
-        this.init()
-    };
+        this.init();
+    }
     $.extend(Plugin.prototype, {
-        init: function() {
+        init: function () {
             this.openSubmenu();
             this.submenuIndicators();
             if (defaults.clickEffect) {
-                this.addClickEffect()
+                this.addClickEffect();
             }
         },
-        openSubmenu: function() {
-            $(this.element).children("ul").find("li").bind("click touchstart", function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-                if ($(this).children(".submenu").length > 0) {
-                    if ($(this).children(".submenu").css("display") == "none") {
-                        $(this).children(".submenu").delay(defaults.showDelay).slideDown(defaults.speed);
-                        $(this).children(".submenu").siblings("a").addClass("submenu-indicator-minus");
-                        if (defaults.singleOpen) {
-                            $(this).siblings().children(".submenu").slideUp(defaults.speed);
-                            $(this).siblings().children(".submenu").siblings("a").removeClass("submenu-indicator-minus")
+        openSubmenu: function () {
+            $(this.element)
+                .children("ul")
+                .find("li")
+                .bind("click touchstart", function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    if ($(this).children(".submenu").length > 0) {
+                        if (
+                            $(this).children(".submenu").css("display") ==
+                            "none"
+                        ) {
+                            $(this)
+                                .children(".submenu")
+                                .delay(defaults.showDelay)
+                                .slideDown(defaults.speed);
+                            $(this)
+                                .children(".submenu")
+                                .siblings("a")
+                                .addClass("submenu-indicator-minus");
+                            if (defaults.singleOpen) {
+                                $(this)
+                                    .siblings()
+                                    .children(".submenu")
+                                    .slideUp(defaults.speed);
+                                $(this)
+                                    .siblings()
+                                    .children(".submenu")
+                                    .siblings("a")
+                                    .removeClass("submenu-indicator-minus");
+                            }
+                            return false;
+                        } else {
+                            $(this)
+                                .children(".submenu")
+                                .delay(defaults.hideDelay)
+                                .slideUp(defaults.speed);
                         }
-                        return false
-                    } else {
-                        $(this).children(".submenu").delay(defaults.hideDelay).slideUp(defaults.speed)
+                        if (
+                            $(this)
+                                .children(".submenu")
+                                .siblings("a")
+                                .hasClass("submenu-indicator-minus")
+                        ) {
+                            $(this)
+                                .children(".submenu")
+                                .siblings("a")
+                                .removeClass("submenu-indicator-minus");
+                        }
                     }
-                    if ($(this).children(".submenu").siblings("a").hasClass("submenu-indicator-minus")) {
-                        $(this).children(".submenu").siblings("a").removeClass("submenu-indicator-minus")
-                    }
-                }
-                window.location.href = $(this).children("a").attr("href")
-            })
+                    window.location.href = $(this).children("a").attr("href");
+                });
         },
-        submenuIndicators: function() {
+        submenuIndicators: function () {
             if ($(this.element).find(".submenu").length > 0) {
-                $(this.element).find(".submenu").siblings("a").append("<span class='submenu-indicator'> <i class=\"icofont-simple-right\"></i> </span>")
+                $(this.element)
+                    .find(".submenu")
+                    .siblings("a")
+                    .append(
+                        "<span class='submenu-indicator'> <i class=\"icofont-simple-right\"></i> </span>"
+                    );
             }
         },
-        addClickEffect: function() {
+        addClickEffect: function () {
             var ink, d, x, y;
-            $(this.element).find("a").bind("click touchstart", function(e) {
-                $(".ink").remove();
-                if ($(this).children(".ink").length === 0) {
-                    $(this).prepend("<span class='ink'></span>")
-                }
-                ink = $(this).find(".ink");
-                ink.removeClass("animate-ink");
-                if (!ink.height() && !ink.width()) {
-                    d = Math.max($(this).outerWidth(), $(this).outerHeight());
+            $(this.element)
+                .find("a")
+                .bind("click touchstart", function (e) {
+                    $(".ink").remove();
+                    if ($(this).children(".ink").length === 0) {
+                        $(this).prepend("<span class='ink'></span>");
+                    }
+                    ink = $(this).find(".ink");
+                    ink.removeClass("animate-ink");
+                    if (!ink.height() && !ink.width()) {
+                        d = Math.max(
+                            $(this).outerWidth(),
+                            $(this).outerHeight()
+                        );
+                        ink.css({
+                            height: d,
+                            width: d,
+                        });
+                    }
+                    x = e.pageX - $(this).offset().left - ink.width() / 2;
+                    y = e.pageY - $(this).offset().top - ink.height() / 2;
                     ink.css({
-                        height: d,
-                        width: d
-                    })
-                }
-                x = e.pageX - $(this).offset().left - ink.width() / 2;
-                y = e.pageY - $(this).offset().top - ink.height() / 2;
-                ink.css({
-                    top: y + 'px',
-                    left: x + 'px'
-                }).addClass("animate-ink")
-            })
-        }
+                        top: y + "px",
+                        left: x + "px",
+                    }).addClass("animate-ink");
+                });
+        },
     });
-    $.fn[pluginName] = function(options) {
-        this.each(function() {
+    $.fn[pluginName] = function (options) {
+        this.each(function () {
             if (!$.data(this, "plugin_" + pluginName)) {
-                $.data(this, "plugin_" + pluginName, new Plugin(this, options))
+                $.data(this, "plugin_" + pluginName, new Plugin(this, options));
             }
         });
-        return this
-    }
+        return this;
+    };
 })(jQuery, window, document);
 
-
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     jQuery("#jquery-accordion-menu").jqueryAccordionMenu();
-    jQuery(".colors a").click(function() {
+    jQuery(".colors a").click(function () {
         if ($(this).attr("class") != "default") {
             $("#jquery-accordion-menu").removeClass();
-            $("#jquery-accordion-menu").addClass("jquery-accordion-menu").addClass($(this).attr("class"));
+            $("#jquery-accordion-menu")
+                .addClass("jquery-accordion-menu")
+                .addClass($(this).attr("class"));
         } else {
             $("#jquery-accordion-menu").removeClass();
             $("#jquery-accordion-menu").addClass("jquery-accordion-menu");
@@ -419,7 +458,7 @@ jQuery(document).ready(function() {
 });
 /*Category*/
 /*Category hover*/
-$("#jquery-accordion-menu li").hover(function() {
+$("#jquery-accordion-menu li").hover(function () {
     var isHovered = $(this).is(":hover");
     if (isHovered) {
         $(this).children("ul").stop().slideDown(300);
@@ -428,8 +467,6 @@ $("#jquery-accordion-menu li").hover(function() {
     }
 });
 /*Category hover*/
-
-
 
 /*=========realtime cart total change============*/
 
@@ -442,9 +479,9 @@ $("#jquery-accordion-menu li").hover(function() {
             // cart_tot.val(tot);
         });*/
 
-$('.dec').on("click", function() {
-    var pr=$(this).parent().parent().parent().parent();
-    var oldValue = $(this).parent().find('.qty').val();
+$(".dec").on("click", function () {
+    var pr = $(this).parent().parent().parent().parent();
+    var oldValue = $(this).parent().find(".qty").val();
 
     if (oldValue > 1) {
         var qty = parseFloat(oldValue) - 1;
@@ -452,14 +489,14 @@ $('.dec').on("click", function() {
         qty = 1;
     }
 
-    var tot = pr.find('.price').val() * qty;
-    var cart_tot = pr.find('.total');
+    var tot = pr.find(".price").val() * qty;
+    var cart_tot = pr.find(".total");
     cart_tot.val(tot);
 });
 
-$('.inc').on("click", function() {
-    var pr=$(this).parent().parent().parent().parent();
-    var oldValue = $(this).parent().find('.qty').val();
+$(".inc").on("click", function () {
+    var pr = $(this).parent().parent().parent().parent();
+    var oldValue = $(this).parent().find(".qty").val();
 
     if (oldValue < 5) {
         var qty = parseFloat(oldValue) + 1;
@@ -467,8 +504,8 @@ $('.inc').on("click", function() {
         qty = 5;
     }
 
-    var tot = pr.find('.price').val() * qty;
-    var cart_tot = pr.find('.total');
+    var tot = pr.find(".price").val() * qty;
+    var cart_tot = pr.find(".total");
     cart_tot.val(tot);
 });
 

@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Category;
+use App\BlogCategory;
 use App\Post;
-use App\PostTag;
-use App\SubCategory;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -17,134 +15,145 @@ class PostController extends Controller
     {
         Gate::authorize('app.post.index');
         $data['title'] = 'Posts';
-        $data['posts'] = Post::withTrashed()->with('postTags.tag')->latest()->get();
-        return view('back.post.index',$data);
+        $data['posts'] = Post::withTrashed()->select('id', 'user_id', 'blog_category_id', 'title', 'slug', 'short_description', 'image', 'deleted_at', 'created_at')->with('blogCategory')->latest()->get();
+
+        return view('back.post.index', $data);
     }
 
     public function create()
     {
         Gate::authorize('app.post.create');
         $data['title'] = 'Create Post';
-        $data['tags']  = Tag::orderBy('name')->get();
-        return view('back.post.create',$data);
+        $data['categories'] = BlogCategory::orderBy('name', 'ASC')->get();
+        $data['postTags'] = Tag::select('id', 'name')->orderBy('name', 'ASC')->where('tag_for', 'post')->get();
+
+        return view('back.post.create', $data);
     }
 
     public function store(Request $request)
     {
+
         Gate::authorize('app.post.create');
-        $this->validate($request,[
+        $this->validate($request, [
             'title' => 'required',
+            'category' => 'required',
             'slug' => 'required',
             'short_description' => 'required',
             'description' => 'required',
             'photo' => 'required|mimes:jpg,jpeg,png,svg|max:1024',
+            'tags' => 'required',
         ]);
-        //$slug = Str::slug($request->title,'-');
+        // $slug = Str::slug($request->title,'-');
         $slug = $request->slug;
-        $post = new Post();
-        $post->user_id           = auth()->user()->id;
-        $post->title             = $request->title;
-        $post->slug              = $slug;
+        $post = new Post;
+        $post->user_id = auth()->user()->id;
+        $post->blog_category_id = $request->category;
+        $post->title = $request->title;
+        $post->slug = $slug;
         $post->short_description = $request->short_description;
-        $post->body              = $request->description;
-        $post->meta_title     = $request->meta_title;
-        $post->meta_key     = $request->meta_keywords;
-        $post->meta_description  = $request->meta_description;
+        $post->body = $request->description;
+        $post->meta_title = $request->meta_title;
+        $post->meta_key = $request->meta_keywords;
+        $post->meta_description = $request->meta_description;
 
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
-            $file_name = uniqid().rand(000,9999).'.'.$file->getClientOriginalExtension();
-            $file->move('uploads/post/',$file_name);
-            $post->image = 'uploads/post/' . $file_name;
+            $file_name = uniqid().rand(000, 9999).'.'.$file->getClientOriginalExtension();
+            $file->move('uploads/post/', $file_name);
+            $post->image = 'uploads/post/'.$file_name;
         }
         $post->save();
 
-        if($request->tags && count($request->tags) > 0){
-            $post_tags = [];
-            foreach ($request->tags as $tag) {
-                $post_tags[] = [
-                    'post_id' => $post->id,
-                    'tag_id' => $tag,
-                ];
-            }
-            PostTag::insert($post_tags);
-        }
-        session()->flash('success','Created Successfully');
+        /* Post tags */
+        $dropdownData = json_decode($request->input('tags'), true);
+        $tagIds = collect($dropdownData)->map(function ($item) {
+            return Tag::firstOrCreate(
+                ['slug' => Str::slug($item['value'])],
+                ['name' => $item['value'], 'tag_for' => 'post']
+            )->id;
+        })->toArray();
+
+        // Sync tags with product
+        $post->tags()->attach($tagIds);
+
+        session()->flash('success', 'Post Created Successfully');
+
         return redirect()->route('post.index');
     }
 
     public function show($id)
     {
         Gate::authorize('app.post.index');
-        $post = Post::findOrFail($id);
-        $data['post']     = $post;
-        $data['title'] = $post->title??'';
-        return view('back.post.show',$data);
+        $post = Post::with(['tags', 'blogCategory'])->findOrFail($id);
+        $data['post'] = $post;
+        $data['title'] = $post->title ?? '';
+
+        return view('back.post.show', $data);
     }
 
     public function edit($id)
     {
         Gate::authorize('app.post.edit');
-        $post = Post::with('postTags')->findOrFail($id);
+        $post = Post::with('tags')->findOrFail($id);
         $data['title'] = 'Edit Post';
-        $data['post']     = $post;
-        $data['tags']  = Tag::orderBy('name')->get();
-        $post_tags = PostTag::select('tag_id')->where('post_id',$post->id)->get();
-        $post_tags_array = [];
-        foreach($post_tags as $post_tag){
-            array_push($post_tags_array,$post_tag->tag_id);
-        }
-        $data['post_tags'] = $post_tags_array;
+        $data['post'] = $post;
+        $data['categories'] = BlogCategory::orderBy('name', 'ASC')->get();
+        $tags = $post->tags()->pluck('id')->toArray();
+        $data['selectedTags'] = Tag::whereIn('id', $tags)->get();
+        $data['postTags'] = Tag::select('id', 'name')->orderBy('name', 'ASC')->where('tag_for', 'post')->get();
 
-        return view('back.post.edit',$data);
+        return view('back.post.edit', $data);
     }
 
     public function update(Request $request, $id)
     {
         Gate::authorize('app.post.edit');
         $post = Post::findOrFail($id);
-        $this->validate($request,[
+        $this->validate($request, [
             'title' => 'required',
-            'slug' => 'required',
+            'category' => 'required',
+            'slug' => 'required|string|unique:posts,slug,'.$post->id,
             'short_description' => 'required',
             'description' => 'required',
+            'tags' => 'required',
             'photo' => 'nullable|mimes:jpg,jpeg,png,svg|max:1024',
         ]);
-        //$slug = Str::slug($request->title,'-');
-        $slug = $request->slug;
-        $post->user_id           = auth()->user()->id;
-        $post->title             = $request->title;
-        $post->slug              = $slug;
+        $slug = Str::slug($request->slug, '-') ?? $request->slug;
+        $post->user_id = auth()->user()->id;
+        $post->blog_category_id = $request->category;
+        $post->title = $request->title;
+        $post->slug = $slug;
         $post->short_description = $request->short_description;
-        $post->body              = $request->description;
-        $post->meta_title     = $request->meta_title;
-        $post->meta_key     = $request->meta_keywords;
-        $post->meta_description  = $request->meta_description;
+        $post->body = $request->description;
+        $post->meta_title = $request->meta_title;
+        $post->meta_key = $request->meta_keywords;
+        $post->meta_description = $request->meta_description;
 
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
-            $file_name = uniqid().rand(000,9999).'.'.$file->getClientOriginalExtension();
-            $file->move('uploads/post/',$file_name);
-            if ($post->image != null){
+            $file_name = uniqid().rand(000, 9999).'.'.$file->getClientOriginalExtension();
+            $file->move('uploads/post/', $file_name);
+            if ($post->image != null) {
                 unlink($post->image);
             }
-            $post->image = 'uploads/post/' . $file_name;
+            $post->image = 'uploads/post/'.$file_name;
         }
         $post->save();
 
-        if($request->tags && count($request->tags) > 0){
-            PostTag::where('post_id', $post->id)->delete();
-            $post_tags = [];
-            foreach ($request->tags as $tag) {
-                $post_tags[] = [
-                    'post_id' => $post->id,
-                    'tag_id' => $tag,
-                ];
-            }
-            PostTag::insert($post_tags);
-        }
+        /* product tags */
+        $dropdownData = json_decode($request->input('tags'), true);
+        $tagIds = collect($dropdownData)->map(function ($item) {
+            return Tag::firstOrCreate(
+                ['slug' => Str::slug($item['value'])],
+                ['name' => $item['value'], 'tag_for' => 'post']
+            )->id;
+        })->toArray();
 
-        session()->flash('success','Updated Successfully');
+        // Sync tags with product
+        $post->tags()->sync($tagIds);
+
+        session()->flash('success', 'Updated Successfully');
+
         return redirect()->route('post.index');
     }
 
@@ -153,7 +162,8 @@ class PostController extends Controller
         Gate::authorize('app.post.destroy');
         $post = Post::findOrFail($id);
         $post->delete();
-        session()->flash('Trashed Successfully','Success');
+        session()->flash('Trashed Successfully', 'Success');
+
         return redirect()->back();
     }
 
@@ -162,7 +172,8 @@ class PostController extends Controller
         Gate::authorize('app.post.destroy');
         $post = Post::withTrashed()->findOrFail($id);
         $post->restore();
-        session()->flash('Restore Successfully','Success');
+        session()->flash('Restore Successfully', 'Success');
+
         return redirect()->back();
     }
 
@@ -170,13 +181,10 @@ class PostController extends Controller
     {
         Gate::authorize('app.post.destroy');
         $post = Post::withTrashed()->findOrFail($id);
-        PostTag::where('post_id', $post->id)->delete();
-        if ($post->image != null){
-            unlink($post->image);
-        }
+        $post->tags()->detach();
         $post->forceDelete();
-        session()->flash("Deleted Successfully","Success");
+        session()->flash('Deleted Successfully', 'Success');
+
         return redirect()->back();
     }
-
 }

@@ -6,11 +6,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>{{ ucfirst($title) }}</h2>
-                        <div class="breadcrumb__option">
-                            <a href="{{ route('home') }}">Home</a>
-                            <span>{{ ucfirst($title) }}</span>
-                        </div>
+                        <h1>{{ ucfirst($title) }}</h1>                        
                     </div>
                 </div>
             </div>

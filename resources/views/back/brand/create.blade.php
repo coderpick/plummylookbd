@@ -12,37 +12,49 @@
             <li class="breadcrumb-item active"><a href="#">Add {{ $title }}</a></li>
         </ul>
     </div>
-    <div class="row">
-        <div class="col-md-2"></div>
+    <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="tile">
                 <h3 class="tile-title">{{ $title }} Form</h3>
                 <div class="tile-body">
-                    <form class="row" action="{{ route('brand.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('brand.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group col-md-8">
+
+                        <div class="form-group">
                             <label class="control-label">Brand Name</label>
-                            <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ old('name') }}" placeholder="Enter brand name">
+                            <input class="form-control @error('name') is-invalid @enderror" type="text" name="name"
+                                value="{{ old('name') }}" placeholder="Enter brand name">
                             @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                             @enderror
                         </div>
 
-                        <div class="form-group col-md-8">
+                        <div class="form-group">
                             <label class="control-label">Icon <span class="text-danger">*</span></label>
-                            <input required name="icon" class="dropify form-control @error('icon') is-invalid @enderror" type="file">
+                            <input required name="icon" class="dropify form-control @error('icon') is-invalid @enderror"
+                                type="file">
                             @error('icon')
-                            <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                             @enderror
                         </div>
-
-                        <div class="form-group col-md-4 align-self-end">
-                            <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save</button>
+                        <div class="form-group">
+                            <label class="control-label">Published To Website</label>
+                            <div class="toggle lg">
+                                <label>
+                                    <input type="checkbox"  name="published_to_web"><span
+                                        class="button-indecator"></span>
+                                </label>
+                            </div>
                         </div>
+                        <div class="form-group text-center">
+                            <button class="btn btn-primary" type="submit"><i
+                                    class="fa fa-fw fa-lg fa-check-circle"></i>Save</button>
+                        </div>
+
                     </form>
                 </div>
             </div>
@@ -55,14 +67,14 @@
 
 @push('library-css')
     <!-- dropify CSS-->
-    <link rel="stylesheet" href="{{asset('backend/dropify/css/dropify.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('backend/dropify/css/dropify.min.css') }}">
 @endpush
 
 
 
 @push('custom-css')
     <style>
-        .dropify-wrapper{
+        .dropify-wrapper {
             height: 120px;
         }
     </style>
@@ -72,14 +84,14 @@
 
 @push('library-js')
     <!-- dropify JS-->
-    <script src="{{asset('backend/dropify/js/dropify.min.js')}}"></script>
+    <script src="{{ asset('backend/dropify/js/dropify.min.js') }}"></script>
 @endpush
 
 
 
 @push('custom-js')
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             // Basic
             $('.dropify').dropify();
         });

@@ -27,6 +27,7 @@ class CreateProductsTable extends Migration
             $table->string('slug');
             $table->string('code')->nullable();
             $table->text('size')->nullable();
+            $table->string('made_in')->nullable();
             $table->text('color')->nullable();
             $table->longText('details')->nullable();
             $table->float('price',12,2);

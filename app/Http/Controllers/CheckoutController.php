@@ -10,23 +10,24 @@ use App\Product;
 use App\Shipping;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
     public function index()
     {
-        //check user is admin or not
-        if (Auth::user() && Auth::user()->type !== 'user'){
+        // check user is admin or not
+        if (Auth::user() && Auth::user()->type !== 'user') {
             session()->flash('error', 'Unauthorized Request');
+
             return redirect()->back();
         }
 
-        //check cart is empty or not
+        // check cart is empty or not
         $cart = session('cart');
-        if (!$cart){
+        if (! $cart) {
             session()->flash('error', 'Cart is Empty');
+
             return redirect()->back();
         }
 
@@ -35,13 +36,12 @@ class CheckoutController extends Controller
         session()->remove('discount');
         session()->remove('percent');*/
 
-
         $data['title'] = 'Checkout';
         $data['setting'] = Shipping::first();
         $data['cart'] = session('cart');
-        $data['districts'] = District::orderBy('name','ASC')->get();
+        $data['districts'] = District::orderBy('name', 'ASC')->get();
 
-        return view('front.customer.checkout',$data);
+        return view('front.customer.checkout', $data);
     }
 
     public function cart()
@@ -54,17 +54,17 @@ class CheckoutController extends Controller
         session()->remove('discount');
         session()->remove('percent');
 
-        return view('front.cart',$data);
+        return view('front.cart', $data);
     }
 
     public function clear()
     {
         session()->remove('cart');
+
         return redirect()->back();
     }
 
-
-    public function payment($slug,$order_id)
+    public function payment($slug, $order_id)
     {
         $user = Auth::user();
         $data['balance'] = Point::where('user_id', $user->id)->first();
@@ -84,18 +84,20 @@ class CheckoutController extends Controller
         session()->remove('coupon_id');
         session()->remove('discount');
         session()->remove('percent');
-        //session()->flash('success','Order Placed Successfully');
-        return view('front.customer.payment',$data);
+
+        // session()->flash('success','Order Placed Successfully');
+        return view('front.customer.payment', $data);
     }
 
     public function buy($slug)
     {
         session()->remove('cart');
+
         $product = Product::where('slug', $slug)->first();
-        if (!$product) {
+        if (! $product) {
             abort(404);
         }
-        if($product->stock > 0){
+        if ($product->stock > 0) {
             $sesionData['product_id'] = $product->id;
             $sesionData['shop_id'] = $product->shop_id;
             $sesionData['point'] = $product->point;
@@ -104,16 +106,16 @@ class CheckoutController extends Controller
             $sesionData['quantity'] = 1;
             $sesionData['price'] = $product->price;
             $sesionData['new_price'] = $product->new_price;
-            $sesionData['flash_price'] = isset($product->flash->flash_price)? $product->flash->flash_price : null;
+            $sesionData['flash_price'] = isset($product->flash->flash_price) ? $product->flash->flash_price : null;
             $sesionData['image'] = isset($product->product_image[0]) ? $product->product_image[0]->file_path : 'uploads/default.jpg';
             session()->push('cart', $sesionData);
-        }
-        else{
-            session()->flash('error','Product is out of stock');
+
+            return redirect()->route('checkout');
+        } else {
+            session()->flash('error', 'Product is out of stock');
+
             return redirect()->back();
         }
 
-        return redirect()->route('checkout');
     }
-
 }

@@ -2,44 +2,54 @@
 
 namespace App\Http\Controllers;
 
+use App\BlogCategory;
 use App\Post;
-use App\PostTag;
 use App\Tag;
-use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
     public function index()
     {
         $data['title'] = 'Blogs';
-        $data['posts'] = Post::with('postTags')->latest()->paginate(9);
-        $data['tags'] = Tag::latest()->get();
+        $data['posts'] = Post::select('id', 'user_id', 'blog_category_id', 'title', 'slug', 'short_description', 'image', 'deleted_at', 'created_at')->with('blogCategory')->latest()->paginate(9);
+
+        $data['blogCategories'] = BlogCategory::orderBy('name', 'ASC')->get();
+
         return view('front.blog_index', $data);
     }
 
     public function show($slug)
     {
-        $post = Post::with('postTags','user')->where('slug', $slug)->firstOrFail();
+        $post = Post::where('slug', $slug)->firstOrFail();
         $data['post'] = $post;
         $data['keyword'] = $post->meta_key;
         $data['description'] = $post->meta_description;
-        $data['title'] = $post->meta_title??$post->title;
-        $data['tags'] = Tag::latest()->get();
-        $data['recent_posts'] = Post::with('postTags')->latest()->limit(5)->get();
+        $data['title'] = $post->meta_title ?? $post->title;
+        $data['blogCategories'] = BlogCategory::orderBy('name', 'ASC')->get();
+        $data['recent_posts'] = Post::with('tags')->latest()->limit(5)->get();
+
         return view('front.blog_show', $data);
     }
 
-    public function tag($slug)
+    public function categoryPost($categorySlug)
     {
-        $tag = Tag::where('slug', $slug)->firstOrFail();
-        $data['title'] = $tag->name;
-        $postIds = PostTag::where('tag_id', $tag->id)->pluck('post_id')->toArray();
-        if (!empty($postIds)) {
-            $data['posts'] = Post::with('postTags')->whereIn('id', $postIds)->paginate(9);
-        } else {
-            $data['posts'] = Post::with('postTags')->where('id', 0)->paginate(9);
-        }
-        $data['tags'] = Tag::latest()->get();
+        $category = BlogCategory::where('slug', $categorySlug)->firstOrFail();
+        $data['title'] = $category->name;
+        $data['posts'] = Post::select('id', 'user_id', 'blog_category_id', 'title', 'slug', 'short_description', 'image', 'deleted_at', 'created_at')
+            ->where('blog_category_id', $category->id)
+            ->with('blogCategory')->latest()->paginate(9);
+        $data['blogCategories'] = BlogCategory::orderBy('name', 'ASC')->get();
+
         return view('front.blog_index', $data);
+    }
+
+    public function tagPost($tagSlug)
+    {
+        $tag = Tag::where('slug', $tagSlug)->firstOrFail();
+        $data['title'] = $tag->name;
+        $data['posts'] = $tag->posts()->with('blogCategory')->latest()->paginate(9);
+        $data['blogCategories'] = BlogCategory::orderBy('name', 'ASC')->get();
+
+        return view('front.blog_tags', $data);
     }
 }

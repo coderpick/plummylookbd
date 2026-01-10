@@ -9,17 +9,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use SoftDeletes;
-    protected $guarded =['id'];
 
+    protected $guarded = ['id'];
 
-    public function getRouteKeyName(){
+    public function getRouteKeyName()
+    {
         return 'slug';
     }
-
 
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class);
     }
 
     public function brand()
@@ -42,10 +47,16 @@ class Product extends Model
         return $this->hasMany(OrderDetail::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'product_tag');
+    }
+
     public function flash()
     {
         $date = Carbon::today()->toDateString();
-        return $this->hasOne(Flash::class)->where('expires_at', '>=' , $date)->orderBy('expires_at', 'ASC');
+
+        return $this->hasOne(Flash::class)->where('expires_at', '>=', $date)->orderBy('expires_at', 'ASC');
     }
 
     public function back_flash()
@@ -57,5 +68,4 @@ class Product extends Model
     {
         return $this->hasMany(Review::class);
     }
-
 }

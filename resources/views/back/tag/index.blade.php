@@ -20,40 +20,54 @@
             <div class="col-md-12">
                 <div class="tile">
                     <div class="col-md-12 row">
-                        <a data-toggle="modal"
-                           data-target="#productAddModal" class="btn btn-primary text-white">Add New {{ $title }}</a>
+                        <a data-toggle="modal" data-target="#productAddModal" class="btn btn-primary text-white">Add New
+                            {{ $title }}</a>
                     </div>
                     <br>
                     <div class="tile-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover table-bordered" id="sampleTable">
-                                <thead>
+                        <table class="table table-hover table-bordered table-sm" id="sampleTable">
+                            <thead>
                                 <tr>
                                     <th style="display: none;">Id</th>
                                     <th>Name</th>
                                     <th>Slug</th>
+                                    <th>Tag For</th>
                                     <th>Actions</th>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($tags as $tag)
+                            </thead>
+                            <tbody>
+                                @foreach ($tags as $tag)
                                     <tr>
                                         <td style="display: none;">{{ $tag->id }}</td>
                                         <td>{{ ucfirst($tag->name) }}</td>
                                         <td>{{ $tag->slug }}</td>
                                         <td>
+                                            @switch($tag->tag_for)
+                                                @case('product')
+                                                    <span class="badge badge-success">Product</span>
+                                                @break
+
+                                                @default
+                                                    <span class="badge badge-secondary">Post</span>
+                                            @endswitch
+
+                                        </td>
+                                        <td>
                                             <a id="{{ $tag->id }}" href="#" data-toggle="modal"
-                                               data-target="#edit-product" class="btn btn-sm btn-info edit"><i class="fa fa-edit"></i></a>
-                                            <form action="{{ route('tag.destroy',$tag->id) }}" method="post" style="display: inline">
+                                                data-target="#edit-product" class="btn btn-sm btn-info edit"><i
+                                                    class="fa fa-edit"></i></a>
+                                            <form action="{{ route('tag.destroy', $tag->id) }}" method="post"
+                                                style="display: inline">
                                                 @csrf
-                                                <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure to delete?')"><i class="fa fa-trash"></i></button>
+                                                <button type="submit" class="btn btn-sm btn-warning"
+                                                    onclick="return confirm('Are you sure to delete?')"><i
+                                                        class="fa fa-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>
                                 @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -61,7 +75,7 @@
     </div>
 
     <div id="productAddModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true" style="display: none;">
+        aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -70,23 +84,22 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form  action="{{ route('tag.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('tag.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="tag">Tag <strong class="text-danger">*</strong></label>
-                            <input  name="tag_name" value="{{ old('tag_name') }}"
-                                    class="form-control" placeholder="Tag Name" id="tag" type="text" required>
+                            <input name="tag_name" value="{{ old('tag_name') }}" class="form-control"
+                                placeholder="Tag Name" id="tag" type="text" required>
                             @error('tag_name')
-                            <span class="text-danger" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                             @enderror
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
@@ -95,7 +108,7 @@
     </div>
 
     <div id="edit-product" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true" style="display: none;">
+        aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -104,24 +117,24 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="form-material m-t-40" action="{{ route('tag.update') }}" method="POST" enctype="multipart/form-data">
+                <form class="form-material m-t-40" action="{{ route('tag.update') }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="tag_name">Tag Name:<strong class="text-danger">*</strong></label>
                             <input value="{{ old('tag_name') }}" name="tag_name" id="tag_name"
-                                   class="form-control form-control-line" placeholder="Tag Name" type="text" required>
+                                class="form-control form-control-line" placeholder="Tag Name" type="text" required>
                             @error('tag_name')
-                            <span class="text-danger" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                             @enderror
                         </div>
                         <input type="hidden" name="tag_id" id="tag_id">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>
@@ -139,7 +152,13 @@
 @push('library-js')
     <script type="text/javascript" src="{{ asset('backend/js/plugins/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('backend/js/plugins/dataTables.bootstrap.min.js') }}"></script>
-    <script type="text/javascript">$('#sampleTable').DataTable({ order: [ [0, 'desc'] ]});</script>
+    <script type="text/javascript">
+        $('#sampleTable').DataTable({
+            order: [
+                [0, 'desc']
+            ]
+        });
+    </script>
 @endpush
 
 @push('custom-js')
