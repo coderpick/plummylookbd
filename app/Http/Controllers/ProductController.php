@@ -101,7 +101,11 @@ class ProductController extends Controller
         // Product create
         $product = $request->except('_token', 'images.*');
         if (Auth::user()->type == 'vendor') {
-            $product['shop_id'] = Auth::user()->shop->id;
+            if (Auth::user()->shop) {
+                $product['shop_id'] = Auth::user()->shop->id;
+            } else {
+                $product['shop_id'] = null;
+            }
         }
 
         $product = Product::create($product);

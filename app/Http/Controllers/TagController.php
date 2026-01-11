@@ -33,7 +33,7 @@ class TagController extends Controller
         $tag->tag_for = 'post';
         $tag->slug = $slug;
         $tag->save();
-        session()->flash('Created successfully', 'Success');
+        session()->flash('success', 'Created successfully');
 
         return redirect()->route('tag.index');
     }
@@ -56,7 +56,7 @@ class TagController extends Controller
         $tag->name = $request->tag_name;
         $tag->slug = $slug;
         $tag->save();
-        session()->flash('Updated successfully', 'Success');
+        session()->flash('success', 'Updated successfully');
 
         return redirect()->route('tag.index');
     }
@@ -65,6 +65,9 @@ class TagController extends Controller
     {
         Gate::authorize('app.tag.destroy');
         $tag = Tag::where('id', $id)->first();
+        if (! $tag) {
+            session()->flash('success', 'Deleted successfully');
+        }
         $tag->delete();
         session()->flash('Deleted successfully', 'Success');
 

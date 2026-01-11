@@ -43,11 +43,11 @@ class PostController extends Controller
             'photo' => 'required|mimes:jpg,jpeg,png,svg|max:1024',
             'tags' => 'required',
         ]);
-        // $slug = Str::slug($request->title,'-');
-        $slug = $request->slug;
+        $slug = Str::slug($request->slug, '-');
         $post = new Post;
-        $post->user_id = auth()->user()->id;
-        $post->blog_category_id = $request->category;
+        $slug = Str::slug($request->slug, '-');
+        // Keep original author - remove or comment out the line below
+        // $post->user_id = auth()->user()->id;
         $post->title = $request->title;
         $post->slug = $slug;
         $post->short_description = $request->short_description;
@@ -133,7 +133,7 @@ class PostController extends Controller
             $file = $request->file('photo');
             $file_name = uniqid().rand(000, 9999).'.'.$file->getClientOriginalExtension();
             $file->move('uploads/post/', $file_name);
-            if ($post->image != null) {
+            if ($post->image != null && file_exists($post->image)) {
                 unlink($post->image);
             }
             $post->image = 'uploads/post/'.$file_name;
@@ -162,7 +162,7 @@ class PostController extends Controller
         Gate::authorize('app.post.destroy');
         $post = Post::findOrFail($id);
         $post->delete();
-        session()->flash('Trashed Successfully', 'Success');
+        session()->flash('success', 'Trashed Successfully');
 
         return redirect()->back();
     }
@@ -183,7 +183,7 @@ class PostController extends Controller
         $post = Post::withTrashed()->findOrFail($id);
         $post->tags()->detach();
         $post->forceDelete();
-        session()->flash('Deleted Successfully', 'Success');
+        session()->flash('success', 'Deleted Successfully');
 
         return redirect()->back();
     }
