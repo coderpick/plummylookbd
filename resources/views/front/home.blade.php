@@ -50,17 +50,17 @@
         </section>
     @endif
 
-    <section class="mb-4 Featured-Categories">
+    <section class="Featured-Categories">
         <div class="container">
             <h2 class="title-left text-center text-custom title-bg shadow-sm">Shop By Concern</h2>
             <div class="owl-carousel owl-theme">
                 @forelse($concerns as $index=>$category)
                     <a href="{{ route('product.concern', $category->slug) }}">
                         <div class="card shadow-sm concern-category-card">
-                            <img class="card-img-top h-100" src="{{ asset($category->icon) }}" alt="{{ $category->name }}"
+                            <img class="card-img-top" src="{{ asset($category->icon) }}" alt="{{ $category->name }}"
                                 loading="lazy">
                             <div class="card-body py-2 text-center">
-                                <h4 class="card-title mb-0">{{ ucfirst($category->name) }}</h4>
+                                <h5 class="category-card-title mb-0">{{ ucfirst($category->name) }}</h5>
                             </div>
                         </div>
                     </a>
@@ -71,29 +71,18 @@
         </div>
     </section>
 
-    <section class="mb-5 Featured-Categories">
+    <section class="Featured-Categories">
         <div class="container">
             <h2 class="title-left text-center text-custom title-bg">Shop By Brands</h2>
             <div class="owl-carousel owl-theme">
                 @forelse($brands as $index=>$brand)
-                    {{-- <div class="item">
-                        <div>
-                            <div class="category-card">
-                                <a href="{{ route('product.brand', $brand->slug) }}">
-                                    <img src="{{ $brand->icon ? asset($brand->icon) : asset('uploads/default2.jpg') }}"
-                                        alt="{{ $brand->name }}" loading="lazy">
-                                    <h5>{{ ucfirst($brand->name) }}</h5>
-                                </a>
-                            </div>
-                        </div>
-                    </div> --}}
                     <a href="{{ route('product.brand', $brand->slug) }}">
                         <div class="card shadow-sm concern-category-card">
-                            <img class="card-img-top h--100"
+                            <img class="card-img-top"
                                 src="{{ $brand->icon ? asset($brand->icon) : asset('uploads/default2.jpg') }}"
                                 alt="{{ $brand->name }}" loading="lazy">
                             <div class="card-body py-2 text-center">
-                                <h4 class="card-title mb-0">{{ ucfirst($brand->name) }}</h4>
+                                <h5 class="category-card-title mb-0">{{ ucfirst($brand->name) }}</h5>
                             </div>
                         </div>
                     </a>
@@ -105,7 +94,7 @@
 
 
     @if (isset($categories) && count($categories) > 0)
-        <section class="mb-5 All-Categories">
+        <section class="mb-1">
             <div class="container">
                 <h2 class="title-left text-center text-custom title-bg">Categories</h2>
                 <div class="row custom-row">
@@ -517,10 +506,6 @@
                 margin-bottom: -13px !important;
             }
 
-            .category-card {
-                height: 130px;
-            }
-
             .category-cards-image {
                 margin-bottom: -14px !important;
             }
@@ -528,11 +513,15 @@
 
         @media (max-width: 767px) {
             .category-card {
-                height: 130px;
+                height: 120px;
             }
 
             .category-cards-image {
                 margin-bottom: -14px !important;
+            }
+
+            .category-card h5 {
+                font-size: 12px;
             }
         }
     </style>
