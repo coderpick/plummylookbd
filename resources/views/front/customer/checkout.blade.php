@@ -302,7 +302,7 @@
 
     @php
         /*varibales for js*/
-        $count = count($cart);
+        $count = $cart ? count($cart) : 0;
         $sum = $sum_for_jquery;
         $shipping1 = $setting->shipping;
         $shipping2 = $setting->shipping2;
@@ -471,4 +471,41 @@
 
         });
     </script>
+@endpush
+
+@push('datalayer')
+@if($cart != null)
+<script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ ecommerce: null });
+    window.dataLayer.push({
+        event: 'begin_checkout',
+        ecommerce: {
+            currency: 'BDT',
+            value: {{ $total }},
+            items: [
+                @foreach($cart as $index => $item)
+                @php
+                    if (isset($item['flash_price']) && $item['flash_price'] != null){
+                        $price = $item['flash_price'];
+                    }
+                    elseif ($item['new_price']){
+                        $price = $item['new_price'];
+                    }
+                    else{
+                        $price = $item['price'];
+                    }
+                @endphp
+                {
+                    item_id: '{{ $item['product_id'] }}',
+                    item_name: @json($item['name']),
+                    price: {{ $price }},
+                    quantity: {{ $item['quantity'] }}
+                }{{ !$loop->last ? ',' : '' }}
+                @endforeach
+            ]
+        }
+    });
+</script>
+@endif
 @endpush

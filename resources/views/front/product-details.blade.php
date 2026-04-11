@@ -474,6 +474,38 @@
 @push('library-css')
 @endpush
 
+@push('datalayer')
+@php
+    if (isset($product->flash) && $product->flash->flash_price != null) {
+        $dl_price = (float) $product->flash->flash_price;
+    } elseif ($product->new_price) {
+        $dl_price = (float) $product->new_price;
+    } else {
+        $dl_price = (float) $product->price;
+    }
+@endphp
+<script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ ecommerce: null }); // Clear previous ecommerce data
+    window.dataLayer.push({
+        event: 'view_item',
+        ecommerce: {
+            currency: 'BDT',
+            value: {{ $dl_price }},
+            items: [{
+                item_id: '{{ $product->id }}',
+                item_name: @json($product->name),
+                item_brand: @json(optional($product->brand)->name ?? ''),
+                item_category: @json(optional($product->category)->name ?? ''),
+                price: {{ $dl_price }},
+                quantity: 1
+            }]
+        }
+    });
+</script>
+@endpush
+
+
 @push('custom-css')
     <style>
         /*css for existing review*/

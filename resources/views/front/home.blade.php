@@ -1,5 +1,16 @@
 @extends('layouts.frontend.master')
 
+@push('datalayer')
+<script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        'event': 'page_view',
+        'page_type': 'home',
+        'page_title': '{{ $title ?? "Home" }}'
+    });
+</script>
+@endpush
+
 @section('content')
     <!-- Hero Section Begin -->
     <section class="hero">

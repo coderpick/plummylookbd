@@ -6,6 +6,10 @@
 </head>
 
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P5QZHG53"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
     <a id="cartBtn" href="{{ route('cart') }}" class="text-center">
         <i class="fa fa-shopping-cart" style="font-size: 20px;"></i> <br>

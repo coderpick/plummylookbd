@@ -71,7 +71,7 @@ class CheckoutController extends Controller
         $order_id = base64_decode($order_id);
         $data['title'] = 'Payment';
         $data['customer'] = User::where('slug', $slug)->first();
-        $data['order'] = Order::findOrFail($order_id);
+        $data['order'] = Order::with('order_detail.product')->findOrFail($order_id);
         $data['date'] = Carbon::parse($data['order']->date)->addDays(3)->format('d-M-Y');
         $data['cart'] = session('cart');
 

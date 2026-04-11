@@ -27,6 +27,12 @@
 @stack('library-css')
 @stack('custom-css')
 
+<!-- Google Tag Manager - dataLayer init (must be before GTM script) -->
+<script>
+    window.dataLayer = window.dataLayer || [];
+</script>
+<!-- Per-page GA4 ecommerce data layer events -->
+@stack('datalayer')
 <!-- Google Tag Manager -->
 <script>
     (function(w, d, s, l, i) {

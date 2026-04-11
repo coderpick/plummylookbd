@@ -443,17 +443,18 @@
 
      function addmore() {
 
-         var input = "<div class=\"col-md-3 img-container mt-3\">\n" +
-             "                                                <input type=\"file\" name=\"images[]\" id=\"gallery\" class=\"form-control dropify\" data-height=\"120\" required>\n" +
-             "                                                <div class=\"topright_btn\">\n" +
-             "                                                    <button type=\"button\" class=\"btn btn-sm btn-danger rmvbtn\">x</button>\n" +
-             "                                                </div>\n" +
-             "                                                @error('gallery')\n" +
-             "                                                <span class=\"text-danger\" role=\"alert\">\n" +
-             "                                                    <strong>{{ $message }}</strong>\n" +
-             "                                                </span>\n" +
-             "                                                @enderror\n" +
-             "                                            </div>";
+         var input = `
+            <div class="col-md-3 img-container mt-3">
+                <input type="file" name="images[]" class="form-control dropify" data-height="120" required>
+                <div class="topright_btn">
+                    <button type="button" class="btn btn-sm btn-danger rmvbtn">x</button>
+                </div>
+                @error('gallery')
+                <span class="text-danger" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>`;
 
          $("#field").append(input);
          $('.dropify').dropify();
@@ -463,4 +464,5 @@
              $(this).parent().parent().remove();
          });
      }
+   
  </script>

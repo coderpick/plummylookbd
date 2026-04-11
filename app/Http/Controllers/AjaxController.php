@@ -63,6 +63,16 @@ class AjaxController extends Controller
 
         $data['cart'] = session('cart');
         //$data['cart__price'] = view('front.ajax.cart__price',$data)->render();
+        
+        $price = isset($product->flash->flash_price) ? (float) $product->flash->flash_price : ($product->new_price ? (float) $product->new_price : (float) $product->price);
+        $data['added_product'] = [
+            'item_id' => (string) $product->id,
+            'item_name' => $product->name,
+            'item_brand' => optional($product->brand)->name ?? '',
+            'item_category' => optional($product->category)->name ?? '',
+            'price' => $price,
+            'quantity' => 1
+        ];
 
         return $data;
     }

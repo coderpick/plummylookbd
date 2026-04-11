@@ -36,7 +36,9 @@ class ProductController extends Controller
         } else {
             $data['products'] = Product::withTrashed()
                 ->select('id', 'shop_id', 'category_id', 'brand_id', 'name', 'slug', 'code', 'price', 'new_price', 'stock', 'status', 'is_featured', 'made_in', 'deleted_at')
-                ->with(['product_image:product_id,file_path', 'category:id,name', 'brand:id,name'])->get();
+                ->with(['product_image:product_id,file_path', 'category:id,name', 'brand:id,name'])
+                ->orderBy('id', 'desc')
+                ->get();
         }
 
         return view('back.product.index', $data);
@@ -90,14 +92,8 @@ class ProductController extends Controller
         return view('back.product.create', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function store(ProductStoreRequest $request)
     {
-        // return $request;
         // Product create
         $product = $request->except('_token', 'images.*');
         if (Auth::user()->type == 'vendor') {
@@ -226,9 +222,6 @@ class ProductController extends Controller
 
         // Multiple image update
         if ($request->images != null && count($request->images)) {
-            // delete old images
-            ProductImage::where('product_id', $product->id)->delete();
-
             foreach ($request->images as $image) {
                 $product_image['product_id'] = $product->id;
                 $file_name = $product->id.'-'.time().'-'.rand(0000, 9999).'.'.$image->getClientoriginalExtension();

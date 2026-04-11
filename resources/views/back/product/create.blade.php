@@ -162,12 +162,12 @@
             let isSlugEdited = false;
 
             // Detect manual changes to slug
-            $('#slug').on('input', function() {
+            $('#slug').on('keyup', function() {
                 isSlugEdited = true;
             });
 
             // Auto-generate slug unless manually changed
-            $('#name').on('input', function() {
+            $('#name').on('keyup', function() {
                 if (!isSlugEdited) {
                     let title = $(this).val();
                     let slug = title.toLowerCase()

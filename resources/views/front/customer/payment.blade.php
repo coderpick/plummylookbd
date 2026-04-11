@@ -374,3 +374,33 @@
         });
     </script>
 @endpush
+
+@push('datalayer')
+@if(session('s_msg') || session('p_msg') || session('success') || session('order_placed'))
+<script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ ecommerce: null });
+    window.dataLayer.push({
+        event: 'purchase',
+        ecommerce: {
+            transaction_id: '{{ $order->transaction_id ?? $order->order_number }}',
+            value: {{ $order->amount }},
+            currency: 'BDT',
+            coupon: '{{ $order->discount ? "COUPON" : "" }}',
+            items: [
+                @foreach($order->order_detail as $item)
+                {
+                    item_id: '{{ $item->product_id }}',
+                    item_name: @json(optional($item->product)->name ?? 'Unknown Product'),
+                    item_category: @json(optional($item->product->category)->name ?? ''),
+                    item_brand: @json(optional($item->product->brand)->name ?? ''),
+                    price: {{ $item->price }},
+                    quantity: {{ $item->quantity }}
+                }{{ !$loop->last ? ',' : '' }}
+                @endforeach
+            ]
+        }
+    });
+</script>
+@endif
+@endpush

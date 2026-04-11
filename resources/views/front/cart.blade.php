@@ -86,7 +86,13 @@
                                         </td>
 
                                         <td class="shoping__cart__item__close">
-                                            <a href="{{ route('remove.cart',$item['slug']) }}"><span class="icon_close"></span></a>
+                                            <a href="{{ route('remove.cart',$item['slug']) }}" class="remove-cart-btn"
+                                                data-item-id="{{ $item['product_id'] }}"
+                                                data-item-name="{{ $item['name'] }}"
+                                                data-price="{{ $price }}"
+                                                data-quantity="{{ $item['quantity'] }}">
+                                                <span class="icon_close"></span>
+                                            </a>
                                         </td>
                                     </tr>
 
@@ -164,5 +170,65 @@
 
 
 @push('custom-js')
+<script>
+    $('.remove-cart-btn').on('click', function() {
+        var id = $(this).data('item-id');
+        var name = $(this).data('item-name');
+        var price = $(this).data('price');
+        var qty = $(this).data('quantity');
 
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ ecommerce: null });
+        window.dataLayer.push({
+            event: 'remove_from_cart',
+            ecommerce: {
+                currency: 'BDT',
+                value: price * qty,
+                items: [{
+                    item_id: id.toString(),
+                    item_name: name,
+                    price: price,
+                    quantity: qty
+                }]
+            }
+        });
+    });
+</script>
+@endpush
+
+@push('datalayer')
+@if($cart != null)
+<script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ ecommerce: null }); // Clear previous ecommerce data
+    window.dataLayer.push({
+        event: 'view_cart',
+        ecommerce: {
+            currency: 'BDT',
+            value: {{ $total }},
+            items: [
+                @foreach($cart as $index => $item)
+                @php
+                    if (isset($item['flash_price']) && $item['flash_price'] != null){
+                        $price = $item['flash_price'];
+                    }
+                    elseif ($item['new_price']){
+                        $price = $item['new_price'];
+                    }
+                    else{
+                        $price = $item['price'];
+                    }
+                @endphp
+                {
+                    item_id: '{{ $item['product_id'] }}',
+                    item_name: @json($item['name']),
+                    price: {{ $price }},
+                    quantity: {{ $item['quantity'] }}
+                }{{ !$loop->last ? ',' : '' }}
+                @endforeach
+            ]
+        }
+    });
+</script>
+@endif
 @endpush
