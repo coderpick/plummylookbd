@@ -59,7 +59,7 @@
                 </a>
             </div>
             <div class="mobile-bottom-nav__item">
-                <a href="{{ route('account') }}" class="text-decoration-none">
+                <a href="{{ route('user.dashboard') }}" class="text-decoration-none">
                     <div class="mobile-bottom-nav__item-content">
                         <i class="fa fa-user"></i>
                         Account

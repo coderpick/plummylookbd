@@ -13,10 +13,10 @@
     <div class="sidebar__item">
         <ul class="list-group">
 
-            <li class="list-group-item text-right {{ Request::is('my-dashboard')?'active':'' }}"><span class="pull-left"><a class="" href="{{ route('account') }}"><i class="fa fa-dashboard fa-1x"></i> Dashboard</a></span></li>
+            <li class="list-group-item text-right {{ Request::is('user/dashboard')?'active':'' }}"><span class="pull-left"><a class="" href="{{ route('user.dashboard') }}"><i class="fa fa-dashboard fa-1x"></i> Dashboard</a></span></li>
 
-            <li class="list-group-item text-right {{ Request::is('profile-info')?'active':'' }}"><span class="pull-left"><a class="{{ Request::is('my-dashboard')?'active':'' }}" href="{{ route('customer.show') }}"><i class="fa fa-user fa-1x"></i> Profile Info</a></span></li>
-            <li class="list-group-item text-right {{ Request::is('my-orders*')?'active':'' }}"><span class="pull-left"><a class="" href="{{ route('myorders') }}"><i class="fa fa-cart-plus fa-1x"></i> My Orders</a></span></li>
+            <li class="list-group-item text-right {{ Request::is('user/profile')?'active':'' }}"><span class="pull-left"><a class="{{ Request::is('user/dashboard')?'active':'' }}" href="{{ route('user.profile') }}"><i class="fa fa-user fa-1x"></i> Profile Info</a></span></li>
+            <li class="list-group-item text-right {{ Request::is('user/orders*')?'active':'' }}"><span class="pull-left"><a class="" href="{{ route('user.orders') }}"><i class="fa fa-cart-plus fa-1x"></i> My Orders</a></span></li>
             {{--<li class="list-group-item"><span class="pull-left"><a class="{{ Request::is('my-orders*')?'active':'' }}" href="{{ route('myorders') }}"><i class="fa fa-map-marker fa-1x"></i> Addresses</a></span></li>--}}
             <li class="list-group-item">
                 <span class="pull-left"><a class="" href="{{ route('logout') }}" onclick="event.preventDefault();

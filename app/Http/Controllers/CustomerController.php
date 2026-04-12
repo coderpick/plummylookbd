@@ -25,11 +25,7 @@ use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         if (Auth::user()->type !== 'user'){
@@ -43,24 +39,15 @@ class CustomerController extends Controller
         return view('front.customer.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function create()
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
+     
         if (Auth::user() && Auth::user()->type !== 'user'){
             session()->flash('error', 'Unauthorized Request');
             return redirect()->back();
@@ -78,191 +65,23 @@ class CustomerController extends Controller
         //Transaction start
         DB::beginTransaction();
         try {
-            $exist = User::where('email', $request->email)->first();
-            if ($exist){
-                Auth::login($exist);
-                $customerUser = $exist;
-            }
-            else{
-                $user['name'] = $request->name;
-                $user['phone'] = $request->phone;
-                $user['email'] = $request->email;
-                $user['password'] = bcrypt($request->phone);
-                $user['slug'] = str_slug($request->name);
-                $user['type'] = 'user';
-                $user['status'] = 1;
-                $user['email_verified_at'] = now();
-                $user['created_at'] = now();
-                $user['updated_at'] = now();
+            $customerUser = $this->resolveCustomer($request);
+            
+            $order_id = $this->createOrder($request, $customerUser);
 
-                if ($request->email != null){
-                    $user_id = User::insertGetId($user);
-                    $detail['user_id'] = $user_id;
-                    $detail['address_1'] = $request->address_1;
-                    $detail['address_2'] = $request->address_2;
-                    $detail['district_id'] = $request->district;
-                    $detail['zip'] = $request->zip;
-                    $detail['created_at'] = now();
-                    $detail['updated_at'] = now();
-                    $detail['account_status'] = 'active';
-                    UserDetail::insert($detail);
-
-                    Auth::loginUsingId($user_id);
-                    $customerUser = Auth::user();
-                }
-                else{
-                    $customerUser = $request;
-                }
-
+            $shippingResult = $this->processOrderItems($request, $order_id);
+            if ($shippingResult instanceof \Illuminate\Http\RedirectResponse) {
+                DB::rollBack();
+                return $shippingResult;
             }
 
-           $customer = $customerUser;
-            //order store
-            $order['order_number'] = '#'.date('ymd').uniqid();
-            $order['user_id'] = $customer->id??null;
-            $order['name'] = $customer->name;
-            $order['email'] = $customer->email;
-            $order['phone'] = $request->phone;
-            $order['transaction_id'] = rand(000,999).uniqid();
-            $order['payment_type'] = $request->payment_type;
-            $order['date'] = now();
-            if ($request->address_1 != null){
-                $order['address'] = $request->address_1.', '.$request->address_2;
-                $order['district_id'] = $request->district;
-                $order['zip'] = $request->zip;
+            $this->applyDiscountsAndTotals($order_id, $shippingResult['shipping'], $shippingResult['total']);
 
-                /*user detail update*/
-                /*$detail['address_1'] = $request->address_1;
-                $detail['address_2'] = $request->address_2;
-                $detail['district_id'] = $request->district;
-                $detail['zip'] = $request->zip;
-                $detail['account_status'] = 'active';
-                UserDetail::where('user_id', $customer->id)->update($detail);*/
-            }
-
-            $order_id = Order::insertGetId($order);
-
-            //dd($order_id);
-
-
-            //order details store
-            $cart = session('cart');
-            $total = 0;
-            $shipping = 0;
-            $sub_total = 0;
-
-            $setting = Shipping::first();
-           // $shipping = $setting->shipping;
-           // $free_shipping = $setting->free_shipping;
-
-            if (count($cart)) {
-                foreach ($cart as $item) {
-                    $product = Product::findOrFail($item['product_id']);
-
-                    if(isset($item['flash_price']) && $item['flash_price'] != null){
-                        $pr_stock = $product->flash->flash_stock;
-                    }else{
-                        $pr_stock = $product->stock;
-                    }
-
-                    if ($pr_stock >= $item['quantity']){
-
-                        $order_details['order_id'] = $order_id;
-                        $order_details['product_id'] = $item['product_id'];
-                        $order_details['shop_id'] = $item['shop_id'];
-                        $order_details['product_name'] = $item['name'];
-
-                        if (isset($item['flash_price']) && $item['flash_price'] != null){
-                            $order_details['price'] = $item['flash_price'];
-                        }else{
-                            $order_details['price'] = ($item['new_price'])? $item['new_price']: $item['price'];
-                        }
-
-                        $order_details['quantity'] = $item['quantity'];
-                        $order_details['status'] = 'Pending';
-
-                        $order_details['total'] = $item['quantity'] * $order_details['price'];
-                        $order_details['point'] = $item['quantity'] * $item['point'];
-
-                        OrderDetail::create($order_details);
-
-                        $total += $order_details['total'];
-
-
-
-                        if ($request->district == 47){
-                            if ($setting->charge_by == 'quantity'){
-                                $shipping += $item['quantity'] * $setting->shipping;
-                            }
-                            if ($setting->charge_by == 'product'){
-                                $shipping += $setting->shipping;
-                            }
-                            if ($setting->charge_by == 'order'){
-                                $shipping = $setting->shipping;
-                            }
-                        }
-                        else{
-                            if ($setting->charge_by == 'quantity'){
-                                $shipping += $item['quantity'] * $setting->shipping2 ;
-                            }
-                            if ($setting->charge_by == 'product'){
-                                $shipping += $setting->shipping2 ;
-                            }
-                            if ($setting->charge_by == 'order'){
-                                $shipping = $setting->shipping2 ;
-                            }
-                        }
-
-                        //product stock update
-                        $product->stock = $product->stock - $item['quantity'];
-                        $product->save();
-
-                        //flash stock update
-                        $flash = Flash::where('product_id', $item['product_id'])->first();
-                        if($flash){
-                            $flash->flash_stock = $flash->flash_stock - $item['quantity'];
-                            $flash->save();
-                        }
-                    }
-                    else{
-                        session()->flash('warning',ucfirst($item['name']).' '.'is out of stock');
-                        return redirect()->route('cart');
-                    }
-                }
-            }
-
-            $coupon_id = session('coupon_id');
-            $coupon_type = session('coupon_type');
-            $discount = session('discount');
-
-            if ($coupon_type == 1) {
-                $data['user_id']= Auth::user()->id;
-                $data['voucher_id']= $coupon_id;
-                VoucherUser::create($data);
-            }
-
-            if ($total >= $setting->free_shipping){
-                if ($discount != null){
-                    $total = $total - $discount;
-                }
-
-                Order::findOrFail($order_id)->update(['amount' => $total, 'discount' => $discount]);
-            }
-            else{
-                if ($discount != null){
-                    $total = $total - $discount;
-                }
-                Order::findOrFail($order_id)->update(['amount' => $total+$shipping,'shipping' => $shipping, 'discount' => $discount]);
-            }
-
-            //Confirmation mail send
-            //$customer = User::findOrFail($customer_id);
-
-            if ($customer->email != null) {
+            if ($customerUser->email != null) {
                 try {
-                    Mail::to($customer->email)->send(new OrderPlaceMail($order_id));
+                    Mail::to($customerUser->email)->send(new OrderPlaceMail($order_id));
                 } catch (\Exception $e) {
-                    //Log::warning("Email to $customer->email failed: " . $e->getMessage());
+                    //Log::warning("Email to failed: " . $e->getMessage());
                 }
             }
 
@@ -272,14 +91,9 @@ class CustomerController extends Controller
             session()->remove('cart');
             session()->flash('success','Order Placed Successfully');
             session()->flash('s_msg','Successful');
-            if (isset($customer->slug) && $customer->slug == null){
-                return redirect()->route('payment',[$customer->slug,base64_encode($order_id)]);
-            }
-            else{
-                return redirect()->route('home');
-            }
-
-
+            
+            $slug = isset($customerUser->slug) ? $customerUser->slug : 'guest';
+            return redirect()->route('order.success', [$slug, base64_encode($order_id)]);
 
         }catch (\Exception $exception)
         {
@@ -291,12 +105,169 @@ class CustomerController extends Controller
         //Transaction end
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    private function resolveCustomer(Request $request)
+    {
+        $exist = User::where('email', $request->email)->first();
+        if ($exist) {
+            Auth::login($exist);
+            return $exist;
+        }
+
+        if ($request->email != null) {
+            $user['name'] = $request->name;
+            $user['phone'] = $request->phone;
+            $user['email'] = $request->email;
+            $user['password'] = bcrypt($request->phone);
+            $user['slug'] = str_slug($request->name);
+            $user['type'] = 'user';
+            $user['status'] = 1;
+            $user['email_verified_at'] = now();
+            $user['created_at'] = now();
+            $user['updated_at'] = now();
+
+            $user_id = User::insertGetId($user);
+            
+            $detail['user_id'] = $user_id;
+            $detail['address_1'] = $request->address_1;
+            $detail['address_2'] = $request->address_2;
+            $detail['district_id'] = $request->district;
+            $detail['zip'] = $request->zip;
+            $detail['created_at'] = now();
+            $detail['updated_at'] = now();
+            $detail['account_status'] = 'active';
+            UserDetail::insert($detail);
+
+            Auth::loginUsingId($user_id);
+            return Auth::user();
+        }
+
+        return $request;
+    }
+
+    private function createOrder(Request $request, $customer)
+    {
+        $order['order_number'] = '#'.date('ymd').uniqid();
+        $order['user_id'] = $customer->id ?? null;
+        $order['name'] = $customer->name;
+        $order['email'] = $customer->email;
+        $order['phone'] = $request->phone;
+        $order['transaction_id'] = rand(000,999).uniqid();
+        $order['payment_type'] = $request->payment_type;
+        $order['date'] = now();
+        if ($request->address_1 != null) {
+            $order['address'] = $request->address_1.', '.$request->address_2;
+            $order['district_id'] = $request->district;
+            $order['zip'] = $request->zip;
+        }
+
+        return Order::insertGetId($order);
+    }
+
+    private function processOrderItems(Request $request, $order_id)
+    {
+        $cart = session('cart');
+        $total = 0;
+        $shipping = 0;
+
+        $setting = Shipping::first();
+
+        if (count($cart)) {
+            foreach ($cart as $item) {
+                $product = Product::findOrFail($item['product_id']);
+
+                if(isset($item['flash_price']) && $item['flash_price'] != null){
+                    $pr_stock = $product->flash->flash_stock;
+                }else{
+                    $pr_stock = $product->stock;
+                }
+
+                if ($pr_stock >= $item['quantity']) {
+                    $order_details['order_id'] = $order_id;
+                    $order_details['product_id'] = $item['product_id'];
+                    $order_details['shop_id'] = $item['shop_id'];
+                    $order_details['product_name'] = $item['name'];
+
+                    if (isset($item['flash_price']) && $item['flash_price'] != null){
+                        $order_details['price'] = $item['flash_price'];
+                    }else{
+                        $order_details['price'] = ($item['new_price'])? $item['new_price']: $item['price'];
+                    }
+
+                    $order_details['quantity'] = $item['quantity'];
+                    $order_details['status'] = 'Pending';
+
+                    $order_details['total'] = $item['quantity'] * $order_details['price'];
+                    $order_details['point'] = $item['quantity'] * $item['point'];
+
+                    OrderDetail::create($order_details);
+
+                    $total += $order_details['total'];
+
+                    // Shipping logic
+                    if ($request->district == 47) {
+                        if ($setting->charge_by == 'quantity') {
+                            $shipping += $item['quantity'] * $setting->shipping;
+                        } elseif ($setting->charge_by == 'product') {
+                            $shipping += $setting->shipping;
+                        } elseif ($setting->charge_by == 'order') {
+                            $shipping = $setting->shipping;
+                        }
+                    } else {
+                        if ($setting->charge_by == 'quantity') {
+                            $shipping += $item['quantity'] * $setting->shipping2 ;
+                        } elseif ($setting->charge_by == 'product') {
+                            $shipping += $setting->shipping2 ;
+                        } elseif ($setting->charge_by == 'order') {
+                            $shipping = $setting->shipping2 ;
+                        }
+                    }
+
+                    // Stock update
+                    $product->stock = $product->stock - $item['quantity'];
+                    $product->save();
+
+                    // Flash stock update
+                    $flash = Flash::where('product_id', $item['product_id'])->first();
+                    if($flash){
+                        $flash->flash_stock = $flash->flash_stock - $item['quantity'];
+                        $flash->save();
+                    }
+                } else {
+                    session()->flash('warning',ucfirst($item['name']).' '.'is out of stock');
+                    return redirect()->route('cart');
+                }
+            }
+        }
+
+        return ['total' => $total, 'shipping' => $shipping];
+    }
+
+    private function applyDiscountsAndTotals($order_id, $shipping, $total)
+    {
+        $setting = Shipping::first();
+        $coupon_id = session('coupon_id');
+        $coupon_type = session('coupon_type');
+        $discount = session('discount');
+
+        if ($coupon_type == 1 && Auth::check()) {
+            $data['user_id'] = Auth::user()->id;
+            $data['voucher_id'] = $coupon_id;
+            VoucherUser::create($data);
+        }
+
+        if ($discount != null) {
+            $total = $total - $discount;
+        }
+
+        if ($total >= $setting->free_shipping) {
+            Order::findOrFail($order_id)->update(['amount' => $total, 'discount' => $discount]);
+        } else {
+            Order::findOrFail($order_id)->update(['amount' => $total + $shipping, 'shipping' => $shipping, 'discount' => $discount]);
+        }
+    }
+
+
+  
     public function show()
     {
         if (Auth::user()->type !== 'user'){
@@ -310,26 +281,18 @@ class CustomerController extends Controller
         return view('front.customer.edit', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function update(Request $request, $slug)
     {
+        // Strictly fetch the currently logged-in user to prevent editing the wrong user in case of slug collisions.
+        $user = \Illuminate\Support\Facades\Auth::user();
+
         $request->validate([
             'name' => 'required',
             'phone' => 'required',
@@ -337,12 +300,15 @@ class CustomerController extends Controller
             'address_1' => 'required',
             'zip' => 'required',
             'image' => 'image',
-            'email' => 'required|email',
-            'password' => 'confirmed'
+            'email' => [
+                'required',
+                'email',
+                \Illuminate\Validation\Rule::unique('users', 'email')->ignore($user->id)
+            ],
+            'password' => 'nullable|confirmed'
         ]);
 
         $data = $request->except('_token', 'password', 'image','district', 'address_1', 'address_2', 'zip');
-        $user = User::withTrashed()->where('slug', $slug)->first();
 
         $details = UserDetail::withTrashed()->where('user_id', $user->id)->first();
 
@@ -389,12 +355,6 @@ class CustomerController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

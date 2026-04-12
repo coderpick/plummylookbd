@@ -127,16 +127,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('add-favourite/{product_id}', [FavouriteController::class, 'store'])->name('add.favourite');
 
     // Front user routes
-    Route::get('my-dashboard', [CustomerController::class, 'index'])->name('account');
-    Route::get('profile-info', [CustomerController::class, 'show'])->name('customer.show');
-    Route::put('account/{slug}', [CustomerController::class, 'update'])->name('user.info.update');
+    Route::get('user/dashboard', [CustomerController::class, 'index'])->name('user.dashboard');
+    Route::get('user/profile', [CustomerController::class, 'show'])->name('user.profile');
+    Route::put('user/profile/{slug}', [CustomerController::class, 'update'])->name('user.profile.update');
 
     Route::get('payment/{slug}/{orderId}', [CheckoutController::class, 'payment'])->name('payment');
+    Route::get('order-success/{slug}/{orderId}', [CheckoutController::class, 'orderSuccess'])->name('order.success');
     Route::get('discount/{id}', [VoucherController::class, 'discount'])->name('discount');
 
     // user order n track
-    Route::get('my-orders', [OrderController::class, 'myorder'])->name('myorders');
-    Route::get('my-orders/details/{id}', [OrderController::class, 'myorder_details'])->name('myorder.show');
+    Route::get('user/orders', [OrderController::class, 'myorder'])->name('user.orders');
+    Route::get('user/orders/details/{id}', [OrderController::class, 'myorder_details'])->name('user.orders.show');
     Route::get('track/{slug}/{orderId}', [OrderController::class, 'track'])->name('track');
 
     // dispute routes

@@ -23,143 +23,127 @@
 
             <div class="col-lg-9 col-md-7">
                 <div class="row">
-                    <div class="checkout__form col-lg-12">
-                        <h4>Profile Information</h4>
-                        <form action="{{ route('user.info.update', auth()->user()->slug ) }}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            @method('put')
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="checkout__input">
-                                                <p>Full Name<span>*</span></p>
-                                                <input class="@error('name') is-invalid @enderror" type="text" name="name" value="{{ ucfirst(auth()->user()->name) }}" required>
-                                                @error('name')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
-                                            </div>
-                                            <div class="checkout__input">
-                                                <p>Phone Number<span>*</span></p>
-                                                <input class="@error('phone') is-invalid @enderror" name="phone" type="text" value="{{ auth()->user()->phone }}" required>
-                                                @error('phone')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
-                                            </div>
-                                            <div class="checkout__input">
-                                                <p>Email Address<span>*</span></p>
-                                                <input class="@error('email') is-invalid @enderror" name="email" type="email" value="{{ auth()->user()->email }}" required>
-                                                @error('email')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="checkout__input">
-                                                <p>Select Your Profile Image</p>
-
-                                                <input name="image" type="file" class="dropify @error('image') is-invalid @enderror" data-default-file="{{ asset(auth()->user()->image != null? auth()->user()->image : 'uploads/user_default.jpg') }}" data-max-file-size="2M">
-                                                @error('image')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
-                                            </div>
+                    <div class="card shadow-sm border-0 rounded-lg w-100">
+                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                            <h4 class="mb-0 text-custom font-weight-bold" style="color: var(--color-primary-dark);"><i class="fa fa-user-circle mr-2"></i> Profile Information</h4>
+                        </div>
+                        <div class="card-body mt-2 p-4">
+                            <form action="{{ route('user.profile.update', auth()->user()->slug ) }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                @method('put')
+                                
+                                <h6 class="text-uppercase text-muted font-weight-bold mb-3"><i class="fa fa-id-card-o mr-2"></i> Account Details</h6>
+                                <div class="row">
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="checkout__input">
+                                            <p class="font-weight-bold mb-2">Full Name<span>*</span></p>
+                                            <input class="@error('name') is-invalid @enderror form-control bg-light border-0" style="height: 46px; border-radius: 4px;" type="text" name="name" value="{{ ucfirst(auth()->user()->name) }}" required>
+                                            @error('name')
+                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                            @enderror
                                         </div>
                                     </div>
-
-
-
-
-                                    <div class="checkout__input">
-
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <p>Your Address<span>*</span></p>
-                                                <input class="@error('address_1') is-invalid @enderror" type="text" name="address_1" value="{{ (auth()->user()->detail)?auth()->user()->detail->address_1: '' }}" placeholder="Street Address" class="checkout__input__add" required>
-                                                @error('address_1')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p>More Address<span>*</span></p>
-                                                <input class="@error('address_2') is-invalid @enderror" type="text" name="address_2" value="{{ (auth()->user()->detail)?auth()->user()->detail->address_2: '' }}" placeholder="Apartment, suite, unite ect (optional)">
-                                                @error('address_2')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-
-
-
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="checkout__input">
-                                                <p>District<span>*</span></p>
-
-                                                <select id="single" name="district" class="js-states form-control wrapper district @error('district') is-invalid @enderror" required>
-                                                    @foreach ($districts as $district)
-                                                    <option {{ (auth()->user()->detail) && auth()->user()->detail->district_id == $district->id?'selected': '' }} value="{{ $district->id }}">{{ ucfirst($district->name) }}</option>
-                                                    @endforeach
-                                                </select>
-
-
-                                                @error('district')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="checkout__input">
-                                                <p>Postcode / Zip<span>*</span></p>
-                                                <input class="@error('zip') is-invalid @enderror" name="zip" type="number" value="{{ (auth()->user()->detail)?auth()->user()->detail->zip: '' }}" required>
-                                                @error('zip')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
-                                            </div>
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="checkout__input">
+                                            <p class="font-weight-bold mb-2">Phone Number<span>*</span></p>
+                                            <input class="@error('phone') is-invalid @enderror form-control bg-light border-0" style="height: 46px; border-radius: 4px;" name="phone" type="text" value="{{ auth()->user()->phone }}" required>
+                                            @error('phone')
+                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                            @enderror
                                         </div>
                                     </div>
-
-
-
-                                    <div class="checkout__input">
-                                        <p>Your Password</p>
-                                        <input placeholder="**********" class="@error('password') is-invalid @enderror" name="password" type="password" id="password">
-                                        @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="checkout__input">
+                                            <p class="font-weight-bold mb-2">Email Address<span>*</span></p>
+                                            <input class="@error('email') is-invalid @enderror form-control bg-light border-0" style="height: 46px; border-radius: 4px;" name="email" type="email" value="{{ auth()->user()->email }}" required>
+                                            @error('email')
+                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                            @enderror
+                                        </div>
                                     </div>
-
-                                    <div class="checkout__input">
-                                        <p>Confirm Password</p>
-                                        <input name="password_confirmation" placeholder="**********" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation">
-                                    </div>
-
-                                    <div class="text-left">
-                                        <button type="submit" class="btn-lg site-btn custom-save-btn">Save Changes</button>
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="checkout__input">
+                                            <p class="font-weight-bold mb-2">Profile Image</p>
+                                            <input name="image" type="file" class="dropify @error('image') is-invalid @enderror" data-default-file="{{ asset(auth()->user()->image != null? auth()->user()->image : 'uploads/user_default.jpg') }}" data-max-file-size="2M" data-height="100">
+                                            @error('image')
+                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                                
+                                <hr class="my-4 border-light">
+                                <h6 class="text-uppercase text-muted font-weight-bold mb-3"><i class="fa fa-map-marker mr-2"></i> Shipping Address</h6>
+                                <div class="row">
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="checkout__input">
+                                            <p class="font-weight-bold mb-2">Street Address<span>*</span></p>
+                                            <input class="@error('address_1') is-invalid @enderror form-control bg-light border-0" style="height: 46px; border-radius: 4px;" type="text" name="address_1" value="{{ (auth()->user()->detail)?auth()->user()->detail->address_1: '' }}" placeholder="Street Address" required>
+                                            @error('address_1')
+                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="checkout__input">
+                                            <p class="font-weight-bold mb-2">Apartment/Suite (Optional)</p>
+                                            <input class="@error('address_2') is-invalid @enderror form-control bg-light border-0" style="height: 46px; border-radius: 4px;" type="text" name="address_2" value="{{ (auth()->user()->detail)?auth()->user()->detail->address_2: '' }}" placeholder="Apartment, suite, unite ect (optional)">
+                                            @error('address_2')
+                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="checkout__input">
+                                            <p class="font-weight-bold mb-2">District<span>*</span></p>
+                                            <select id="single" name="district" class="js-states form-control wrapper district @error('district') is-invalid @enderror" required>
+                                                @foreach ($districts as $district)
+                                                <option {{ (auth()->user()->detail) && auth()->user()->detail->district_id == $district->id?'selected': '' }} value="{{ $district->id }}">{{ ucfirst($district->name) }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('district')
+                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="checkout__input">
+                                            <p class="font-weight-bold mb-2">Postcode / Zip<span>*</span></p>
+                                            <input class="@error('zip') is-invalid @enderror form-control bg-light border-0" style="height: 46px; border-radius: 4px;" name="zip" type="number" value="{{ (auth()->user()->detail)?auth()->user()->detail->zip: '' }}" required>
+                                            @error('zip')
+                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr class="my-4 border-light">
+                                <h6 class="text-uppercase text-muted font-weight-bold mb-3"><i class="fa fa-lock mr-2"></i> Security</h6>
+                                <div class="row">
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="checkout__input">
+                                            <p class="font-weight-bold mb-2">New Password (Optional)</p>
+                                            <input placeholder="Leave blank to keep unchanged" class="@error('password') is-invalid @enderror form-control bg-light border-0" style="height: 46px; border-radius: 4px;" name="password" type="password" id="password">
+                                            @error('password')
+                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-3">
+                                        <div class="checkout__input">
+                                            <p class="font-weight-bold mb-2">Confirm Password</p>
+                                            <input name="password_confirmation" placeholder="Leave blank to keep unchanged" type="password" class="form-control bg-light border-0" style="height: 46px; border-radius: 4px;" id="password_confirmation">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-right mt-4 mb-2">
+                                    <button type="submit" class="btn btn-primary rounded-pill px-5 py-3 font-weight-bold shadow-sm" style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%); border: none;">
+                                        <i class="fa fa-save mr-2"></i> Save Changes
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

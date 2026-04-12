@@ -5,7 +5,7 @@
 <div class="humberger__menu__widget">
     <div class="header__top__right__language">
         @if(Auth::user())
-            <a style="color: var(--color-primary-dark) !important;" href="{{ route('account') }}"><i class="icofont-boy"></i> Dashboard</a>
+            <a style="color: var(--color-primary-dark) !important;" href="{{ route('user.dashboard') }}"><i class="icofont-boy"></i> Dashboard</a>
         @endif
     </div>
     @if(Auth::user())

@@ -111,12 +111,12 @@
                                 <br>
                                 <div>
                                     <form style="display: inline" action="{{ route('add.cart', $product->id) }}"
-                                        method="post">
+                                        method="post" onsubmit="return handleAddToCartSubmit(event, this)">
                                         @csrf
                                         <div class="product__details__quantity">
                                             <div class="quantity">
                                                 <div class="pro-qty">
-                                                    <input type="text" name="quantity" value="1">
+                                                    <input type="text" name="quantity" id="main_product_quantity" value="1">
                                                 </div>
                                             </div>
                                         </div>
@@ -124,7 +124,7 @@
                                             {{ $product->stock == 0 ? 'disabled' : ' ' }}>
                                             {{ $product->stock == 0 ? 'Out of Stock' : 'Add To Cart' }}</button>
                                     </form>
-                                    <a href="{{ $product->stock == 0 ? 'javascript:void(0)' : route('buy_now', $product->slug) }}"
+                                    <a onclick="return handleBuyNowClick(event, this)" href="{{ $product->stock == 0 ? 'javascript:void(0)' : route('buy_now', $product->slug) }}"
                                         class="primary-btn dtl_cart_btn text-white {{ $product->stock == 0 ? 'stock-out-btn' : '' }}">
                                         {{ $product->stock == 0 ? 'Out of Stock' : 'Buy Now' }}
                                     </a>
@@ -502,6 +502,50 @@
             }]
         }
     });
+
+    function trackAddToCart() {
+        var quantityInput = document.getElementById('main_product_quantity');
+        var quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+        
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ ecommerce: null }); // Clear previous ecommerce data
+        window.dataLayer.push({
+            event: 'add_to_cart',
+            ecommerce: {
+                currency: 'BDT',
+                value: {{ $dl_price }} * quantity,
+                items: [{
+                    item_id: '{{ $product->id }}',
+                    item_name: @json($product->name),
+                    item_brand: @json(optional($product->brand)->name ?? ''),
+                    item_category: @json(optional($product->category)->name ?? ''),
+                    price: {{ $dl_price }},
+                    quantity: quantity
+                }]
+            }
+        });
+    }
+
+    function handleAddToCartSubmit(event, form) {
+        event.preventDefault();
+        trackAddToCart();
+        setTimeout(function() {
+            form.submit();
+        }, 500); // 500ms delay to ensure GA4 event fires
+        return false;
+    }
+
+    function handleBuyNowClick(event, link) {
+        if (link.href.indexOf('javascript:void') !== -1) {
+            return false;
+        }
+        event.preventDefault();
+        trackAddToCart();
+        setTimeout(function() {
+            window.location.href = link.href;
+        }, 500); // 500ms delay to ensure GA4 event fires
+        return false;
+    }
 </script>
 @endpush
 

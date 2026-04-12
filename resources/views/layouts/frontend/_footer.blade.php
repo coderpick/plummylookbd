@@ -33,7 +33,7 @@
                 <div class="footer__widget">
                     <h6>Useful Links</h6>
                     <ul>
-                        <li><a href="{{ route('account') }}">My Account</a></li>
+                        <li><a href="{{ route('user.dashboard') }}">My Account</a></li>
                         <li><a href="{{ route('contact') }}">Contact Us</a></li>
                         <li><a href="{{ route('static.page.show', 'faq') }}">FAQ</a></li>
                         <li><a href="{{ route('static.page.show', 'privacy-policy') }}">Privacy Policy</a></li>

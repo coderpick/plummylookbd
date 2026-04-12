@@ -85,8 +85,43 @@ class CheckoutController extends Controller
         session()->remove('discount');
         session()->remove('percent');
 
-        // session()->flash('success','Order Placed Successfully');
         return view('front.customer.payment', $data);
+    }
+
+    public function orderSuccess($slug, $order_id)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $data['balance'] = Point::where('user_id', $user->id)->first();
+        }
+        $order_id = base64_decode($order_id);
+        $data['title'] = 'Order Success';
+        $data['customer'] = User::where('slug', $slug)->first();
+        $data['order'] = Order::with('order_detail.product')->findOrFail($order_id);
+        $data['date'] = Carbon::parse($data['order']->date)->addDays(3)->format('d-M-Y');
+        $data['cart'] = session('cart');
+
+        $contact = Contact::latest()->first();
+        $data['bkash'] = $contact->bkash;
+        $data['nagad'] = $contact->nagad;
+
+        session()->remove('cart');
+        session()->remove('coupon_type');
+        session()->remove('coupon_id');
+        session()->remove('discount');
+        session()->remove('percent');
+
+        if (!$data['customer']) {
+            // Support guest checkouts where the slug might be dummy
+            $data['customer'] = (object)[
+                'name' => $data['order']->name,
+                'email' => $data['order']->email,
+                'phone' => $data['order']->phone,
+                'slug' => 'guest'
+            ];
+        }
+
+        return view('front.customer.order-success', $data);
     }
 
     public function buy($slug)

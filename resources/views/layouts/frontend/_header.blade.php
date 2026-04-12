@@ -29,7 +29,7 @@
 
                         @if(Auth::user())
                             <div class="header__top__right__auth mr-3">
-                                <a href="{{ route('account') }}"><i class="icofont-boy"></i> {{ ucfirst(auth()->user()->name) }}</a>
+                                <a href="{{ route('user.dashboard') }}"><i class="icofont-boy"></i> {{ ucfirst(auth()->user()->name) }}</a>
                             </div>
                         @endif
 

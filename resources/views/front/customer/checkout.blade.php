@@ -106,7 +106,7 @@
                                                         <p class="clear"><span class="f_title">Postcode / Zip: </span></p>
                                                         <input class="@error('zip') is-invalid @enderror"
                                                             value="{{ auth()->user() ? ucfirst(auth()->user()->detail?->zip) : '' }}"
-                                                            name="zip" id="zip" type="number">
+                                                            name="zip" id="zip" type="number" min="0">
                                                         @error('zip')
                                                             <span class="invalid-feedback" role="alert">
                                                                 <strong>{{ $message }}</strong>
@@ -474,38 +474,38 @@
 @endpush
 
 @push('datalayer')
-@if($cart != null)
-<script>
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ ecommerce: null });
-    window.dataLayer.push({
-        event: 'begin_checkout',
-        ecommerce: {
-            currency: 'BDT',
-            value: {{ $total }},
-            items: [
-                @foreach($cart as $index => $item)
-                @php
-                    if (isset($item['flash_price']) && $item['flash_price'] != null){
-                        $price = $item['flash_price'];
-                    }
-                    elseif ($item['new_price']){
-                        $price = $item['new_price'];
-                    }
-                    else{
-                        $price = $item['price'];
-                    }
-                @endphp
-                {
-                    item_id: '{{ $item['product_id'] }}',
-                    item_name: @json($item['name']),
-                    price: {{ $price }},
-                    quantity: {{ $item['quantity'] }}
-                }{{ !$loop->last ? ',' : '' }}
-                @endforeach
-            ]
-        }
-    });
-</script>
-@endif
+    @if ($cart != null)
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                ecommerce: null
+            });
+            window.dataLayer.push({
+                event: 'begin_checkout',
+                ecommerce: {
+                    currency: 'BDT',
+                    value: {{ $total }},
+                    items: [
+                        @foreach ($cart as $index => $item)
+                            @php
+                                if (isset($item['flash_price']) && $item['flash_price'] != null) {
+                                    $price = $item['flash_price'];
+                                } elseif ($item['new_price']) {
+                                    $price = $item['new_price'];
+                                } else {
+                                    $price = $item['price'];
+                                }
+                            @endphp {
+                                item_id: '{{ $item['product_id'] }}',
+                                item_name: @json($item['name']),
+                                price: {{ $price }},
+                                quantity: {{ $item['quantity'] }}
+                            }
+                            {{ !$loop->last ? ',' : '' }}
+                        @endforeach
+                    ]
+                }
+            });
+        </script>
+    @endif
 @endpush
