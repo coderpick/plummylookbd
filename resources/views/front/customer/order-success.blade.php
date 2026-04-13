@@ -18,27 +18,31 @@
     </section>
     <section class="checkout spad">
         <div class="container" id="printcontent">
-            @if(session('s_msg'))
-            <div class="row">
-                <div class="col-md-12 bs-component">
-                    <div class="alert alert-dismissible alert-success">
-                        <button class="close" type="button" data-dismiss="alert">×</button><strong><i class="icofont icofont-check-circled"></i> Done!</strong> Your order has been successfully <a class="alert-link" href="#">placed</a>.
-                    </div>
-                </div>
-            </div>
-            @endif
-            @if(session('p_msg'))
+            @if (session('s_msg'))
                 <div class="row">
                     <div class="col-md-12 bs-component">
                         <div class="alert alert-dismissible alert-success">
-                            <button class="close" type="button" data-dismiss="alert">×</button><strong><i class="icofont icofont-check-circled"></i> Success!</strong> Your payment has been successfully <a class="alert-link" href="#">done</a>.
+                            <button class="close" type="button" data-dismiss="alert">×</button><strong><i
+                                    class="icofont icofont-check-circled"></i> Done!</strong> Your order has been
+                            successfully <a class="alert-link" href="#">placed</a>.
+                        </div>
+                    </div>
+                </div>
+            @endif
+            @if (session('p_msg'))
+                <div class="row">
+                    <div class="col-md-12 bs-component">
+                        <div class="alert alert-dismissible alert-success">
+                            <button class="close" type="button" data-dismiss="alert">×</button><strong><i
+                                    class="icofont icofont-check-circled"></i> Success!</strong> Your payment has been
+                            successfully <a class="alert-link" href="#">done</a>.
                         </div>
                     </div>
                 </div>
             @endif
             <article class="card">
-                {{--@if($order->district_id != 47)
-                    @if($order->advance == null)
+                {{-- @if ($order->district_id != 47)
+                    @if ($order->advance == null)
                         <div class="row">
                             <div class="col-md-12 bs-component">
                                 <div class="alert alert-dismissible alert-danger">
@@ -71,11 +75,11 @@
 
                                                 <p class="clear mb-1"><span class="f_title">Payment To: </span></p>
                                                 <input type="text" id="account_no" name="account_no" value="" readonly class="form-control w-100 mb-2">
-                                                --}}{{--<select id="account_no" name="account_no" class="form-control w-100 mb-2" required>
+                                                --}}{{-- <select id="account_no" name="account_no" class="form-control w-100 mb-2" required>
                                                     <option value="">Select</option>
                                                     <option value="01715123456">01715123456</option>
                                                     <option value="01219123456">01219123456</option>
-                                                </select>--}}{{--
+                                                </select> --}}{{--
 
                                                 <p class="clear mb-1"><span class="f_title">Amount: </span></p>
                                                 <input type="text" name="amount" required class="number form-control w-100 mb-2">
@@ -97,128 +101,158 @@
                             </div>
                         </div>
                     @endif
-                @endif--}}
+                @endif --}}
 
-                <header class="card-header"> My Order / {{ ucfirst($title) }} {{--<span class="float-right"><a class="btn btn-warning" href="JavaScript:window.print();">Print Page</a></span>--}}</header>
+                <header class="card-header"> My Order / {{ ucfirst($title) }} {{-- <span class="float-right"><a class="btn btn-warning" href="JavaScript:window.print();">Print Page</a></span> --}}</header>
 
                 <div class="card-body">
 
                     <article class="card">
                         <div class="card-body row">
                             <div class="col"> <strong>Order ID #:</strong> <br> {{ $order->order_number }} </div>
-                            <div class="col"> <strong>Payment Method:</strong> <br> {{ ($order->payment_type == 'cash')? 'Cash On Delivery':'Online Payment' }} </div>
+                            <div class="col"> <strong>Payment Method:</strong> <br>
+                                {{ $order->payment_type == 'cash' ? 'Cash On Delivery' : 'Online Payment' }} </div>
                             <div class="col"> <strong>Estimated Delivery:</strong> <br>{{ $date }} </div>
-                            {{--<div class="col"> <strong>Status:</strong> <br> {{ ucfirst($order->status) }} </div>--}}
+                            {{-- <div class="col"> <strong>Status:</strong> <br> {{ ucfirst($order->status) }} </div> --}}
                         </div>
                     </article>
                     <div class="track">
                         @if ($order->status == 'Pending')
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Pending</span> </div>
-                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Confirmed</span> </div>
-                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Processing</span> </div>
-                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Shipped </span> </div>
-                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Delivered</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Pending</span> </div>
+                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Confirmed</span> </div>
+                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Processing</span> </div>
+                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Shipped </span> </div>
+                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text">Delivered</span> </div>
                         @endif
                         @if ($order->status == 'Confirmed')
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Pending</span> </div>
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Confirmed</span> </div>
-                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Processing</span> </div>
-                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Shipped </span> </div>
-                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Delivered</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Pending</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Confirmed</span> </div>
+                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Processing</span> </div>
+                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Shipped </span> </div>
+                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text">Delivered</span> </div>
                         @endif
                         @if ($order->status == 'Processing')
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Pending</span> </div>
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Confirmed</span> </div>
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Processing</span> </div>
-                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Shipped </span> </div>
-                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Delivered</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Pending</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Confirmed</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Processing</span> </div>
+                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Shipped </span> </div>
+                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text">Delivered</span> </div>
                         @endif
                         @if ($order->status == 'Shipped')
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Pending</span> </div>
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Confirmed</span> </div>
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Processing</span> </div>
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Shipped </span> </div>
-                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Delivered</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Pending</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Confirmed</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Processing</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Shipped </span> </div>
+                            <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text">Delivered</span> </div>
                         @endif
                         @if ($order->status == 'Delivered')
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Pending</span> </div>
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Confirmed</span> </div>
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Processing</span> </div>
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Shipped </span> </div>
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Delivered</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Pending</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Confirmed</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Processing</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text"> Shipped </span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text">Delivered</span> </div>
                         @endif
                         @if ($order->status == 'Canceled')
-                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text text-danger"> Canceled</span> </div>
+                            <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                                    class="text text-danger"> Canceled</span> </div>
                         @endif
                     </div>
                     <hr>
                     <table class="table table-borderless">
                         <tbody>
-                        <tr>
-                            <th><h5 class="text-uppercase">Ship to:</h5></th>
-                            <td></td>
-                        </tr>
-
-                        <tr>
-                            <th>Name</th>
-                            <td>{{ ucfirst($customer->name) }}</td>
-                        </tr>
-                        <tr>
-                            <th>Phone</th>
-                            <td>{{ $customer->phone }}</td>
-                        </tr>
-                        <tr>
-                            <th>E-mail</th>
-                            <td>{{ $customer->email }}</td>
-                        </tr>
-                        <tr>
-                            <th>Shipping Address</th>
-                            <td>{{ ucfirst($order->address).', '.$order->district->name.'  '.$order->zip }}</td>
-                        </tr>
-                        @if ($order->discount!= null)
                             <tr>
-                                <th>Coupon Discount</th>
-                                <td>{{ $order->discount }}</td>
+                                <th>
+                                    <h5 class="text-uppercase">Ship to:</h5>
+                                </th>
+                                <td></td>
                             </tr>
-                        @endif
-                        <tr>
-                            <th>Payment Status</th>
-                            <td>{{ ucfirst($order->payment_status) }}</td>
-                        </tr>
-                        <tr>
-                            @if ($order->payment_status == 'unpaid')
-                            <th>Payable Amount</th>
-                                @else
-                                <th>Paid Amount</th>
-                            @endif
-                            <td>{{ $order->amount - $order->advance }}/-</td>
-                        </tr>
 
-                        <tr>
-                            <th> </th>
-                            {{--<td>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ ucfirst($customer->name) }}</td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td>{{ $customer->phone }}</td>
+                            </tr>
+                            <tr>
+                                <th>E-mail</th>
+                                <td>{{ $customer->email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Shipping Address</th>
+                                <td>{{ ucfirst($order->address) . ', ' . $order->district->name . '  ' . $order->zip }}
+                                </td>
+                            </tr>
+                            @if ($order->discount != null)
+                                <tr>
+                                    <th>Coupon Discount</th>
+                                    <td>{{ $order->discount }}</td>
+                                </tr>
+                            @endif
+                            <tr>
+                                <th>Payment Status</th>
+                                <td>{{ ucfirst($order->payment_status) }}</td>
+                            </tr>
+                            <tr>
+                                @if ($order->payment_status == 'unpaid')
+                                    <th>Payable Amount</th>
+                                @else
+                                    <th>Paid Amount</th>
+                                @endif
+                                <td>{{ $order->amount - $order->advance }}/-</td>
+                            </tr>
+
+                            <tr>
+                                <th> </th>
+                                {{-- <td>
                                 @if ($order->payment_status != 'paid' && $order->payment_type != 'cash')
                                     <form action="{{ url('/pay') }}" method="POST" class="d-inline needs-validation">
                                         <input type="hidden" value="{{ csrf_token() }}" name="_token" />
                                         <input type="hidden" value="{{ $order->transaction_id }}" name="tran_id" />
                                         <button class="btn btn-custom" type="submit">Pay Now</button>
                                     </form>
-                                    @if (isset($balance) && $order->amount <= $balance->point )
+                                    @if (isset($balance) && $order->amount <= $balance->point)
                                         <form action="{{ route('point.pay',$order->id) }}" method="post" style="display: inline">
                                             @csrf
                                             <button type="submit" class="btn btn-secondary" style="background: #000;" onclick="return confirm('Are Confirm to Pay?')">Pay with Point</button>
                                         </form>
-                                        --}}{{--<a href="{{ route('point.pay',$order->id ) }}" class="btn btn-secondary" style="background: #000;">Pay with Balance</a>--}}{{--
+                                        --}}{{-- <a href="{{ route('point.pay',$order->id ) }}" class="btn btn-secondary" style="background: #000;">Pay with Balance</a> --}}{{--
                                     @endif
                             @endif
-                            </td>--}}
-                        </tr>
+                            </td> --}}
+                            </tr>
                         </tbody>
                     </table>
 
 
                     <hr>
-                    {{--<div class="col-md-12">
+                    {{-- <div class="col-md-12">
                         @if ($order->payment_status == 'unpaid')
                         <div class="col-md-6">
                         <p>
@@ -235,13 +269,13 @@
                         </div><!-- End .collapse -->
                     </div><!-- End .checkout-discount -->
                         @endif
-                    </div>--}}
+                    </div> --}}
 
                     <!-- End .checkout-discount -->
                     <br>
                     <br>
 
-                    {{--<a href="#" class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"></i> Back to orders</a>--}}
+                    {{-- <a href="#" class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"></i> Back to orders</a> --}}
                 </div>
             </article>
         </div>
@@ -252,19 +286,26 @@
 
 
 @push('library-css')
-
 @endpush
 
 
 
 @push('custom-css')
     <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
 
-        @media print
-        {
-            body * { visibility: hidden; }
-            #printcontent * { visibility: visible; }
-            #printcontent { position: absolute; top: 50px; left: 30px; }
+            #printcontent * {
+                visibility: visible;
+            }
+
+            #printcontent {
+                position: absolute;
+                top: 50px;
+                left: 30px;
+            }
         }
 
         @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
@@ -344,31 +385,27 @@
             margin-top: 0;
             margin-bottom: 1rem
         }
-
     </style>
 @endpush
 
 
 
 @push('library-js')
-
 @endpush
 
 
 
 @push('custom-js')
     <script>
-        $(document).on('change','#trx_type', function(){
+        $(document).on('change', '#trx_type', function() {
             var value = $('#trx_type').val();
             var bkash = '{{ $bkash }}';
             var nagad = '{{ $nagad }}';
-            if(value === 'bkash'){
+            if (value === 'bkash') {
                 $('#account_no').val(bkash);
-            }
-            else if(value === 'nagad'){
+            } else if (value === 'nagad') {
                 $('#account_no').val(nagad);
-            }
-            else {
+            } else {
                 $('#account_no').val('');
             }
         });
@@ -376,38 +413,46 @@
 @endpush
 
 @push('datalayer')
-@if(session('s_msg') || session('p_msg') || session('success') || session('order_placed'))
-<script>
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ ecommerce: null });
-    window.dataLayer.push({
-        event: 'purchase',
-        user_data: {
-            email_address: '{{ $order->email ?? optional($customer)->email }}',
-            phone_number: '{{ $order->phone ?? optional($customer)->phone }}',
-            address: {
-                first_name: @json($order->name ?? optional($customer)->name)
-            }
-        },
-        ecommerce: {
-            transaction_id: '{{ $order->transaction_id ?? $order->order_number }}',
-            value: {{ $order->amount }},
-            currency: 'BDT',
-            coupon: '{{ $order->discount ? "COUPON" : "" }}',
-            items: [
-                @foreach($order->order_detail as $item)
-                {
-                    item_id: '{{ $item->product_id }}',
-                    item_name: @json(optional($item->product)->name ?? 'Unknown Product'),
-                    item_category: @json(optional($item->product->category)->name ?? ''),
-                    item_brand: @json(optional($item->product->brand)->name ?? ''),
-                    price: {{ $item->price }},
-                    quantity: {{ $item->quantity }}
-                }{{ !$loop->last ? ',' : '' }}
-                @endforeach
-            ]
-        }
-    });
-</script>
-@endif
+    @if (session('s_msg') || session('p_msg') || session('success') || session('order_placed'))
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                ecommerce: null
+            });
+            window.dataLayer.push({
+                event: 'purchase',
+                user_data: {
+                    first_name: @json($order->name ?? optional($customer)->name),
+                    phone_number: '{{ $order->phone ?? optional($customer)->phone }}',
+                    email_address: '{{ $order->email ?? optional($customer)->email }}',
+                    address: {
+                        address: @json($order->address ?? optional($customer)->address),
+                        city: @json($order->district->name ?? optional($customer)->district->name),
+                        zip: @json($order->zip ?? optional($customer)->zip),
+                        country: 'Bangladesh',
+                    }
+                },
+                ecommerce: {
+                    transaction_id: '{{ $order->transaction_id ?? $order->order_number }}',
+                    order_number: '{{ $order->order_number ?? $order->transaction_id }}',
+                    value: {{ $order->amount }},
+                    currency: 'BDT',
+                    coupon: '{{ $order->discount ? 'COUPON' : '' }}',
+                    items: [
+                        @foreach ($order->order_detail as $item)
+                            {
+                                item_id: '{{ $item->product_id }}',
+                                item_name: @json(optional($item->product)->name ?? 'Unknown Product'),
+                                item_category: @json(optional($item->product->category)->name ?? ''),
+                                item_brand: @json(optional($item->product->brand)->name ?? ''),
+                                price: {{ $item->price }},
+                                quantity: {{ $item->quantity }}
+                            }
+                            {{ !$loop->last ? ',' : '' }}
+                        @endforeach
+                    ]
+                }
+            });
+        </script>
+    @endif
 @endpush

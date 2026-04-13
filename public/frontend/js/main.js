@@ -95,15 +95,14 @@
     /*-----------------------
         product zoom
     ------------------------*/
-    // $('img').elevateZoom({zoomType:"inner"});
-    $("#imgZoom").elevateZoom({
-        gallery: "gallery",
-        zoomType: "inner",
-        cursor: "crosshair",
-        galleryActiveClass: "active",
-        imageCrossfade: true,
-        loadingIcon: "http://www.elevateweb.co.uk/spinner.gif",
-    });
+    if ($("#imgZoom").length > 0) {
+        $("#imgZoom").ezPlus({
+            zoomType: "inner",
+            cursor: "crosshair",
+            imageCrossfade: true,
+            loadingIcon: "https://cdnjs.cloudflare.com/ajax/libs/ez-plus/1.2.1/spinner.gif",
+        });
+    }
     /*-----------------------
         Categories Slider
     ------------------------*/

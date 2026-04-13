@@ -9,28 +9,27 @@
                     <div class="row">
                         <div class="col-lg-5 col-md-5">
                             <div class="img-wrap">
-                                <div class="col-lg-12">
-
-                                    <div class="img-main">
-                                        <img style="width: 100%; max-height: 300px" id="imgZoom"
+                                <div class="col-lg-12 mb-3">
+                                    <div class="img-main border p-2">
+                                        {{-- zoom image --}}
+                                        <img style="width: 100%; max-height: 400px; object-fit: contain" id="imgZoom"
                                             src="{{ asset($product->product_image[0]->file_path) }}"
                                             alt="{{ $product->name }}"
                                             data-zoom-image="{{ asset($product->product_image[0]->file_path) }}" />
                                     </div>
-
                                 </div>
-                                <div id="gallery" class="img-cont">
-                                    <div class="row">
-                                        @foreach ($product->product_image as $image)
-                                            <div class="col-lg-4">
-                                                <a href="#" data-image="{{ asset($image->file_path) }}"
-                                                    data-zoom-image="{{ asset($image->file_path) }}">
-                                                    <img style="max-width: 100px;" src="{{ asset($image->file_path) }}"
-                                                        alt="{{ $product->name }}" loading="lazy">
-                                                </a>
-                                            </div>
-                                        @endforeach
-                                    </div>
+                                <div id="gallery" class="product-gallery-carousel owl-carousel owl-theme px-3">
+                                    @foreach ($product->product_image as $image)
+                                        <div class="item">
+                                            <a href="#" class="d-block border p-1"
+                                                data-image="{{ asset($image->file_path) }}"
+                                                data-zoom-image="{{ asset($image->file_path) }}">
+                                                <img style="width: 100%; height: 80px; object-fit: contain;"
+                                                    src="{{ asset($image->file_path) }}" alt="{{ $product->name }}"
+                                                    loading="lazy">
+                                            </a>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -116,7 +115,8 @@
                                         <div class="product__details__quantity">
                                             <div class="quantity">
                                                 <div class="pro-qty">
-                                                    <input type="text" name="quantity" id="main_product_quantity" value="1">
+                                                    <input type="text" name="quantity" id="main_product_quantity"
+                                                        value="1">
                                                 </div>
                                             </div>
                                         </div>
@@ -124,7 +124,8 @@
                                             {{ $product->stock == 0 ? 'disabled' : ' ' }}>
                                             {{ $product->stock == 0 ? 'Out of Stock' : 'Add To Cart' }}</button>
                                     </form>
-                                    <a onclick="return handleBuyNowClick(event, this)" href="{{ $product->stock == 0 ? 'javascript:void(0)' : route('buy_now', $product->slug) }}"
+                                    <a onclick="return handleBuyNowClick(event, this)"
+                                        href="{{ $product->stock == 0 ? 'javascript:void(0)' : route('buy_now', $product->slug) }}"
                                         class="primary-btn dtl_cart_btn text-white {{ $product->stock == 0 ? 'stock-out-btn' : '' }}">
                                         {{ $product->stock == 0 ? 'Out of Stock' : 'Buy Now' }}
                                     </a>
@@ -475,78 +476,82 @@
 @endpush
 
 @push('datalayer')
-@php
-    if (isset($product->flash) && $product->flash->flash_price != null) {
-        $dl_price = (float) $product->flash->flash_price;
-    } elseif ($product->new_price) {
-        $dl_price = (float) $product->new_price;
-    } else {
-        $dl_price = (float) $product->price;
-    }
-@endphp
-<script>
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ ecommerce: null }); // Clear previous ecommerce data
-    window.dataLayer.push({
-        event: 'view_item',
-        ecommerce: {
-            currency: 'BDT',
-            value: {{ $dl_price }},
-            items: [{
-                item_id: '{{ $product->id }}',
-                item_name: @json($product->name),
-                item_brand: @json(optional($product->brand)->name ?? ''),
-                item_category: @json(optional($product->category)->name ?? ''),
-                price: {{ $dl_price }},
-                quantity: 1
-            }]
+    @php
+        if (isset($product->flash) && $product->flash->flash_price != null) {
+            $dl_price = (float) $product->flash->flash_price;
+        } elseif ($product->new_price) {
+            $dl_price = (float) $product->new_price;
+        } else {
+            $dl_price = (float) $product->price;
         }
-    });
-
-    function trackAddToCart() {
-        var quantityInput = document.getElementById('main_product_quantity');
-        var quantity = quantityInput ? parseInt(quantityInput.value) : 1;
-        
+    @endphp
+    <script>
         window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ ecommerce: null }); // Clear previous ecommerce data
         window.dataLayer.push({
-            event: 'add_to_cart',
+            ecommerce: null
+        }); // Clear previous ecommerce data
+        window.dataLayer.push({
+            event: 'view_item',
             ecommerce: {
                 currency: 'BDT',
-                value: {{ $dl_price }} * quantity,
+                value: {{ $dl_price }},
                 items: [{
                     item_id: '{{ $product->id }}',
                     item_name: @json($product->name),
                     item_brand: @json(optional($product->brand)->name ?? ''),
                     item_category: @json(optional($product->category)->name ?? ''),
                     price: {{ $dl_price }},
-                    quantity: quantity
+                    quantity: 1
                 }]
             }
         });
-    }
 
-    function handleAddToCartSubmit(event, form) {
-        event.preventDefault();
-        trackAddToCart();
-        setTimeout(function() {
-            form.submit();
-        }, 500); // 500ms delay to ensure GA4 event fires
-        return false;
-    }
+        function trackAddToCart() {
+            var quantityInput = document.getElementById('main_product_quantity');
+            var quantity = quantityInput ? parseInt(quantityInput.value) : 1;
 
-    function handleBuyNowClick(event, link) {
-        if (link.href.indexOf('javascript:void') !== -1) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                ecommerce: null
+            }); // Clear previous ecommerce data
+            window.dataLayer.push({
+                event: 'add_to_cart',
+                ecommerce: {
+                    currency: 'BDT',
+                    value: {{ $dl_price }} * quantity,
+                    items: [{
+                        item_id: '{{ $product->id }}',
+                        item_name: @json($product->name),
+                        item_brand: @json(optional($product->brand)->name ?? ''),
+                        item_category: @json(optional($product->category)->name ?? ''),
+                        price: {{ $dl_price }},
+                        quantity: quantity
+                    }]
+                }
+            });
+        }
+
+        function handleAddToCartSubmit(event, form) {
+            event.preventDefault();
+            trackAddToCart();
+            setTimeout(function() {
+                form.submit();
+            }, 500); // 500ms delay to ensure GA4 event fires
             return false;
         }
-        event.preventDefault();
-        trackAddToCart();
-        setTimeout(function() {
-            window.location.href = link.href;
-        }, 500); // 500ms delay to ensure GA4 event fires
-        return false;
-    }
-</script>
+
+        function handleBuyNowClick(event, link) {
+            if (link.href.indexOf('javascript:void') !== -1) {
+                return false;
+            }
+            event.preventDefault();
+            trackAddToCart();
+            setTimeout(function() {
+                window.location.href = link.href;
+            }, 500); // 500ms delay to ensure GA4 event fires
+            return false;
+        }
+    </script>
 @endpush
 
 
@@ -644,6 +649,32 @@
             background-color: #f4f4f4;
             padding: 3rem 2rem 3.5rem;
         }
+
+        /*css for gallery carousel*/
+        .product-gallery-carousel .owl-nav button.owl-prev,
+        .product-gallery-carousel .owl-nav button.owl-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent !important;
+            color: #333 !important;
+        }
+
+        .product-gallery-carousel .owl-nav button.owl-prev {
+            left: -10px;
+        }
+
+        .product-gallery-carousel .owl-nav button.owl-next {
+            right: -10px;
+        }
+
+        .product-gallery-carousel .owl-nav button:hover {
+            color: #e53637 !important;
+        }
+
+        .product-gallery-carousel .item a.active {
+            border-color: #e53637 !important;
+        }
     </style>
 @endpush
 
@@ -691,6 +722,86 @@
     @endif
 
     <script>
+        $(document).ready(function() {
+            var $galleryCarousel = $(".product-gallery-carousel");
+
+            // set active on the first item
+            $('.product-gallery-carousel .item a').first().addClass('active');
+
+            $galleryCarousel.owlCarousel({
+                items: 4,
+                loop: true,
+                margin: 10,
+                autoplay: true,
+                autoplayTimeout: 2000,
+                autoplayHoverPause: true,
+                nav: true,
+                dots: false,
+                navText: [
+                    "<span class='fa fa-angle-left' style='font-size: 24px;'></span>",
+                    "<span class='fa fa-angle-right' style='font-size: 24px;'></span>"
+                ]
+            });
+
+            // Handle clicking on thumbnails (fixes clicks on cloned items)
+            $galleryCarousel.on('click', '.item a', function(e) {
+                e.preventDefault();
+                var smallImage = $(this).attr('data-image');
+                var largeImage = $(this).attr('data-zoom-image');
+
+                // Prevent swapping to the already active image (fixes elevateZoom TypeError bug)
+                if ($('#imgZoom').attr('src') === smallImage) return;
+
+                // Sync active class
+                $('.product-gallery-carousel .item a').removeClass('active');
+                $('.product-gallery-carousel .item a[data-image="' + smallImage + '"]').addClass('active');
+
+                var ez = $('#imgZoom').data('ezPlus');
+                if (ez) {
+                    ez.swaptheimage(smallImage, largeImage);
+                } else {
+                    $('#imgZoom').attr('src', smallImage).attr('data-zoom-image', largeImage);
+                }
+            });
+
+            // Autoplay sync with main image
+            $galleryCarousel.on('changed.owl.carousel', function(event) {
+                setTimeout(function() {
+                    var firstVisibleLink = $galleryCarousel.find('.owl-item.active').first().find(
+                        'a');
+                    if (firstVisibleLink.length > 0) {
+                        var smallImage = firstVisibleLink.attr('data-image');
+                        var largeImage = firstVisibleLink.attr('data-zoom-image');
+
+                        // Prevent swapping to the already active image (fixes elevateZoom TypeError bug)
+                        if ($('#imgZoom').attr('src') === smallImage) return;
+
+                        // Sync active class
+                        $('.product-gallery-carousel .item a').removeClass('active');
+                        $('.product-gallery-carousel .item a[data-image="' + smallImage + '"]')
+                            .addClass('active');
+
+                        var ez = $('#imgZoom').data('ezPlus');
+                        if (ez) {
+                            ez.swaptheimage(smallImage, largeImage);
+                        } else {
+                            $('#imgZoom').attr('src', smallImage).attr('data-zoom-image',
+                                largeImage);
+                        }
+                    }
+                }, 100);
+            });
+
+            // Pause autoplay when hovering over the main image or the active zoom window
+            $(document).on('mouseenter', '.img-main, .zoomContainer', function() {
+                $galleryCarousel.trigger('stop.owl.autoplay');
+            });
+
+            $(document).on('mouseleave', '.img-main, .zoomContainer', function() {
+                $galleryCarousel.trigger('play.owl.autoplay');
+            });
+        });
+
         function toggleReviews() {
             const reviews = document.querySelectorAll('.more-review');
             const btn = document.getElementById('moreBtn');

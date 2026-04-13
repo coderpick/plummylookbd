@@ -270,11 +270,9 @@
                                  <input type="file" data-default-file="{{ asset($gallery->file_path) }}"
                                      name="images[]" id="gallery" class="form-control dropify" data-height="120">
                                  <div class="topright_btn">
-                                     @if ($index > 0)
-                                         <a href="{{ route('product.delete.image', $gallery->id) }}"
-                                             onclick="return confirm('Are you sure to delete?')"
-                                             class="btn btn-sm btn-danger dltbtn">x</a>
-                                     @endif
+                                     <a href="{{ route('product.delete.image', $gallery->id) }}"
+                                         onclick="return confirm('Are you sure to delete?')"
+                                         class="btn btn-sm btn-danger dltbtn rmvbtn">x</a>
                                  </div>
                                  @error('images')
                                      <span class="text-danger" role="alert">
@@ -289,7 +287,7 @@
                              <input required type="file" name="images[]" id="gallery"
                                  class="form-control dropify" data-height="120">
                              <div class="topright_btn">
-                                 <button type="button" class="btn btn-sm btn-danger">x</button>
+                                 <button type="button" class="btn btn-sm btn-danger rmvbtn">x</button>
                              </div>
                              @error('images')
                                  <span class="text-danger" role="alert">
@@ -440,6 +438,10 @@
          }
      }
 
+
+      $(document).on('click', 'button.rmvbtn', function() {
+          $(this).closest('.img-container').remove();
+      });
 
      function addmore() {
 
