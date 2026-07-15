@@ -42,6 +42,11 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    public function getSingleImage()
+    {
+        return $this->hasOne(ProductImage::class);
+    }
+
     public function order_detail()
     {
         return $this->hasMany(OrderDetail::class);

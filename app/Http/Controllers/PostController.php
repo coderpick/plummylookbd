@@ -52,6 +52,7 @@ class PostController extends Controller
         $post->slug = $slug;
         $post->short_description = $request->short_description;
         $post->body = $request->description;
+        $post->blog_category_id = $request->category;
         $post->meta_title = $request->meta_title;
         $post->meta_key = $request->meta_keywords;
         $post->meta_description = $request->meta_description;
@@ -78,7 +79,7 @@ class PostController extends Controller
 
         session()->flash('success', 'Post Created Successfully');
 
-        return redirect()->route('post.index');
+        return redirect()->route('backend.post.index');
     }
 
     public function show($id)
@@ -154,7 +155,7 @@ class PostController extends Controller
 
         session()->flash('success', 'Updated Successfully');
 
-        return redirect()->route('post.index');
+        return redirect()->route('backend.post.index');
     }
 
     public function trash($id)

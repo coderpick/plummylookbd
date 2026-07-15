@@ -11,7 +11,7 @@
         <ul class="app-breadcrumb breadcrumb side">
             <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="{{ route('concern.index') }}">{{ $title }}</a></li>
+            <li class="breadcrumb-item active"><a href="{{ route('backend.post.index') }}">{{ $title }}</a></li>
         </ul>
     </div>
 

@@ -35,7 +35,7 @@ class TagController extends Controller
         $tag->save();
         session()->flash('success', 'Created successfully');
 
-        return redirect()->route('tag.index');
+        return redirect()->route('backend.tag.index');
     }
 
     public function edit(Request $request)
@@ -58,7 +58,7 @@ class TagController extends Controller
         $tag->save();
         session()->flash('success', 'Updated successfully');
 
-        return redirect()->route('tag.index');
+        return redirect()->route('backend.tag.index');
     }
 
     public function destroy($id)
@@ -71,6 +71,6 @@ class TagController extends Controller
         $tag->delete();
         session()->flash('Deleted successfully', 'Success');
 
-        return redirect()->route('tag.index');
+        return redirect()->route('backend.tag.index');
     }
 }

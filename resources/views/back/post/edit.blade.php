@@ -20,14 +20,15 @@
                         <h3 class="tile-title">{{ $title }} Form</h3>
                     </div>
                     <div>
-                        <a class="btn btn-danger icon-btn" href=" {{ route('post.index') }}"><i
+                        <a class="btn btn-danger icon-btn" href=" {{ route('backend.post.index') }}"><i
                                 class="fa fa-reply me-2"></i>
                             Back to Posts
                         </a>
                     </div>
                 </div>
                 <div class="tile-body">
-                    <form action="{{ route('post.update', $post->id) }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('backend.post.update', $post->id) }}" method="post"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('put')
                         <div class="row">

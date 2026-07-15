@@ -40,7 +40,7 @@ class BlogCategoryController extends Controller
         ]);
         session()->flash('Category Created successfully', 'Success');
 
-        return redirect()->route('blog_category.index');
+        return redirect()->route('backend.blog_category.index');
     }
 
     public function edit(Request $request)
@@ -66,7 +66,7 @@ class BlogCategoryController extends Controller
         ]);
         session()->flash('Updated successfully', 'Success');
 
-        return redirect()->route('blog_category.index');
+        return redirect()->route('backend.blog_category.index');
     }
 
     /**
@@ -79,6 +79,6 @@ class BlogCategoryController extends Controller
         $category->delete();
         session()->flash('Deleted successfully', 'Success');
 
-        return redirect()->route('blog_category.index');
+        return redirect()->route('backend.blog_category.index');
     }
 }

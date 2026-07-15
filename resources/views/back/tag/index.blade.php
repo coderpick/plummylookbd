@@ -11,7 +11,7 @@
         <ul class="app-breadcrumb breadcrumb side">
             <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="{{ route('brand.index') }}">{{ $title }}</a></li>
+            <li class="breadcrumb-item active"><a href="{{ route('backend.tag.index') }}">{{ $title }}</a></li>
         </ul>
     </div>
 
@@ -56,7 +56,7 @@
                                             <a id="{{ $tag->id }}" href="#" data-toggle="modal"
                                                 data-target="#edit-product" class="btn btn-sm btn-info edit"><i
                                                     class="fa fa-edit"></i></a>
-                                            <form action="{{ route('tag.destroy', $tag->id) }}" method="post"
+                                            <form action="{{ route('backend.tag.destroy', $tag->id) }}" method="post"
                                                 style="display: inline">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-warning"
@@ -84,7 +84,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('tag.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('backend.tag.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -117,7 +117,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="form-material m-t-40" action="{{ route('tag.update') }}" method="POST"
+                <form class="form-material m-t-40" action="{{ route('backend.tag.update') }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -168,7 +168,7 @@
             var body = $(".body");
             $.ajax({
                 type: 'GET',
-                url: "{{ route('tag.edit') }}",
+                url: "{{ route('backend.tag.edit') }}",
                 data: {
                     'id': tag_id
                 },

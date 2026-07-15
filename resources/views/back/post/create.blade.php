@@ -20,14 +20,14 @@
                         <h3 class="tile-title">{{ $title }} Form</h3>
                     </div>
                     <div>
-                        <a class="btn btn-danger icon-btn" href=" {{ route('post.index') }}"><i
+                        <a class="btn btn-danger icon-btn" href=" {{ route('backend.post.index') }}"><i
                                 class="fa fa-reply me-2"></i>
                             Back to Posts
                         </a>
                     </div>
                 </div>
                 <div class="tile-body">
-                    <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('backend.post.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-8">
@@ -119,7 +119,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="category">Category</label>
+                                    <label for="category">Category <strong class="text-danger">*</strong></label>
                                     <select name="category" id="category" class="form-control select2" required>
                                         <option value="" selected disabled>Select a category</option>
                                         @forelse($categories as $category)

@@ -141,24 +141,24 @@
         </li> --}}
 
     <li
-        class="treeview {{ Request::is('secure/tag*') || Request::is('secure/post*') || Request::routeIs('blog_category.index') ? 'is-expanded' : '' }}">
+        class="treeview {{ Request::is('secure/tag*') || Request::is('secure/post*') || Request::routeIs('backend.blog_category.index') ? 'is-expanded' : '' }}">
         <a class="app-menu__item" href=" " data-toggle="treeview"><i
                 class="app-menu__icon fa fa-sticky-note-o"></i><span class="app-menu__label">Blog Manage</span><i
                 class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
             @can('blog_category_index')
-                <li><a class="treeview-item {{ Request::routeIs('blog_category.index') ? 'active' : '' }}"
-                        href="{{ route('blog_category.index') }}"><i class="icon fa fa-list"></i><span
+                <li><a class="treeview-item {{ Request::routeIs('backend.blog_category.index') ? 'active' : '' }}"
+                        href="{{ route('backend.blog_category.index') }}"><i class="icon fa fa-list"></i><span
                             class="app-menu__label">Category</span></a></li>
             @endcan
             @can('app.tag.index')
                 <li><a class="treeview-item {{ Request::is('secure/tag') ? 'active' : '' }}"
-                        href="{{ route('tag.index') }}"><i class="icon fa fa-tag"></i><span
+                        href="{{ route('backend.tag.index') }}"><i class="icon fa fa-tag"></i><span
                             class="app-menu__label">Tags</span></a></li>
             @endcan
             @can('app.post.index')
                 <li><a class="treeview-item {{ Request::is('secure/post*') ? 'active' : '' }}"
-                        href="{{ route('post.index') }}"><i class="icon fa fa-newspaper-o"></i><span
+                        href="{{ route('backend.post.index') }}"><i class="icon fa fa-newspaper-o"></i><span
                             class="app-menu__label">Blog Posts</span></a></li>
             @endcan
         </ul>

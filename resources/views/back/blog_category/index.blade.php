@@ -44,7 +44,7 @@
                                             <a id="{{ $category->id }}" href="#" data-toggle="modal"
                                                 data-target="#edit-product" class="btn btn-sm btn-info edit"><i
                                                     class="fa fa-edit"></i></a>
-                                            <form action="{{ route('blog_category.destroy', $category->id) }}"
+                                            <form action="{{ route('backend.blog_category.destroy', $category->id) }}"
                                                 method="post" style="display: inline">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-warning"
@@ -72,7 +72,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('blog_category.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('backend.blog_category.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -105,7 +105,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="form-material m-t-40" action="{{ route('blog_category.update') }}" method="POST"
+                <form class="form-material m-t-40" action="{{ route('backend.blog_category.update') }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -152,7 +152,7 @@
             var body = $(".body");
             $.ajax({
                 type: 'GET',
-                url: "{{ route('blog_category.edit') }}",
+                url: "{{ route('backend.blog_category.edit') }}",
                 data: {
                     'id': categoryId
                 },

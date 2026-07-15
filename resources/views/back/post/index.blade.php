@@ -11,7 +11,7 @@
         <ul class="app-breadcrumb breadcrumb side">
             <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="{{ route('concern.index') }}">{{ $title }}</a></li>
+            <li class="breadcrumb-item active"><a href="{{ route('backend.post.index') }}">{{ $title }}</a></li>
         </ul>
     </div>
 
@@ -19,7 +19,7 @@
         <div class="col-md-12">
             <div class="tile">
                 <div class="d-flex justify-content-end">
-                    <a href="{{ route('post.create') }}" class="btn btn-primary">Add New {{ $title }}</a>
+                    <a href="{{ route('backend.post.create') }}" class="btn btn-primary">Add New {{ $title }}</a>
                 </div>
                 <br>
                 <div class="tile-body">
@@ -57,12 +57,12 @@
                                     <td style="text-align: center">
                                         @if ($post->deleted_at)
                                             @can('app.post.destroy')
-                                                <a href="{{ route('post.restore', $post->id) }}"
+                                                <a href="{{ route('backend.post.restore', $post->id) }}"
                                                     class="btn btn-primary btn-sm"><i class="fa fa-recycle"></i>
                                                 </a>
 
                                                 <form id="delete-form-{{ $post->id }}"
-                                                    action="{{ route('post.destroy', $post->id) }}" method="POST"
+                                                    action="{{ route('backend.post.destroy', $post->id) }}" method="POST"
                                                     style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
@@ -75,19 +75,19 @@
                                             @endcan
                                         @else
                                             @can('app.post.index')
-                                                <a href="{{ route('post.show', $post->id) }}" class="btn btn-info btn-sm"><i
-                                                        class="fa fa-eye"></i>
+                                                <a href="{{ route('backend.post.show', $post->id) }}"
+                                                    class="btn btn-info btn-sm"><i class="fa fa-eye"></i>
                                                 </a>
                                             @endcan
 
                                             @can('app.post.edit')
-                                                <a href="{{ route('post.edit', $post->id) }}" class="btn btn-primary btn-sm"><i
-                                                        class="fa fa-pencil"></i></a>
+                                                <a href="{{ route('backend.post.edit', $post->id) }}"
+                                                    class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a>
                                             @endcan
 
                                             @can('app.post.destroy')
                                                 <form id="trash-form-{{ $post->id }}"
-                                                    action="{{ route('post.trash', $post->id) }}" method="POST"
+                                                    action="{{ route('backend.post.trash', $post->id) }}" method="POST"
                                                     style="display: inline;">
                                                     @csrf
                                                     @method('POST')

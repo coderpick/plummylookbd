@@ -13,6 +13,7 @@
 
 use App\Http\Controllers\Admin\BlogCategoryController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\ProductFeedController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BrandController;
@@ -245,23 +246,24 @@ Route::middleware(['auth', 'verified', 'admin', 'web'])->prefix('secure')->group
     Route::post('concern/{id}/restore', [ConcernController::class, 'restore'])->name('concern.restore');
     Route::delete('concern/{id}/delete', [ConcernController::class, 'delete'])->name('concern.delete');
 
-    /* tag route */
-    Route::get('tag', [TagController::class, 'index'])->name('tag.index');
-    Route::post('tag/store', [TagController::class, 'store'])->name('tag.store');
-    Route::get('tag/edit', [TagController::class, 'edit'])->name('tag.edit');
-    Route::post('tag/update', [TagController::class, 'update'])->name('tag.update');
-    Route::post('tag/destroy/{id}', [TagController::class, 'destroy'])->name('tag.destroy');
-    /* blog category */
-    Route::get('blog_category', [BlogCategoryController::class, 'index'])->name('blog_category.index');
-    Route::post('blog_category/store', [BlogCategoryController::class, 'store'])->name('blog_category.store');
-    Route::get('blog_category/edit', [BlogCategoryController::class, 'edit'])->name('blog_category.edit');
-    Route::post('blog_category/update', [BlogCategoryController::class, 'update'])->name('blog_category.update');
-    Route::post('blog_category/destroy/{id}', [BlogCategoryController::class, 'destroy'])->name('blog_category.destroy');
-    /* post route */
-    Route::resource('post', PostController::class);
-    Route::post('post/trash/{id}', [PostController::class, 'trash'])->name('post.trash');
-    Route::get('post/restore/{id}', [PostController::class, 'restore'])->name('post.restore');
-
+    Route::as('backend.')->group(function () {
+        /* tag route */
+        Route::get('tag', [TagController::class, 'index'])->name('tag.index');
+        Route::post('tag/store', [TagController::class, 'store'])->name('tag.store');
+        Route::get('tag/edit', [TagController::class, 'edit'])->name('tag.edit');
+        Route::post('tag/update', [TagController::class, 'update'])->name('tag.update');
+        Route::post('tag/destroy/{id}', [TagController::class, 'destroy'])->name('tag.destroy');
+        /* blog category */
+        Route::get('blog_category', [BlogCategoryController::class, 'index'])->name('blog_category.index');
+        Route::post('blog_category/store', [BlogCategoryController::class, 'store'])->name('blog_category.store');
+        Route::get('blog_category/edit', [BlogCategoryController::class, 'edit'])->name('blog_category.edit');
+        Route::post('blog_category/update', [BlogCategoryController::class, 'update'])->name('blog_category.update');
+        Route::post('blog_category/destroy/{id}', [BlogCategoryController::class, 'destroy'])->name('blog_category.destroy');
+        /* post route */
+        Route::resource('post', PostController::class);
+        Route::post('post/trash/{id}', [PostController::class, 'trash'])->name('post.trash');
+        Route::get('post/restore/{id}', [PostController::class, 'restore'])->name('post.restore');
+    });
     // voucher routes
     Route::resource('coupon', VoucherController::class);
     Route::post('coupon/{id}/restore', [VoucherController::class, 'restore'])->name('coupon.restore');
@@ -438,6 +440,10 @@ Route::middleware(['auth', 'verified', 'admin', 'web'])->prefix('secure')->group
 
     Route::get('withdraw/create', [WithdrawController::class, 'create'])->name('withdraw.create');
     Route::post('withdraw/store', [WithdrawController::class, 'store'])->name('withdraw.store');
+
+    /* product feed */
+    Route::get('/product-feed', [ProductFeedController::class, 'index']);
+
 });
 
 Auth::routes(['verify' => true]);
